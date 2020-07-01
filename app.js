@@ -2,6 +2,7 @@
 const express = require("express");
 const mongo = require('mongodb')
 const MongoClient = require("mongodb").MongoClient
+const cheerio = require('cheerio')
 
 //global scopes
 const app = express();
@@ -25,6 +26,11 @@ MongoClient.connect(url2,{ useUnifiedTopology: true }, (err,db)=>{
         db.close()
     })
 })
+
+
+let buscarDatos = () => {
+    
+}
 
 //logica
 app.get('/', (req,res)=>{

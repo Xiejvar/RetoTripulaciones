@@ -1,6 +1,7 @@
 import React,{ Component } from 'react';
-import LoginFacebook from '../facebook/facebook'
-import './login.css';
+import LoginFacebook from '../Facebook/Facebook'
+import LoginGoogle from '../Google/GoogleLogin'
+import './Login.css';
 class Login extends Component {
     render(){
         return(
@@ -16,7 +17,9 @@ class Login extends Component {
                     </div>
                     <button>Entrar</button>
                 </form>
+                <span className='span-medio'>O ingresa con:</span>
                 <LoginFacebook />
+                <LoginGoogle />
             </section>
         )
     }

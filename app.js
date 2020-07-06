@@ -2,7 +2,7 @@
 const express = require("express");
 const mongo = require('mongodb')
 const MongoClient = require("mongodb").MongoClient
-const bodyParser = require("b")
+const bodyParser = require("body-parser")
 
 
 //global scopes
@@ -11,6 +11,8 @@ const port = 1024;
 app.use(express.static("public"))
 const url = 'mongodb://localhost:27017/usuarios'
 const url2 = 'mongodb://localhost:27017/'
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 //functions
 MongoClient.connect(url,{ useUnifiedTopology: true }, (err,db) => {
     if (err) throw err
@@ -34,7 +36,11 @@ app.get('/', (req,res)=>{
 })
 
 app.post('/login', (req,res) => {
-
+    const user = {
+        name: req.body.user_name,
+        password: req.body.password
+    }
+    console.log(user)
 })
 
 

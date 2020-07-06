@@ -2,9 +2,6 @@
 const express = require("express");
 const mongo = require('mongodb')
 const MongoClient = require("mongodb").MongoClient
-const cheerio = require('cheerio');
-const puppeteer = require('puppeteer');
-
 
 
 
@@ -31,34 +28,13 @@ MongoClient.connect(url2,{ useUnifiedTopology: true }, (err,db)=>{
     })
 })
 
-
-const scrapData = async() =>{
-    try {
-        let browser = await puppeteer.launch({headless: false})
-        let page = await browser.newPage()
-        await page.goto('https://www.eltenedor.es/search/?cityId=328022')
-        setTimeout(async()=>{
-            let body = await page.evaluate(()=>{
-                let cuerpo = document.querySelector('body').innerHTML
-                console.log(cuerpo)
-                return cuerpo;
-            })
-            console.log(body)
-            //let $ = cheerio.load(body)
-            //console.log($('body').html())
-        },10000)
-        
-    }
-    catch(err){
-        throw err
-    }
-}
-
-scrapData()
-
 //logica
 app.get('/', (req,res)=>{
     res.sendFile(__dirname + 'index.html')
+})
+
+app.post('/login', (req,res) => {
+
 })
 
 

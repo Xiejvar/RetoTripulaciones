@@ -4,7 +4,7 @@ import './signUp.css';
 class SignUp extends Component{
     render(){
         return(
-            <div >
+            <div className="div-signup">
             <form method='POST' class='signForm' action='/signup'>
                 <label for='name'>Nombre</label>
                 <input type='text' id='name' name='name'></input>

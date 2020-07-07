@@ -1,0 +1,40 @@
+form{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100vw;
+    height: 700px;
+}
+
+input{
+    height: 40px;
+}
+
+.span-medio{
+   display: block;
+   margin: 10px 0;
+}
+
+div{
+    display: flex;
+    flex-flow: column wrap;
+    width: 50%;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+button{
+    width: 15%;
+    height: 40px;
+    cursor: pointer;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.kep-login-facebook.metro{
+    width: 30vw;
+    margin-bottom: 20px;
+    padding: 0;
+}

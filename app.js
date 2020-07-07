@@ -2,10 +2,7 @@
 const express = require("express");
 const mongo = require('mongodb')
 const MongoClient = require("mongodb").MongoClient
-const cheerio = require('cheerio');
-const puppeteer = require('puppeteer');
-
-
+const bodyParser = require("body-parser")
 
 
 //global scopes
@@ -14,6 +11,8 @@ const port = 1024;
 app.use(express.static("public"))
 const url = 'mongodb://localhost:27017/usuarios'
 const url2 = 'mongodb://localhost:27017/'
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 //functions
 MongoClient.connect(url,{ useUnifiedTopology: true }, (err,db) => {
     if (err) throw err
@@ -31,34 +30,17 @@ MongoClient.connect(url2,{ useUnifiedTopology: true }, (err,db)=>{
     })
 })
 
-
-const scrapData = async() =>{
-    try {
-        let browser = await puppeteer.launch({headless: false})
-        let page = await browser.newPage()
-        await page.goto('https://www.eltenedor.es/search/?cityId=328022')
-        setTimeout(async()=>{
-            let body = await page.evaluate(()=>{
-                let cuerpo = document.querySelector('body').innerHTML
-                console.log(cuerpo)
-                return cuerpo;
-            })
-            console.log(body)
-            //let $ = cheerio.load(body)
-            //console.log($('body').html())
-        },10000)
-        
-    }
-    catch(err){
-        throw err
-    }
-}
-
-scrapData()
-
 //logica
 app.get('/', (req,res)=>{
     res.sendFile(__dirname + 'index.html')
+})
+
+app.post('/login', (req,res) => {
+    const user = {
+        name: req.body.user_name,
+        password: req.body.password
+    }
+    console.log(user)
 })
 
 

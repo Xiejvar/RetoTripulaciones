@@ -4,7 +4,7 @@
     width: 100%;
     justify-content: center;
     align-items: center;
-    height: 90%;
+    height: 70%;
 }
 
 .div-signup{
@@ -20,4 +20,14 @@
 .div-signup input,
 .div-signup label {
     width: 60%;
+}
+
+.signup-p{
+    width: 100vw;
+    font-size: 18px;
+}
+
+.link-signup{
+    text-decoration: underline;
+    color: blue;
 }

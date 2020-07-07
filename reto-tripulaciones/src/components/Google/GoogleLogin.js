@@ -11,7 +11,7 @@ class LoginGoogle extends Component{
             <section >
                 <GoogleLogin className='google'
                     clientId='176336676067-pi8j6uv799ba1hpl9ejrcp99ss31o19e.apps.googleusercontent.com'
-                    buttonText='LOGIN WITH GOOGLE'
+                    buttonText='Google'
                     onSuccess={responseGoogle}
                     onFailure={responseGoogle}
                 />

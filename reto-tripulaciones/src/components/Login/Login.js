@@ -5,7 +5,7 @@ import './Login.css';
 class Login extends Component {
     render(){
         return(
-            <section>
+            <section className="section-login">
                 <form method="POST" action="/login">
                     <div>
                     <label for="usuario">Usuario:</label>
@@ -18,7 +18,7 @@ class Login extends Component {
                     <button>Entrar</button>
                 </form>
                 <span className='span-medio'>O ingresa con:</span>
-                <LoginFacebook />
+                <LoginFacebook /> 
                 <LoginGoogle />
             </section>
         )

@@ -1,0 +1,14 @@
+.signForm {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+   
+}
+
+div{
+    position: relative;
+    top: 50%;
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+}

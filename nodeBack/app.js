@@ -3,13 +3,15 @@ const express = require("express");
 const mongo = require('mongodb')
 const MongoClient = require("mongodb").MongoClient
 const bodyParser = require("body-parser")
+const cors = require('cors')
 
 
 //global scopes
 const app = express();
 const port = 1024;
+app.use(cors())
 app.use(express.static("public"))
-const url = 'mongodb://localhost:27017/usuarios'
+const url = 'mongodb://localhost:27017/usuariosReto'
 const url2 = 'mongodb://localhost:27017/'
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,7 +24,7 @@ MongoClient.connect(url,{ useUnifiedTopology: true }, (err,db) => {
 
 MongoClient.connect(url2,{ useUnifiedTopology: true }, (err,db)=>{
     if (err) throw err
-    let baseDatos = db.db('usuarios')
+    let baseDatos = db.db('usuariosReto')
     baseDatos.createCollection('users',(err,res)=>{
         if (err) throw err
         console.log('coleccion creada')
@@ -30,9 +32,30 @@ MongoClient.connect(url2,{ useUnifiedTopology: true }, (err,db)=>{
     })
 })
 
+let checkUser = async ({name, password}) => {
+    let client,result;
+    console.log(name,password)
+    try{
+        client = await MongoClient.connect(url,{ useUnifiedTopology: true })
+        let dbo = client.db('usuariosReto')
+        let users = dbo.collection('users')
+        result = await users.findOne({"user" : name, "pass" : password})
+        console.log(result)
+        if(result !== null){
+            console.log('Verga')
+        } else{
+            console.log('estas perras si que estan para el....')
+        }
+
+    }catch(err){
+        throw err
+    }
+}
+
 //logica
 app.get('/', (req,res)=>{
-    res.sendFile(__dirname + 'index.html')
+    console.log("Bienvenido")
+    res.send({"name": "Uli"})
 })
 
 app.post('/login', (req,res) => {
@@ -40,6 +63,8 @@ app.post('/login', (req,res) => {
         name: req.body.user_name,
         password: req.body.password
     }
+    checkUser(user)
+
     console.log(user)
 })
 

@@ -13,11 +13,9 @@ class App extends React.Component{
     }
   }
   callAPI(){
-    fetch('http://localhost:9000/testApi')
-      .then(res => res.text())
-      .then(res => this.setState({
-        testApi: res
-      }))
+    fetch('http://localhost:1024')
+      .then(res => res.json())
+      .then(res => console.log(res))
   }
   componentDidMount(){
     this.callAPI()
@@ -25,12 +23,12 @@ class App extends React.Component{
   render(){
       return (
         <div className="App">
-          <p>{this.state.testApi}</p>
-          {/* <Switch>
+          {/* <p>{this.state.testApi}</p> */}
+          <Switch>
             <Route exact path="/" component={IniciadoSesion} />
             <Route  path="/iniciarSesion" component={Login} />
             <Route  path="/registrarSesion" component={SignUp} />
-          </Switch> */}
+          </Switch>
         </div>
       )
   }

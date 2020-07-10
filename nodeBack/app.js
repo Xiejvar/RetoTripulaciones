@@ -33,7 +33,7 @@ MongoClient.connect(url2,{ useUnifiedTopology: true }, (err,db)=>{
 })
 
 let checkUser = async ({name, password}) => {
-    let client,result;
+    let client,result,ret;
     console.log(name,password)
     try{
         client = await MongoClient.connect(url,{ useUnifiedTopology: true })
@@ -42,13 +42,19 @@ let checkUser = async ({name, password}) => {
         result = await users.findOne({"user" : name, "pass" : password})
         console.log(result)
         if(result !== null){
-            console.log('Verga')
+            ret = {
+                valid: true
+            }
         } else{
-            console.log('estas perras si que estan para el....')
+            ret = {
+                valid: false
+            }
         }
 
     }catch(err){
         throw err
+    } finally{
+        client.close()
     }
 }
 
@@ -63,11 +69,10 @@ app.post('/login', (req,res) => {
         name: req.body.user_name,
         password: req.body.password
     }
-    checkUser(user)
-
-    console.log(user)
+    checkUser(user).then(result => {
+        res.send(result)
+    })
 })
-
 
 //Listen
 app.listen(port,() => console.log(`servidor conectado por ${port}`))

@@ -13,11 +13,11 @@ class Login extends Component {
                 </div>
                 <form method="POST" action="http://localhost:1024/login" className="login-form">
                     <div>
-                    <label for="usuario">Tu correo:</label>
+                    <label>Tu correo:</label>
                     <input type="text" id="usuario" name="user_name" required />
                     </div>
                     <div>
-                    <label for="password">Tu contraseña:</label>
+                    <label>Tu contraseña:</label>
                     <input type="password" id="password" name="password" required />
                     </div>
                     <button type="submit">Entrar</button>

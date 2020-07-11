@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import Food from '../Food/Food'
 
 class FoodList extends Component{
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state = {
 
         }
@@ -11,7 +12,7 @@ class FoodList extends Component{
         return(
             <section className='foodList'>
                 <h3>{this.props.title}</h3>
-                {}
+                {Array.map(ele => <Food restaurants={ele} />)}
             </section>  
         )
     }

@@ -6,32 +6,18 @@ const RandExp = require('randexp')
 const nodemailer = require('nodemailer')
 const bodyParser = require("body-parser")
 const cors = require('cors')
-import { datos } from './personal.json'
-
+const datos = require('./personal.json')
 //global scopes
 const app = express();
 const port = 1024;
 app.use(cors())
-const url = 'mongodb://localhost:27017/usuariosReto'
-const url2 = 'mongodb://localhost:27017/'
+const url = 'mongodb://localhost:27017/'
+// const url2 = 'mongodb://localhost:27017/comidasReto'
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //functions
-MongoClient.connect(url,{ useUnifiedTopology: true }, (err,db) => {
-    if (err) throw err
-    console.log('Base de datos creada')
-    db.close()
-})
 
-MongoClient.connect(url2,{ useUnifiedTopology: true }, (err,db)=>{
-    if (err) throw err
-    let baseDatos = db.db('usuariosReto')
-    baseDatos.createCollection('users',(err,res)=>{
-        if (err) throw err
-        console.log('coleccion creada')
-        db.close()
-    })
-})
+
 let generarConfirmTok = () => {
     return new RandExp(/[a-zA-Z0-9!@#$%^&*]{256}/).gen()
     
@@ -178,21 +164,39 @@ let searchRestaurants = async () => {
     let client, result;
     try{
         client = await MongoClient.connect(url,{ useUnifiedTopology: true })
-        let dbo = client.db('retoRestaurantes')
-        let resto = dbo.collection('locals')
-        result = await resto.find({})
-        console.log(result)
+        let dbo = client.db('comidasReto')
+        let resto = dbo.collection('restaurantes')
+        result = await resto.find({}).toArray()
+        return result
     }catch(err){
         throw err
+    } finally{
+        client.close()
     }
 }
 
-//logica
-// app.get('/', (req,res)=>{
-//     console.log("Bienvenido")
-//     res.send({"name": "Uli"})
-// })
+// let insertRestaurant = async ({id_local,nombre_local,calle,desc_epigrafe,desc_barrio_local,terraza, Estado_higuienico_sanitario},index) => {
+//     let client, result;
+//     try{
+//         client = await MongoClient.connect(url2, { useUnifiedTopology: true })
+//         let dbo = client.db('comidasReto')
+//         let resto = dbo.collection('restaurantes')
+//         result = await resto.insertOne({index:index,id_local: id_local, nombre: nombre_local, direccion: calle, tipo_local: desc_epigrafe, barrio: desc_barrio_local, terraza: terraza, higuiene: Estado_higuienico_sanitario })
+//         // console.log(result.ops[0])
+//     }catch(err){
+//         throw err
+//     }
+// }
 
+
+// let mapRestaurants = async () => {
+//     datos.datos.map( (ele,i) => i < 100 ? insertRestaurant(ele,i) : i)
+// }
+// mapRestaurants()
+
+
+
+//logica
 app.post('/login', (req,res) => {
     const user = {
         name: req.body.user_name,
@@ -247,9 +251,9 @@ app.get('/checkEmail', (req,res) => {
 })
 
 app.get('/foodList', (req,res) => {
-    console.log(datos)
-    // searchRestaurants()
-    // .then(result => console.log(result))
+    searchRestaurants()
+    .then(result => res.send(result))
+    
 })
 
 //Listen

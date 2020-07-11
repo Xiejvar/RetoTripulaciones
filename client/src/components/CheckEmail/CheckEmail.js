@@ -15,13 +15,13 @@ class CheckEmail extends Component{
         .then(res => {
             console.log(res)
             if(res.valid){
-                this.props.history.push('/home')
+                this.props.history.push('/')
             }
         })
     }
     render(){
         return(
-            <h1>Usuario ha sido confirmado</h1>
+            <h1>Usuario no ha sido confirmado</h1>
         )
     }
 }

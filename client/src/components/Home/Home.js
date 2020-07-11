@@ -14,7 +14,10 @@ class Home extends Component {
     componentDidMount(){
         fetch('http://localhost:1024/foodList')
         .then(res => res.json())
-        .then(res => console.log(res))
+        .then(res => this.setState({
+            ...this.state,
+            restaurants: res
+        }))
     }
 
     render(){

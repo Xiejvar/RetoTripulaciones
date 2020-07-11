@@ -1,0 +1,22 @@
+.foodList{
+    display: flex;
+    flex-flow: column wrap;
+    height: 400px;
+}
+
+.foodList-h3{
+    width: 100vw;
+}
+
+.foodList-restaurants{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+}
+
+.foodList-blockrestaurants{
+    display: flex;
+    flex-flow: row nowrap;
+    overflow-x: scroll;
+    width: 100vw;
+}

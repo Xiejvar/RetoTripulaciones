@@ -1,18 +1,35 @@
 import React, { Component } from 'react';
 import Food from '../Food/Food'
-
+import './FoodList.css'
 class FoodList extends Component{
     constructor(props){
         super(props)
         this.state = {
-
+            restaurants: []
         }
     }
+    componentDidUpdate(){
+        if(this.props.getResta){
+            this.setRestaurants(this.props.addResta())
+        }
+    }
+
+    setRestaurants(arr){
+        this.setState({
+            ...this.state,
+            restaurants: arr
+        })
+    }
+
     render(){
         return(
             <section className='foodList'>
-                <h3>{this.props.title}</h3>
-                {Array.map(ele => <Food restaurants={ele} />)}
+                <h3 className={'foodList-h3'}>{this.props.title}</h3>
+                <section className={'foodList-blockrestaurants'}>
+                    <section className='foodList-restaurants'>
+                        {this.state.restaurants.map( (ele,i) => { if(i < 20) return <Food restaurants={ele} /> })}
+                    </section>
+                </section>
             </section>  
         )
     }

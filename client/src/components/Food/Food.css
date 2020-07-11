@@ -1,0 +1,10 @@
+.food-section{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 200px;
+    width: 70vw;
+    border: 1px solid black;
+    margin: 15px;
+}

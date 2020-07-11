@@ -20,12 +20,12 @@ class App extends React.Component{
       return (
         <div className="App">
           <Switch>
-            <Route exact path="/" component={IniciadoSesion} />
+            <Route  path="/cuentaInicioSesion" component={IniciadoSesion} />
             <Route  path="/iniciarSesion" component={Login} />
             <Route  path="/registrarSesion" render={ props => <SignUp {...props} />} />
             <Route  path="/checkEmail" render={ props => <CheckEmail {...props} />} />
             <Route path='/registrado' component={EmailEnviado}  />
-            <Route path='/home' component={Home}  />
+            <Route exact path='/' component={Home}  />
           </Switch>
         </div>
       )

@@ -11,16 +11,16 @@ class Login extends Component {
                     <h2>Inicia Sesión</h2>
                     <p>Puedes iniciar sesión con tu cuenta de Eatsafe para acceder a nuestros servicios</p>
                 </div>
-                <form method="POST" action="/login" className="login-form">
+                <form method="POST" action="http://localhost:1024/login" className="login-form">
                     <div>
-                    <label for="usuario">Tu correo:</label>
+                    <label>Tu correo:</label>
                     <input type="text" id="usuario" name="user_name" required />
                     </div>
                     <div>
-                    <label for="password">Tu contraseña:</label>
+                    <label>Tu contraseña:</label>
                     <input type="password" id="password" name="password" required />
                     </div>
-                    <button>Entrar</button>
+                    <button type="submit">Entrar</button>
                 </form>
                 <span className='span-medio'>O inicia sesión en un clic:</span>
                 <section className="section-loginRedes">

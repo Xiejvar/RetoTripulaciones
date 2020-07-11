@@ -1,9 +1,12 @@
 import React from 'react';
 import './App.css';
-import SignUp from './components/signUp/signUp'
-import Login from './components/Login/Login'
-import IniciadoSesion from './components/IniciadoSesion/IniciadoSesion'
-import {Switch,Route} from 'react-router-dom'
+import SignUp from './components/signUp/signUp';
+import Login from './components/Login/Login';
+import EmailEnviado from './components/EmailEnviado/EmailEnviado';
+import CheckEmail from './components/CheckEmail/CheckEmail';
+import Home from './components/Home/Home';
+import IniciadoSesion from './components/IniciadoSesion/IniciadoSesion';
+import {Switch,Route} from 'react-router-dom';
 
 
 
@@ -14,25 +17,18 @@ class App extends React.Component{
       testApi: ''
     }
   }
-  callAPI(){
-    fetch('http://localhost:9000/testApi')
-      .then(res => res.text())
-      .then(res => this.setState({
-        testApi: res
-      }))
-  }
-  componentDidMount(){
-    this.callAPI()
-  }
+
   render(){
       return (
         <div className="App">
-          {/* <p>{this.state.testApi}</p> */}
-           <Switch>
-            <Route exact path="/" component={IniciadoSesion} />
+          <Switch>
+            <Route  path="/cuentaInicioSesion" component={IniciadoSesion} />
             <Route  path="/iniciarSesion" component={Login} />
-            <Route  path="/registrarSesion" component={SignUp} />
-          </Switch> 
+            <Route  path="/registrarSesion" render={ props => <SignUp {...props} />} />
+            <Route  path="/checkEmail" render={ props => <CheckEmail {...props} />} />
+            <Route path='/registrado' component={EmailEnviado}  />
+            <Route exact path='/' component={Home}  />
+          </Switch>
         </div>
       )
   }

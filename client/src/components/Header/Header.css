@@ -1,0 +1,28 @@
+.header-app{
+    width: 100vw;
+    height: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fbfbfb;
+    box-shadow: 0 1.5px 3.5px rgba(220, 210, 216, 0.5);
+}
+
+.header-name{
+    font-size: 32px;
+    margin: 0;
+}
+
+.header-name-primary{
+    color: #11215f;
+}
+
+.header-name-secondary{
+    color: #224bdd;
+}
+
+.header-user{
+    width: 40px;
+    height: 40px;
+}

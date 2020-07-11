@@ -1,0 +1,13 @@
+.emailEnviado{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid black;
+    height: 100vh;
+}
+
+.emailEnviado-img {
+    width: 50vw;
+    height: 200px;
+}

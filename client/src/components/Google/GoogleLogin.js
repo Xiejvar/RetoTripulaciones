@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import GoogleLogin from '../../../../nodeBack/node_modules/react-google-login';
+import GoogleLogin from 'react-google-login';
 import './Google.css';
 class LoginGoogle extends Component{
     render(){

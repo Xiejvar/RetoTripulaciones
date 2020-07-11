@@ -6,7 +6,7 @@ const RandExp = require('randexp')
 const nodemailer = require('nodemailer')
 const bodyParser = require("body-parser")
 const cors = require('cors')
-
+import { datos } from './personal.json'
 
 //global scopes
 const app = express();
@@ -160,26 +160,38 @@ let confirmarToken = async (token) => {
 }
 
 let destruirTok = async (key) => {
-
     let client, result;
     try{
         client = await MongoClient.connect(url,{ useUnifiedTopology: true })
         let dbo = client.db('usuariosReto')
         let users = dbo.collection('users')
         result = await users.updateOne({"tok":key},{$unset:{"tok":''}})
+
     } catch(err){
         throw err
     } finally{
         client.close()
     }
+}
 
+let searchRestaurants = async () => {
+    let client, result;
+    try{
+        client = await MongoClient.connect(url,{ useUnifiedTopology: true })
+        let dbo = client.db('retoRestaurantes')
+        let resto = dbo.collection('locals')
+        result = await resto.find({})
+        console.log(result)
+    }catch(err){
+        throw err
+    }
 }
 
 //logica
-app.get('/', (req,res)=>{
-    console.log("Bienvenido")
-    res.send({"name": "Uli"})
-})
+// app.get('/', (req,res)=>{
+//     console.log("Bienvenido")
+//     res.send({"name": "Uli"})
+// })
 
 app.post('/login', (req,res) => {
     const user = {
@@ -232,6 +244,12 @@ app.get('/checkEmail', (req,res) => {
             res.send({valid:false})
         }
     })
+})
+
+app.get('/foodList', (req,res) => {
+    console.log(datos)
+    // searchRestaurants()
+    // .then(result => console.log(result))
 })
 
 //Listen

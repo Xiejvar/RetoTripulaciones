@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
+import FoodList from '../FoodList/FoodList'
 
 class Home extends Component {
     constructor(){
@@ -10,11 +11,21 @@ class Home extends Component {
         }
     }
 
+    componentDidMount(){
+        fetch('http://localhost:1024/foodList')
+        .then(res => res.json())
+        .then(res => console.log(res))
+    }
+
     render(){
         return(
             <div>
                 <Header />
-                <h1>Hola es el home</h1>
+                <h2>Encuentra restaurantes donde sentirte seguro</h2>
+                <input type='search' id='search' name='search_made' placeholder='Busca restaurante, tipos de comida...' />
+                <FoodList />
+                <FoodList />
+                <FoodList />
                 <Footer />
             </div>
         )

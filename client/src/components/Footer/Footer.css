@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Muli:ital,wght@0,400;0,500;1,700&display=swap');
+.footer{
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    font-family: 'Muli', sans-serif;
+    background-color: #fbfbfb;
+    color: #000035;
+    font-weight: 600;
+    height: 200px;
+}
+
+.footer-list{
+    list-style-type: none;
+    text-align: end;
+    letter-spacing: 0.15px;
+    line-height: 1.5em;
+    padding-left: 0;
+    padding-right: 15px;
+    font-size: 16px;
+}
+
+.footer-p{
+    padding-right: 15px;
+    width: 95vw;
+    font-size: 14px;
+    text-align: right;
+}

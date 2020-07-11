@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Muli:ital,wght@0,400;0,500;1,700&display=swap');
+.account{
+    display: flex;
+    flex-flow: column wrap;
+    height: 100vh;
+    width: 100vw;
+}
+
+.account-personal{
+    background-color: #224bdd;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    height: 35%;
+}
+
+.account-personal-logo{
+    width: 90px;
+    height: 110px;
+}
+
+.account-personal-cross{
+    width: 25px;
+    height: 25px;
+    align-self: flex-end;
+}
+
+.account-personal-name{
+    font-family: Muli;
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #fbfbfb;
+}
+
+.account-ratings{
+    width: 100vw;
+    height: 203px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.account-ratings-ul{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+    text-align: left;
+    margin: 0;
+    font-family: 'Muli';
+    font-size: 20px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000035;
+    border-bottom: 1px solid rgb(202, 202, 202);
+}
+
+.account-ratings-ul-first{
+    list-style-image: url('images/heart.svg');
+}
+
+.account-ratings-ul-secondary{
+    list-style-image: url('images/heart.svg');
+}
+
+.account-ratings-ul-third{
+    list-style-image: url('images/escuditoAzul.svg');
+    vertical-align: middle;
+}
+
+.account-web{
+    width: 100vw;
+    height: 150px;
+    font-family: 'Muli';
+    font-size: 20px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000035;
+    display: flex;
+    justify-content: center;
+}
+
+.account-web-ul{
+    width: 85%;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 70%;
+    text-align: left;
+    margin: 0;
+    padding: 0 0 0 13px;
+    border-bottom: 1px solid rgb(202, 202, 202);
+}
+
+.account-button{
+    width: 85vw;
+    align-self: center;
+    height: 40px;
+    font-family: 'Muli';
+    font-size: 20px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000035;
+    border: none;
+    background-color: #ffffff;
+    text-align: left;
+    text-indent: 24px;
+    background-image: url('images/logoff.svg');
+    background-repeat: no-repeat;
+    background-position: 0;
+    background-size: 24px 24px;
+    padding-left: 5px;
+}

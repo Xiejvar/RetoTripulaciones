@@ -6,9 +6,12 @@ class IniciadoSesion extends Component{
     render(){
         return(
             <section className="iniciadosesion">
-                <Link to="/iniciarSesion" className="iniciadosesion-button"><button>Iniciar Sesion</button></Link>
-                <Link to="/registrarSesion" className="iniciadosesion-button"><button>Crear Cuenta</button></Link>
-                <p>Si continuas aceptas nuestros términos y condiciones y nuestra política de privacidad</p>
+                <p className='iniciadoSesion-bienvenido'>Bienvenido a:</p>
+                <h2 className='iniciadoSesion-logo'><span className='iniciadoSesion-logo-darkblue'>eat</span><span className='iniciadoSesion-logo-lightblue'>safe</span></h2>
+                <Link to="/iniciarSesion" className="iniciadosesion-button">Iniciar Sesión</Link>
+                <Link to="/registrarSesion" className="iniciadosesion-button">Crear Cuenta</Link>
+                <p className='iniciadoSesion-terminos'>Registrandote aceptas <a href='#'>nuestras condiciones de uso</a> y <a href='#'>política de privacidad</a></p>
+                <img src='images/iniciadoSesion.png' alt='logo-iniciadoSesion' />
             </section>
         )
     }

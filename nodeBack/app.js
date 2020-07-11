@@ -7,6 +7,7 @@ const nodemailer = require('nodemailer')
 const bodyParser = require("body-parser")
 const cors = require('cors')
 const datos = require('./personal.json')
+const jwt = require('jwt-simple')
 //global scopes
 const app = express();
 const port = 1024;
@@ -47,7 +48,7 @@ let sendMail = ( email,token) => {
             from: 'dr.manzanas1@gmail.com',
             to: email,
             subject: 'Confirma tu correo para acceder a la App EatSafe',
-            html: `<p>Si quieres acceder a la app con una cuenta por favor<a href='https://localhost:3000/checkEmail?tok=${token}'>Confirmar Email</a></p>`  
+            html: `<p>Si quieres acceder a la app con una cuenta por favor<a href='http://localhost:3000/checkEmail?tok=${token}'>Confirmar Email</a></p>`  
         };
     }  
 
@@ -128,14 +129,20 @@ let findUser = async ({name, lastName}) => {
 
 let confirmarToken = async (token) => {
     let client, result;
-    let ret = false;
+    let ret = {valid: false};
     try{
         client = await MongoClient.connect(url,{ useUnifiedTopology: true })
         let dbo = client.db('usuariosReto')
         let users = dbo.collection('users')
         result = await users.findOne({ "tok": token})
         if(result !== null){
-            ret = true
+            ret = {
+                valid:true,
+                user:{
+                    user: result.user,
+                    pass: result.pass
+                }
+            }
         } 
     }catch(err){
         throw err
@@ -175,6 +182,46 @@ let searchRestaurants = async () => {
     }
 }
 
+let crearAuth = ({user,pass}) => {
+    let payload = {
+        user,
+        pass
+    }
+    let secret = generarConfirmTok()
+    let tok = jwt.encode(payload,secret)
+    let ret = {
+        tok,
+        secret
+    }
+    return ret
+}
+
+
+let anotarLog = async ({user,pass},{tok,secret}) => {
+    let client,result;
+    if(user !== undefined && pass !== undefined){
+        try{
+            console.log('entre')
+            client = await MongoClient.connect(url,{useUnifiedTopology: true})
+             let dbo = client.db('usuariosReto')
+             let us = dbo.collection('users')
+              result = await us.updateOne({user: user,pass: pass}, {$set:{auth: tok,secret: secret}})
+              console.log('Esta logeado ' + result)
+              let use = {
+                  token: tok,
+                  sec: secret,
+                  valid: true
+              }
+              return use
+        }catch(err){
+            throw err
+        } finally{
+            client.close()
+        }
+    } else{
+        return false
+    }
+}
 // let insertRestaurant = async ({id_local,nombre_local,calle,desc_epigrafe,desc_barrio_local,terraza, Estado_higuienico_sanitario},index) => {
 //     let client, result;
 //     try{
@@ -241,9 +288,18 @@ app.get('/registrado', (req,res) => {
 app.get('/checkEmail', (req,res) => {
     let emailKey = req.query.tok
     confirmarToken(emailKey).then((data) => {
-        if(data){
+        if(data.valid){
             destruirTok(emailKey)
-            res.send({valid: true})
+            let auth = crearAuth(data.user)
+            anotarLog(data.user,auth).then(datos => {
+                console.log(datos)
+                if(datos.valid){
+                    console.log('holaa')
+                    res.send({tok:datos.token,sec: datos.sec, valid: datos.valid})
+                }else{
+                    res.send({valid:false})
+                }
+            })
         } else{
             res.send({valid:false})
         }

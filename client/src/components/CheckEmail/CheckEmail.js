@@ -13,7 +13,6 @@ class CheckEmail extends Component{
         fetch(`http://localhost:1024/checkEmail?tok=${tok}`)
         .then(res => res.json())
         .then(res => {
-            console.log(res)
             if(res.valid){
                 this.props.history.push('/')
             }

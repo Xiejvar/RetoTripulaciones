@@ -8,7 +8,7 @@ class Food extends React.Component{
     render(){
         return(
             <section className='food-section'>
-                {/* <img src={this.props.restaurants.image}></img> */}
+                <img src='images/restaurant.jpg' alt={this.props.restaurants.nombre} className='food-section-img'></img>
                 <p>{this.props.restaurants.tipo_local}</p>
                 <p>{this.props.restaurants.nombre}</p>
                 <p>{this.props.restaurants.direccion}</p>

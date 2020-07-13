@@ -7,8 +7,8 @@ import CheckEmail from './components/CheckEmail/CheckEmail';
 import Home from './components/Home/Home';
 import IniciadoSesion from './components/IniciadoSesion/IniciadoSesion';
 import {Switch,Route} from 'react-router-dom';
-
-
+import LocalRating from './components/Local-Rating/LocalRating'
+import StarRating from './components/shields/shield'
 
 class App extends React.Component{
   constructor(props){

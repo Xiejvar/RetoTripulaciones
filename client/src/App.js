@@ -10,6 +10,8 @@ import Account from './components/Account/Account';
 import {Switch,Route} from 'react-router-dom';
 
 import  { VerificationProvider } from './contexts/verificationToken'
+import LocalRating from './components/Local-Rating/LocalRating'
+import StarRating from './components/shields/shield'
 
 class App extends React.Component{
   constructor(props){

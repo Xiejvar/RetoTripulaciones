@@ -27,7 +27,7 @@ class FoodList extends Component{
                 <h3 className={'foodList-h3'}>{this.props.title}</h3>
                 <section className={'foodList-blockrestaurants'}>
                     <section className='foodList-restaurants'>
-                        {this.state.restaurants.map( (ele,i) => { if(i < 20) return <Food restaurants={ele} /> })}
+                        {this.state.restaurants.map( (ele,i) => { if(i < 20) return <Food restaurants={ele} key={i}/> })}
                     </section>
                 </section>
             </section>  

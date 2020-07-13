@@ -1,7 +1,9 @@
 import React,{ Component } from 'react';
 
-class CheckEmail extends Component{
+import VerificationContext from '../../contexts/verificationToken'
 
+class CheckEmail extends Component{
+    static contextType = VerificationContext
     componentDidMount(){
         this.confirmEmail()
     }
@@ -14,7 +16,16 @@ class CheckEmail extends Component{
         .then(res => res.json())
         .then(res => {
             if(res.valid){
+                sessionStorage.setItem('token', res.tok)
+                sessionStorage.setItem('secret', res.sec)
+               let user = {
+                   token: res.tok,
+                   secret: res.sec
+                }
+                this.context.handleVerification(user)
                 this.props.history.push('/')
+            }else {
+                this.props.push('/cuentaInicioSesion')
             }
         })
     }

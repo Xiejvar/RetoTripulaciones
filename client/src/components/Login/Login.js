@@ -1,9 +1,63 @@
 import React,{ Component } from 'react';
 import LoginFacebook from '../Facebook/Facebook'
 import LoginGoogle from '../Google/GoogleLogin'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import './Login.css';
+import VerificationContext from '../../contexts/verificationToken'
+
 class Login extends Component {
+    static contextType = VerificationContext
+    constructor(){
+        super()
+        this.state = {
+            user: '',
+            pass: ''
+        }
+    }
+
+    componentDidMount(){
+        
+    }
+
+    loginUserName(e){
+        this.setState({
+            ...this.state,
+            user: e.target.value
+        })
+    }
+
+    loginPass(e){
+        this.setState({
+            ...this.state,
+            pass: e.target.value
+        })
+    }
+
+    sessionLogin(){
+        let user = this.state
+        fetch('http://localhost:1024/login', {
+           method: 'POST',
+           headers: {
+               'Content-Type' : 'application/json'
+           },
+           body: JSON.stringify({
+                name: user.user,
+                pass: user.pass
+            })
+       }).then(res => res.json())
+       .then(res => {
+           if(res.valid){
+                sessionStorage.setItem('token', res.tok)
+                sessionStorage.setItem('secret', res.sec)
+               let user = {
+                   token: res.tok,
+                   secret: res.sec
+                }
+                this.context.handleVerification(user)
+            this.props.history.push('/')
+           }
+       })
+    }
     render(){
         return(
             <section className="section-login">
@@ -11,16 +65,16 @@ class Login extends Component {
                     <h2>Inicia Sesión</h2>
                     <p>Puedes iniciar sesión con tu cuenta de Eatsafe para acceder a nuestros servicios</p>
                 </div>
-                <form method="POST" action="http://localhost:1024/login" className="login-form">
+                <form className="login-form">
                     <div>
                     <label>Tu correo:</label>
-                    <input type="text" id="usuario" name="user_name" required />
+                    <input type="text" id="usuario" name="user_name" required onChange={(e) => this.loginUserName.bind(this)(e)}/>
                     </div>
                     <div>
                     <label>Tu contraseña:</label>
-                    <input type="password" id="password" name="password" required />
+                    <input type="password" id="password" name="password" required onChange={(e) => this.loginPass.bind(this)(e)}/>
                     </div>
-                    <button type="submit">Entrar</button>
+                    <button type="button" onClick={this.sessionLogin.bind(this)}>Entrar</button>
                 </form>
                 <span className='span-medio'>O inicia sesión en un clic:</span>
                 <section className="section-loginRedes">

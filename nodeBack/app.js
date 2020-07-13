@@ -64,13 +64,13 @@ let sendMail = ( email,token) => {
     return ret
 }
 
-let checkUser = async ({name, password}) => {
+let checkUser = async ({user, pass}) => {
     let client,result,ret;
     try{
         client = await MongoClient.connect(url,{ useUnifiedTopology: true })
         let dbo = client.db('usuariosReto')
         let users = dbo.collection('users')
-        result = await users.findOne({"user" : name, "pass" : password})
+        result = await users.findOne({"user" : user, "pass" : pass})
         if(result !== null){
             ret = {
                 valid: true
@@ -85,6 +85,7 @@ let checkUser = async ({name, password}) => {
         throw err
     } finally{
         client.close()
+        return ret
     }
 }
 
@@ -222,6 +223,58 @@ let anotarLog = async ({user,pass},{tok,secret}) => {
         return false
     }
 }
+
+let searchToken = async ({token, secret}) => {
+    console.log(token,secret)
+    let client,result,ret;
+    try{
+        client = await MongoClient.connect(url,{ useUnifiedTopology: true })
+        let dbo = client.db('usuariosReto')
+        let users = dbo.collection('users')
+        result = await users.findOne({"auth" : token, "secret" : secret})
+        if(result !== null){
+            ret = {
+                name: result.user,
+                surname: result.lastName,
+                age: result.age,
+                email: result.email,
+                valid: true
+            }
+        } else{
+            ret = {
+                valid: false
+            }
+        }
+
+    }catch(err){
+        throw err
+    } finally{
+        client.close()
+        return ret
+    }
+}
+
+let logOutUser = async ({token, secret}) => {
+    let client,result;
+    if(token !== undefined && secret !== undefined){
+        try{
+            client = await MongoClient.connect(url,{useUnifiedTopology: true})
+             let dbo = client.db('usuariosReto')
+             let us = dbo.collection('users')
+              result = await us.updateOne({auth: token,secret: secret}, {$unset:{auth: '',secret: ''}})
+              console.log('Esta deslogeado ')
+              console.log(result)
+              
+              return true
+        }catch(err){
+            throw err
+        } finally{
+            client.close()
+        }
+    } else{
+        return false
+    }
+}
 // let insertRestaurant = async ({id_local,nombre_local,calle,desc_epigrafe,desc_barrio_local,terraza, Estado_higuienico_sanitario},index) => {
 //     let client, result;
 //     try{
@@ -246,14 +299,45 @@ let anotarLog = async ({user,pass},{tok,secret}) => {
 //logica
 app.post('/login', (req,res) => {
     const user = {
-        name: req.body.user_name,
-        password: req.body.password
+        user: req.body.name,
+        pass: req.body.pass
     }
     checkUser(user).then(result => {
-        res.send(result)
+        if(result.valid){
+            let auth = crearAuth(user)
+            anotarLog(user,auth).then(data => {
+                if(data.valid){
+                    res.send({tok:data.token,sec: data.sec, valid: data.valid})
+                }else {
+                    res.send({valid: false})
+                }
+            })
+        }else {
+            res.send({valid: false})
+        }
     })
 })
 
+app.post('/findUser',(req,res) => {
+    searchToken(req.body.token)
+    .then(search => {
+        console.log(search)
+        if(search.valid)
+            res.send({name:search.name,surname:search.surname,valid: true})
+        else
+            res.send({valid: false})
+    })
+})
+
+app.post('/logoutUser',(req,res) => {
+    logOutUser(req.body.token)
+    .then(search => {
+        if(search)
+            res.send({deslogeado:true})
+        else
+            res.send({deslogeado: false})
+    })
+})
 
 app.post('/signUp', (req,res) => {
     const user = {
@@ -294,7 +378,6 @@ app.get('/checkEmail', (req,res) => {
             anotarLog(data.user,auth).then(datos => {
                 console.log(datos)
                 if(datos.valid){
-                    console.log('holaa')
                     res.send({tok:datos.token,sec: datos.sec, valid: datos.valid})
                 }else{
                     res.send({valid:false})

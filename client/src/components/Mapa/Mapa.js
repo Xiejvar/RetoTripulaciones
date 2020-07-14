@@ -8,7 +8,11 @@ import Header from '../Header/Header'
 class Mapa extends Component{
     constructor(){
         super()
+        this.state = {
+            location: [40.416775, -3.703790]
+        }
     }
+
     render(){
         return(
             <section>
@@ -20,6 +24,9 @@ class Mapa extends Component{
                         attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
                     />
                     <ZoomControl position='bottomright' />
+                    <Marker position={this.state.location}>
+                        <Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
+                    </Marker>
                 </Map>
             </section>
             

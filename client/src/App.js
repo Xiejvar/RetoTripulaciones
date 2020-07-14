@@ -9,6 +9,7 @@ import IniciadoSesion from './components/IniciadoSesion/IniciadoSesion';
 import Account from './components/Account/Account';
 import Restaurant from './components/Restaurant/Restaurant'
 import InformacionPersonal from './components/InformacionPersonal/InformacionPersonal'
+import Mapa from './components/Mapa/Mapa'
 
 import {Switch,Route} from 'react-router-dom';
 
@@ -59,6 +60,7 @@ class App extends React.Component{
               <Route  path="/checkEmail" render={ props => <CheckEmail {...props} />} />
               <Route  path="/restaurant/:index" render={ props => <Restaurant {...props} />} />
               <Route path='/registrado' component={EmailEnviado}  />
+              <Route path='/map' render={ props => <Mapa {...props} />}  />
               <Route path='/personalInfo' render={ props => <InformacionPersonal {...props} />}  />
               <Route path='/cuenta' render={ props => <Account {...props} />}  />
             </Switch>

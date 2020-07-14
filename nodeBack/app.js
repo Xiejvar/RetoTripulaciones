@@ -183,6 +183,24 @@ let destruirTok = async (key) => {
     }
 }
 
+let searchUniqueRestaurant = async (index) => {
+    let client, result;
+    try{
+        client = await MongoClient.connect(url,{ useUnifiedTopology: true })
+        let dbo = client.db('comidasReto')
+        let resto = dbo.collection('restaurantes')
+        result = await resto.findOne({"index": index})
+        if(result !== null){
+            return result
+        }else{
+            return false
+        }
+    }catch(err){
+        throw err
+    } finally{
+        client.close()
+    }
+}
 let searchRestaurants = async () => {
     let client, result;
     try{
@@ -240,7 +258,6 @@ let anotarLog = async ({user,pass},{tok,secret}) => {
 }
 
 let searchToken = async ({token, secret}) => {
-    console.log(token,secret)
     let client,result,ret;
     try{
         client = await MongoClient.connect(url,{ useUnifiedTopology: true })
@@ -278,7 +295,6 @@ let logOutUser = async ({token, secret}) => {
              let us = dbo.collection('users')
               result = await us.updateOne({auth: token,secret: secret}, {$unset:{auth: '',secret: ''}})
               console.log('Esta deslogeado ')
-              console.log(result)
               
               return true
         }catch(err){
@@ -412,6 +428,19 @@ app.get('/checkEmail', (req,res) => {
             res.send({valid:false})
         }
     })
+})
+
+app.get('/restaurant/:index', (req,res) => {
+    let index = Number(req.params.index)
+    searchUniqueRestaurant(index).then(
+        data => {
+            if(!data){
+                res.send({valid:false})
+            }else{
+                res.send({valid: true, restaurant: data})
+            }
+        }
+    )
 })
 
 app.get('/foodList', (req,res) => {

@@ -7,6 +7,7 @@ import CheckEmail from './components/CheckEmail/CheckEmail';
 import Home from './components/Home/Home';
 import IniciadoSesion from './components/IniciadoSesion/IniciadoSesion';
 import Account from './components/Account/Account';
+import Restaurant from './components/Restaurant/Restaurant'
 import {Switch,Route} from 'react-router-dom';
 
 import  { VerificationProvider } from './contexts/verificationToken'
@@ -52,6 +53,7 @@ class App extends React.Component{
               <Route  path="/iniciarSesion" render={ props => <Login {...props} />}/>
               <Route  path="/registrarSesion" render={ props => <SignUp {...props} />} />
               <Route  path="/checkEmail" render={ props => <CheckEmail {...props} />} />
+              <Route  path="/restaurant/:index" render={ props => <Restaurant {...props} />} />
               <Route path='/registrado' component={EmailEnviado}  />
               <Route path='/cuenta' render={ props => <Account {...props} />}  />
             </Switch>

@@ -2,10 +2,13 @@
     display: flex;
     flex-flow: column wrap;
     height: 500px;
+
 }
 
 .foodList-h3{
-    width: 100vw;
+    width: 90vw;
+    text-align: left;
+    align-self: center;
 }
 
 .foodList-restaurants{

@@ -10,7 +10,14 @@ class SignUp extends Component{
             surname: '',
             age: '',
             email: '',
-            password: ''
+            password: '',
+            validation: {
+                name: false,
+                surname: false,
+                age: false,
+                email: false,
+                password: false
+            }
         }
     }
 
@@ -34,12 +41,7 @@ class SignUp extends Component{
             })
         }
     }
-    regUserAge(e){
-        this.setState({
-            ...this.state,
-            age: e.target.value
-        })
-    }
+
     regUserEmail(e){
         if(e.target.value.length > 4){
             this.setState({
@@ -56,6 +58,37 @@ class SignUp extends Component{
             })
         }
     }
+
+    regUserPassConfirm(e){
+        this.setState({
+            ...this.state,
+            confirmPass: e.target.value
+        })
+    }
+
+    regUserDay(e){
+        if(e.target.value.length === 2)
+            this.setState({
+                ...this.state,
+                day: e.target.value
+            })
+    }
+
+    regUserMonth(e){
+        if(e.target.value.length === 2)
+            this.setState({
+                ...this.state,
+                month: e.target.value
+            })
+    }
+
+    regUserYear(e){
+        if(e.target.value.length === 4)
+            this.setState({
+                ...this.state,
+                year: e.target.value
+            })
+    }
     registerUser(){
         let user = this.state
        fetch('http://localhost:1024/signUp', {
@@ -66,15 +99,14 @@ class SignUp extends Component{
            body: JSON.stringify({
                 name: user.name,
                 surname: user.surname,
-                age: user.age,
+                birth: user.day + '/' + user.month + '/' + user.year,
                 email: user.email,
                 password: user.password
             })
        }).then(res => res.json())
        .then(res => {
-           console.log(res)
            if(res.emailSent){
-               this.props.history.push('/registrado')
+               this.props.history.push(`/registrado?email=${user.email}`)
            } else {
                console.log('fallo el envio, intenta registrarte de nuevo')
            }
@@ -83,23 +115,31 @@ class SignUp extends Component{
     render(){
         return(
             <div className="div-signup">
+                <h3 className='crear-cuenta'>Crea tu cuenta</h3>
                 <form className='signForm' onSubmit={(e) => this.prevSubmit.bind(this)(e)}>
-                    <label>Usuario:</label>
+                    <label>Tu nombre:<span className='error-m'>*</span></label>
                     <input type='text' id='name' name='user_name' onChange={(e) => this.regUserName.bind(this)(e)}></input>
 
-                    <label>Apellidos:</label>
+                    <label>Tus apellidos:<span className='error-m'>*</span></label>
                     <input type='text' id='lastName' name='last_name' onChange={(e) => this.regUserSurNam.bind(this)(e)}></input>
+                    <div className='signupBirth'>
+                        <label>Tu fecha de nacimiento:<span className='error-m'>*</span></label>
+                        <input type='number' name='user_day' onChange={(e) => this.regUserDay.bind(this)(e)} className='signupBirth-day' ></input>
+                        <input type='number' name='user_month' onChange={(e) => this.regUserMonth.bind(this)(e)} className='signupBirth-month' ></input>
+                        <input type='number' name='user_year' onChange={(e) => this.regUserYear.bind(this)(e)} className='signupBirth-year' ></input>
+                    </div>
 
-                    <label>Edad:</label>
-                    <input type='number' id='age' name='user_age' onChange={(e) => this.regUserAge.bind(this)(e)}></input>
-
-                    <label>Correo:</label>
+                    <label>Correo:<span className='error-m'>*</span></label>
                     <input type='email' id='mail' name='user_email' onChange={(e) => this.regUserEmail.bind(this)(e)}></input>
 
-                    <label>Contraseña:</label>
-                    <input type='password' id='pass' name='user_pass' onChange={(e) => this.regUserPass.bind(this)(e)}></input>
+                    <label>Tu contraseña:<span className='error-m'>*</span></label>
+                    <input type='password'  name='user_pass' onChange={(e) => this.regUserPass.bind(this)(e)}></input>
 
-                    <button type="button" onClick={this.registerUser.bind(this)}>Registrarse</button>
+                    <label>Confirma tu contraseña:<span className='error-m'>*</span></label>
+                    <input type='password'  name='user_pass_confirm' onChange={(e) => this.regUserPassConfirm.bind(this)(e)}></input>
+                    <label><span className='error-m'>*</span> Campos obligatorios</label>
+
+                    <button type="button" onClick={this.registerUser.bind(this)} className='signup-button'>Crear cuenta</button>
                 </form>
                 <p className="signup-p">¿Ya tienes una cuenta?<Link to="/iniciarSesion" className="link-signup">Inicia Sesión</Link></p>
             </div>

@@ -74,7 +74,7 @@ class AccountLoged extends Component{
             <section className='account'>
                 <section className='account-personal'>
                     <img src='images/cross.svg' alt='cross-logo'  className='account-personal-cross' onClick={this.props.history.goBack}/>
-                    <img src='images/account.png' alt='account-logo'  className='account-personal-logo'/>
+                    <img src='images/account.svg' alt='account-logo'  className='account-personal-logo'/>
                     <p className='account-personal-name'>{this.state.name}</p>
                 </section>
                 <section className='account-ratings'>

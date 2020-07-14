@@ -1,0 +1,17 @@
+
+.home-search{
+    width: 90%;
+    height: 40px;
+    border-radius: 25px;
+    box-shadow: -3px -3px 20px 0 rgba(220, 210, 216, 0.5), 3px 3px 20px 0 rgba(220, 210, 216, 0.5);
+    background-color: #fbfbfb;
+    border: none;
+    background-image: url('./Images/Search.svg');
+    background-repeat: no-repeat;
+    background-position: 95% center;
+    text-indent: 10px;
+}
+
+.home-search::placeholder{
+    text-align: center;
+}

@@ -30,3 +30,7 @@
     height: 40px;
     margin-right: 10px;
 }
+
+.header-link{
+    text-decoration: none;
+}

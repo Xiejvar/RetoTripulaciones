@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
 import FoodList from '../FoodList/FoodList'
+import Search from '../Search/Search'
+
 import './Home.css'
 class Home extends Component {
     constructor(){
         super()
         this.state = {
-
+            restaurants: []
         }
     }
 
@@ -34,9 +36,9 @@ class Home extends Component {
         return(
             <div className='home'>
                 <Header />
-                <h2>Encuentra restaurantes donde sentirte seguro</h2>
-                <input type='search' id='search' name='search_made' placeholder='Busca restaurante, tipos de comida...' />
-                <FoodList getResta={this.state.restaurants !== undefined}  addResta={this.getRestaurants.bind(this)} title={'Los locales mas seguros'}/>
+                <h2 className='home-title'>Encuentra restaurantes donde sentirte seguro</h2>
+                <Search />
+                <FoodList getResta={this.state.restaurants !== undefined}  addResta={this.getRestaurants.bind(this)} title={'Los mas seguros segun los usuarios'}/>
                 <FoodList getResta={this.state.restaurants !== undefined}  addResta={this.getRestaurants.bind(this)} title={'Terrazas'}/>
                 <FoodList getResta={this.state.restaurants !== undefined}  addResta={this.getRestaurants.bind(this)} title={'Cerca de ti'}/>
                 <article className='home-info'>

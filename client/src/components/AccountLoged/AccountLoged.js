@@ -1,5 +1,6 @@
 import React,{ Component } from 'react';
 import './AccountLoged.css';
+import { Link } from 'react-router-dom'
 
 import VerificationContext from '../../contexts/verificationToken'
 
@@ -79,7 +80,7 @@ class AccountLoged extends Component{
                 </section>
                 <section className='account-ratings'>
                     <ul className='account-ratings-ul'>
-                        <li className='account-ratings-ul-first'>Información personal</li>
+                        <li className='account-ratings-ul-first'><Link to='/personalInfo'>Información personal</Link></li>
                         <li className='account-ratings-ul-secondary'>Mis favoritos</li>
                         <li className='account-ratings-ul-third'>Mis valoraciones</li>
                     </ul>

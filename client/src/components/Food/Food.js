@@ -8,15 +8,13 @@ class Food extends React.Component{
     render(){
         return(
             <section className='food-section'>
-                <img src='images/restaurant.jpg' alt={this.props.restaurants.nombre} className='food-section-img'></img>
-                <p>{this.props.restaurants.tipo_local}</p>
-                <p>{this.props.restaurants.nombre}</p>
-                <p>{this.props.restaurants.direccion}</p>
+                <img src='images/restaurant.jpg' alt={this.props.restaurants.nombre} className='food-section-img' />
+                <p className='food-section-tipo'>{this.props.restaurants.tipo_local}</p>
+                <p className='food-section-name'>{this.props.restaurants.nombre}</p>
+                <p className='food-section-address'>{this.props.restaurants.direccion}</p>
             </section>
         )
     }
 }
-
-
 
 export default Food

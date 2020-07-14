@@ -8,11 +8,13 @@ import Home from './components/Home/Home';
 import IniciadoSesion from './components/IniciadoSesion/IniciadoSesion';
 import Account from './components/Account/Account';
 import Restaurant from './components/Restaurant/Restaurant'
+import InformacionPersonal from './components/InformacionPersonal/InformacionPersonal'
+
 import {Switch,Route} from 'react-router-dom';
 
 import  { VerificationProvider } from './contexts/verificationToken'
-import LocalRating from './components/Local-Rating/LocalRating'
-import StarRating from './components/shields/shield'
+// import LocalRating from './components/Local-Rating/LocalRating'
+// import StarRating from './components/shields/shield'
 
 class App extends React.Component{
   constructor(props){
@@ -57,6 +59,7 @@ class App extends React.Component{
               <Route  path="/checkEmail" render={ props => <CheckEmail {...props} />} />
               <Route  path="/restaurant/:index" render={ props => <Restaurant {...props} />} />
               <Route path='/registrado' component={EmailEnviado}  />
+              <Route path='/personalInfo' render={ props => <InformacionPersonal {...props} />}  />
               <Route path='/cuenta' render={ props => <Account {...props} />}  />
             </Switch>
           </VerificationProvider>

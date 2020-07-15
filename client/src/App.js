@@ -14,6 +14,8 @@ import Mapa from './components/Mapa/Mapa'
 import {Switch,Route} from 'react-router-dom';
 
 import  { VerificationProvider } from './contexts/verificationToken'
+import RecuperaPass from './components/RecuperaPass/RecuperaPass';
+import CorreoRecuperado from './components/CorreoRecuperado/CorreoRecuperado';
 // import LocalRating from './components/Local-Rating/LocalRating'
 // import StarRating from './components/shields/shield'
 
@@ -53,13 +55,15 @@ class App extends React.Component{
         <div className="App">
           <VerificationProvider value={{tok:this.state.verification, handleVerification: this.handleVerification.bind(this)}}>
             <Switch>
-              <Route exact path='/' component={Home}  />
+              <Route exact path='/' render={ props => <Home {...props} />}  />
               <Route  path="/cuentaInicioSesion" component={IniciadoSesion} />
               <Route  path="/iniciarSesion" render={ props => <Login {...props} />}/>
               <Route  path="/registrarSesion" render={ props => <SignUp {...props} />} />
               <Route  path="/checkEmail" render={ props => <CheckEmail {...props} />} />
               <Route  path="/restaurant/:index" render={ props => <Restaurant {...props} />} />
               <Route path='/registrado' component={EmailEnviado}  />
+              <Route path='/recuperaPass' render={ props => <RecuperaPass {...props} />}  />
+              <Route path='/recuperaEmailSent' render={ props => <CorreoRecuperado {...props} />}  />
               <Route path='/map' render={ props => <Mapa {...props} />}  />
               <Route path='/personalInfo' render={ props => <InformacionPersonal {...props} />}  />
               <Route path='/cuenta' render={ props => <Account {...props} />}  />

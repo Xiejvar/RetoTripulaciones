@@ -1,0 +1,66 @@
+.emailsentRecuperado{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.emailsentRecuperado h2 {
+    color: #11215f;
+}
+
+.emailsentRecuperado div {
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+}
+
+.emailsentRecuperado-consulta{
+    color: #333333;
+    font-family: 'Muli';
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.2px;
+    width: 70%;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.emailsentRecuperado button {
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px 0 #847a80, inset 4px 4px 4px 0 #3f65ea;
+    background-color: #3f65ea;
+    border: none;
+    width: 70%;
+    font-size: 16px;
+    font-weight: 600;
+    height: 30px;
+    color: #ffffff;
+}
+
+.emailsentRecuperado-instrucciones,
+.emailsentRecuperado-resend{
+    font-family: 'Muli';
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.2px;
+    margin-bottom: 0;
+}
+
+.emailsentRecuperado-instrucciones{
+    color: #000000;
+}
+
+.emailsentRecuperado-resend{
+    color: #224bdd;
+    font-weight: 600;
+    margin: 0;
+}

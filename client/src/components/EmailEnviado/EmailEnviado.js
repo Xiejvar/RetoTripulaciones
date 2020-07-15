@@ -37,7 +37,7 @@ class EmailEnviado extends Component{
             <section className='emailEnviado'>
                 <h2 className='emailEnviado-title'>¡Confirma tu email!</h2>
                 <p className='emailEnviado-parrafo'>Hemos enviado un correo electrónico a {this.state.email} para que puedas activar tu cuenta.</p>
-                <img src='images/emailSent.svg' alt='Email enviado' className='emailEnviado-img'/>
+                <img src='images/emailSentPending.svg' alt='Email enviado' className='emailEnviado-img'/>
                 <p onClick={this.reSendEmail.bind(this)} className='emailEnviado-deNuevo'>Enviar email de nuevo</p>
                 <p className='emailEnviado-spam'>¿No has recibido el email? Comprueba tu badeja de spam.</p>
             </section>

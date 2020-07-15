@@ -32,15 +32,22 @@ class Home extends Component {
         return array
     }
 
+    submitingSearch(e){
+        e.preventDefault()
+        this.props.history.push('/map')
+    }
+
     render(){
         return(
             <div className='home'>
                 <Header />
                 <h2 className='home-title'>Encuentra restaurantes donde sentirte seguro</h2>
-                <Search />
-                <FoodList getResta={this.state.restaurants !== undefined}  addResta={this.getRestaurants.bind(this)} title={'Los mas seguros segun los usuarios'}/>
-                <FoodList getResta={this.state.restaurants !== undefined}  addResta={this.getRestaurants.bind(this)} title={'Terrazas'}/>
-                <FoodList getResta={this.state.restaurants !== undefined}  addResta={this.getRestaurants.bind(this)} title={'Cerca de ti'}/>
+                <form className='home-searchForm' onSubmit={this.submitingSearch.bind(this)}>
+                    <Search history={this.props.history}/>
+                </form>
+                <FoodList getResta={this.state.restaurants !== undefined}  addResta={this.getRestaurants.bind(this)} title={'Los mas seguros segun los usuarios'} history={this.props.history}/>
+                <FoodList getResta={this.state.restaurants !== undefined}  addResta={this.getRestaurants.bind(this)} title={'Terrazas'} history={this.props.history}/>
+                <FoodList getResta={this.state.restaurants !== undefined}  addResta={this.getRestaurants.bind(this)} title={'Cerca de ti'} history={this.props.history}/>
                 <article className='home-info'>
                     <h2 className='home-info-titles'>Toda la información para ayudarte a cuidar a los tuyos</h2>
                     <section className='home-info-imagenes'>

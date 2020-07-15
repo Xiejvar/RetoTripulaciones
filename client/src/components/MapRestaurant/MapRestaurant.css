@@ -1,0 +1,27 @@
+.restaurantMapSliderArticle{
+    width: 90%;
+    display: flex;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+}
+
+.restaurantMapSliderArticle img {
+    width: 30%;
+}
+
+.restaurantMapInfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+}
+
+.restaurantMapSliderArticle p{
+    height: fit-content;
+    margin: 0;
+    text-align: left;
+    width: 100%;
+    text-indent: 10px;
+}

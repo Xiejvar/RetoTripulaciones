@@ -58,12 +58,13 @@ class Login extends Component {
            }
        })
     }
+
     render(){
         return(
             <section className="section-login">
+                <img src='/images/Exit.svg' alt='exit' className='crossImage' onClick={this.props.history.goBack}/>
                 <div className="section-login-title">
                     <h2>Inicia Sesión</h2>
-                    <p>Puedes iniciar sesión con tu cuenta de Eatsafe para acceder a nuestros servicios</p>
                 </div>
                 <form className="login-form">
                     <div>
@@ -74,14 +75,14 @@ class Login extends Component {
                     <label>Tu contraseña:</label>
                     <input type="password" id="password" name="password" required onChange={(e) => this.loginPass.bind(this)(e)}/>
                     </div>
-                    <button type="button" onClick={this.sessionLogin.bind(this)}>Entrar</button>
+                    <Link to="/recuperaPass" className="login-recuperaPass">¿No recuerdas la contraseña?</Link>
+                    <button type="button" onClick={this.sessionLogin.bind(this)}>Iniciar Sesión</button>
                 </form>
-                <span className='span-medio'>O inicia sesión en un clic:</span>
+                <span className='span-medio'>O </span>
                 <section className="section-loginRedes">
                     <LoginFacebook /> 
                     <LoginGoogle />
                 </section>
-                <Link to="/recuperaPass" className="login-recuperaPass">¿No recuerdas la contraseña?</Link>
             </section>
         )
     }

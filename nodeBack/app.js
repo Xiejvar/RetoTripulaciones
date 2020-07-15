@@ -189,7 +189,7 @@ let searchUniqueRestaurant = async (index) => {
         client = await MongoClient.connect(url,{ useUnifiedTopology: true })
         let dbo = client.db('comidasReto')
         let resto = dbo.collection('restaurantes')
-        result = await resto.findOne({"index": index})
+        result = await resto.findOne({"id_local": index})
         if(result !== null){
             return result
         }else{
@@ -431,8 +431,8 @@ app.get('/checkEmail', (req,res) => {
 })
 
 app.get('/restaurant/:index', (req,res) => {
-    let index = Number(req.params.index)
-    searchUniqueRestaurant(index).then(
+    let id = Number(req.params.index)
+    searchUniqueRestaurant(id).then(
         data => {
             if(!data){
                 res.send({valid:false})

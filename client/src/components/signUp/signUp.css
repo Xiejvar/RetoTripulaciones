@@ -102,3 +102,9 @@
     background-color: #224bdd;
     color: #ffffff;
 }
+
+.div-exitSignup{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

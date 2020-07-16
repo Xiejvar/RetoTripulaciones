@@ -17,6 +17,20 @@ class Mapa extends Component{
         }
     }
 
+    componentDidMount(){
+        let lat,lon;
+        if('geolocation' in navigator){
+            navigator.geolocation.watchPosition((position) => {
+                lat = position.coords.latitude
+                lon = position.coords.longitude
+                console.log(lat,lon)
+              });
+        }
+        fetch(`http://localhost:1024/cercaDeMI/${lat}/${lon}`)
+        .then(res => res.json())
+        .then(data => console.log(data))
+    }
+
     changeClass(){
         if(!this.state.up)
             this.setState({

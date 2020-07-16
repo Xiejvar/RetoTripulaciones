@@ -191,7 +191,17 @@
 }
 
 .seguridadnavDos li {
-    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: #333333;
+    font-family: 'Muli';
+    font-size: 18px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.2px;
 }
 
 .restaurant-sanciones{
@@ -251,4 +261,3 @@
     border-bottom: 1px solid #dcd2d8;
     align-items: center;
 }
-

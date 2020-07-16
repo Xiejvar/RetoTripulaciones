@@ -115,7 +115,10 @@ class SignUp extends Component{
     render(){
         return(
             <div className="div-signup">
-                <h3 className='crear-cuenta'>Crea tu cuenta</h3>
+                <section className='div-exitSignup'>
+                    <h3 className='crear-cuenta'>Crea tu cuenta</h3>
+                    <img src='/images/Exit.svg' alt='logo salir' onClick={this.props.history.goBack} />
+                </section>
                 <form className='signForm' onSubmit={(e) => this.prevSubmit.bind(this)(e)}>
                     <label>Tu nombre:<span className='error-m'>*</span></label>
                     <input type='text' id='name' name='user_name' onChange={(e) => this.regUserName.bind(this)(e)}></input>

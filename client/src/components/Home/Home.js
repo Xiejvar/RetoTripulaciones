@@ -9,25 +9,65 @@ class Home extends Component {
     constructor(){
         super()
         this.state = {
-            restaurants: []
+            restaurantsTerr: [],
+            restaurantsSafe: [],
+            restaurantsClose: [],
         }
     }
 
     componentDidMount(){
-        fetch('http://localhost:1024/foodList')
+        let terr,saf,clos;
+        fetch('http://localhost:1024/foodListTerraza')
         .then(res => res.json())
-        .then(res => this.setState({
+        .then(res => {
+            console.log(res)
+            terr = res
+        })
+        fetch('http://localhost:1024/foodListSeguro')
+        .then(res => res.json())
+        .then(res => {
+            clos = res
+        })
+        fetch('http://localhost:1024/foodListSeguro')
+        .then(res => res.json())
+        .then(res => {
+            saf = res
+        })
+
+        this.setState({
             ...this.state,
-            restaurants: res
-        }))
+            restaurantsClose: clos,
+            restaurantsSafe: saf,
+            restaurantsTerr: terr
+        })
     }
 
 
-    getRestaurants(){
-        let array = this.state.restaurants
+    getRestaurantsTerr(){
+        let array = this.state.restaurantsTerr
+        console.log(array)
         this.setState({
             ...this.state,
-            restaurants: undefined
+            restaurantsTerr: undefined
+        })
+        return array
+    }
+
+    getRestaurantsSafe(){
+        let array = this.state.restaurantsSafe
+        this.setState({
+            ...this.state,
+            restaurantsSafe: undefined
+        })
+        return array
+    }
+
+    getRestaurantsClos(){
+        let array = this.state.restaurantsSafe
+        console.log(array)
+        this.setState({
+            ...this.state,
+            restaurantsClose: undefined
         })
         return array
     }
@@ -45,9 +85,9 @@ class Home extends Component {
                 <form className='home-searchForm' onSubmit={this.submitingSearch.bind(this)}>
                     <Search history={this.props.history}/>
                 </form>
-                <FoodList getResta={this.state.restaurants !== undefined}  addResta={this.getRestaurants.bind(this)} title={'Los mas seguros segun los usuarios'} history={this.props.history}/>
-                <FoodList getResta={this.state.restaurants !== undefined}  addResta={this.getRestaurants.bind(this)} title={'Terrazas'} history={this.props.history}/>
-                <FoodList getResta={this.state.restaurants !== undefined}  addResta={this.getRestaurants.bind(this)} title={'Cerca de ti'} history={this.props.history}/>
+                <FoodList getResta={this.state.restaurantsSafe !== undefined}  addResta={this.getRestaurantsSafe.bind(this)} title={'Los mas seguros segun los usuarios'} history={this.props.history}/>
+                <FoodList getResta={this.state.restaurantsTerr !== undefined}  addResta={this.getRestaurantsTerr.bind(this)} title={'Terrazas'} history={this.props.history}/>
+                <FoodList getResta={this.state.restaurantsClose !== undefined}  addResta={this.getRestaurantsClos.bind(this)} title={'Cerca de ti'} history={this.props.history}/>
                 <article className='home-info'>
                     <h2 className='home-info-titles'>Toda la información para ayudarte a cuidar a los tuyos</h2>
                     <section className='home-info-imagenes'>

@@ -2,7 +2,7 @@
 .food-section{
     display: flex;
     flex-flow: column wrap;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     height: 400px;
     width: 70vw;
@@ -11,6 +11,7 @@
 
 .food-section p {
     margin: 6px 0;
+    
 }
 
 .food-section-img{
@@ -59,4 +60,15 @@
     width: 100%;
     text-align: left;
     text-indent: 15px;
+}
+
+.escuditos-valoracion{
+    width: 20px;
+    height: 20px;
+}
+
+.figur-escuditos{
+    display: flex;
+    width: 90%;
+    margin: 15px 0;
 }

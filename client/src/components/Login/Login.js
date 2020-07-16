@@ -15,10 +15,6 @@ class Login extends Component {
         }
     }
 
-    componentDidMount(){
-        
-    }
-
     loginUserName(e){
         this.setState({
             ...this.state,

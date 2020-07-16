@@ -13,7 +13,8 @@ class Restaurant extends Component{
             address: 'C/Pez,18',
             location: '',
             terraza: '',
-            higiene: ''
+            higiene: '',
+            arr: []
         }
     }
 
@@ -23,18 +24,32 @@ class Restaurant extends Component{
        .then(res => res.json())
        .then(res => {
            if(res.valid){
-               let terr;
+               let terr,fecha;
                if(res.restaurant.terraza === 1){
                     terr = 'Terraza'
                }
+               if(res.restaurant.fecha_de_la_inspeccion === undefined){
+                   fecha = '10/05/2020'
+               }else{
+                   fecha = res.restaurant.fecha_de_la_inspeccion
+               }
+               console.log(fecha)
                this.setState({
                    ...this.state,
-                   name: res.restaurant.nombre,
-                   type: res.restaurant.tipo_local,
-                   address: res.restaurant.direccion,
-                   location: res.restaurant.barrio,
+                   name: res.restaurant.nombre_local,
+                   type: res.restaurant.tipo_de_comida,
+                   address: res.restaurant.calle,
+                   location: res.restaurant.desc_barrio_local,
                    terraza: terr,
-                   higiene: res.restaurant.higuiene
+                   higiene: res.restaurant.higienico_sanitario,
+                   limpieza: res.restaurant.limpieza_exhaustiva,
+                   distancia: res.restaurant.distancia_seguridad,
+                   gel: res.restaurant.gel_desinfectante,
+                   elementos: res.restaurant.elementos_desechables,
+                   global: res.restaurant.valoracion_global,
+                   fecha_higiene: fecha,
+                   riesgo: res.restaurant.riesgo_covid,
+                   arr: [...Array(parseInt(res.restaurant.valoracion_global))]
                })
            }else {
                this.props.history.push('/')
@@ -66,12 +81,8 @@ class Restaurant extends Component{
                     </div>
                     <p className='restaurant-name'>{this.state.name}</p>
                     <div className='restaurant-inforating'>
-                        <img src='/images/escuditoAzul.svg' alt='rating' />
-                        <img src='/images/escuditoAzul.svg' alt='rating' />
-                        <img src='/images/escuditoAzul.svg' alt='rating' />
-                        <img src='/images/escuditoAzul.svg' alt='rating' />
-                        <img src='/images/escuditoAzul.svg' alt='rating' />
-                        <p>4,5</p>
+                        {this.state.arr.map(e => <img src='/images/escuditoCeleste.svg' alt='valoraciones' />)}
+                        <p>{this.state.global}</p>
                         <p>Añadir valoración</p>
                     </div>
                     <p className='restaurant-address'>{this.state.address}</p>
@@ -87,11 +98,11 @@ class Restaurant extends Component{
                         <li>Cartas y elementos de autoservicio</li>
                     </ul>
                     <ul className='restaurant-seguridadnav seguridadnavDos'>
-                        <li><img src='/images/escuditoAzul.svg' alt='logo-valoración' /></li>
-                        <li><img src='/images/escuditoAzul.svg' alt='logo-valoración' /></li>
-                        <li><img src='/images/escuditoAzul.svg' alt='logo-valoración' /></li>
-                        <li><img src='/images/escuditoAzul.svg' alt='logo-valoración' /></li>
-                        <li><img src='/images/escuditoAzul.svg' alt='logo-valoración' /></li>
+                        <li><img src='/images/escuditoCeleste.svg' alt='logo-valoración' />{this.state.limpieza}/5</li>
+                        <li><img src='/images/escuditoCeleste.svg' alt='logo-valoración' />{this.state.distancia}/5</li>
+                        <li><img src='/images/escuditoCeleste.svg' alt='logo-valoración' />{this.state.elementos}/5</li>
+                        <li><img src='/images/escuditoCeleste.svg' alt='logo-valoración' />{this.state.gel}/5</li>
+                        <li><img src='/images/escuditoCeleste.svg' alt='logo-valoración' />{this.state.elementos}/5</li>
                     </ul>
                 </article>
                 <article className='restaurant-sanciones'>
@@ -106,7 +117,7 @@ class Restaurant extends Component{
                         </thead>
                         <tbody>
                             <tr>
-                                <td>10/10/2018</td>
+                                <td>{this.state.fecha_higiene}</td>
                                 <td>{this.state.higiene}</td>
                             </tr>
                         </tbody>
@@ -122,7 +133,7 @@ class Restaurant extends Component{
                         </tr>
                         <tr>
                             <td>07</td>
-                            <td>Bajo</td>
+                            <td>{this.state.riesgo}</td>
                         </tr>
                     </table>
                 </article>

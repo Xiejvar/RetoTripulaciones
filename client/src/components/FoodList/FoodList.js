@@ -9,13 +9,13 @@ class FoodList extends Component{
         }
     }
     componentDidUpdate(){
+        console.log(this.props.getResta)
         if(this.props.getResta){
             this.setRestaurants(this.props.addResta())
         }
     }
 
     setRestaurants(arr){
-        console.log(arr)
         this.setState({
             ...this.state,
             restaurants: arr

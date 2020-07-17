@@ -223,7 +223,7 @@ let searchRestaurantsSeguro = async () => {
         client = await MongoClient.connect(url,{ useUnifiedTopology: true })
         let dbo = client.db('comidasReto')
         let resto = dbo.collection('restaurantes')
-        result = await resto.find({'riesgo_covid':"bajo", 'limpieza_exhaustiva': { $gt: 3 }}).toArray()
+        result = await resto.find({'riesgo_covid':"bajo", 'valoracion_global': { $gte: 4 }}).toArray()
         return result
     }catch(err){
         throw err
@@ -323,6 +323,11 @@ let logOutUser = async ({token, secret}) => {
     }
 }
 
+let dataRestaurantes = datos.datos.map(e => {
+    e.valoracion_global = parseFloat(e.valoracion_global)
+    return e
+})
+
 
 // ------ INSERTAMOS TODOS LOS DATOS DEL JSON CON ESTA FUNCION -----
 // let insertRestaurant = async () => {
@@ -331,7 +336,7 @@ let logOutUser = async ({token, secret}) => {
 //         client = await MongoClient.connect(url2, { useUnifiedTopology: true })
 //         let dbo = client.db('comidasReto')
 //         let resto = dbo.collection('restaurantes')
-//         result = await resto.insertMany(datos.datos)
+//         result = await resto.insertMany(dataRestaurantes)
 //         console.log('Base de datos ha sido actualizada')
 //     }catch(err){
 //         throw err
@@ -339,6 +344,7 @@ let logOutUser = async ({token, secret}) => {
 // }
 
 // insertRestaurant()
+
 
 
 

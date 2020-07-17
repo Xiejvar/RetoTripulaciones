@@ -11,37 +11,28 @@ class Home extends Component {
         this.state = {
             restaurantsTerr: [],
             restaurantsSafe: [],
-            restaurantsClose: [],
+            restaurantsClose: []
         }
     }
 
     componentDidMount(){
-        let terr,saf,clos;
-        fetch('http://localhost:1024/foodListTerraza')
-        .then(res => res.json())
-        .then(res => {
-            console.log(res)
-            terr = res
-        })
-        fetch('http://localhost:1024/foodListSeguro')
-        .then(res => res.json())
-        .then(res => {
-            clos = res
-        })
-        fetch('http://localhost:1024/foodListSeguro')
-        .then(res => res.json())
-        .then(res => {
-            saf = res
-        })
-
-        this.setState({
-            ...this.state,
-            restaurantsClose: clos,
-            restaurantsSafe: saf,
-            restaurantsTerr: terr
-        })
+        this.putRestaur()
     }
 
+    async putRestaur(){
+        let res = await fetch('http://localhost:1024/foodListTerraza')
+        let dataTerr = await res.json()
+
+        let res2 = await fetch('http://localhost:1024/foodListSeguro')
+        let dataSeg = await res2.json()
+        
+        this.setState({
+            ...this.state,
+            restaurantsClose: dataSeg,
+            restaurantsSafe: dataSeg,
+            restaurantsTerr: dataTerr
+        })
+    }
 
     getRestaurantsTerr(){
         let array = this.state.restaurantsTerr

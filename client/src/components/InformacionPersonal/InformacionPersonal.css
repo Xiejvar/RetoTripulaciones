@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Muli:ital,wght@0,400;0,500;1,700&display=swap');
+.accountForm{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-evenly;
+    height: 100vh;
+    align-items: center;
+}
+
+.accountForm-diver{
+    display: flex;
+    width: 90%;
+    align-items: center;
+    justify-content: center;
+}
+
+.accountForm label{
+    width: 90%;
+    text-align: left;
+    font-family: 'Muli';
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.2px;
+    color: #000000;
+}
+
+.accountInfo{
+    color: #11215f;
+    font-family: 'Muli';
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    width: 100%;
+    text-align: left;
+    margin: 0;
+}
+
+.accountForm input {
+    height: 34px;
+    border-radius: 10px;
+    border: solid 1px #c4c4c4;
+    background-color: #ffffff;
+    width: 90%;
+}
+
+.accountupBirth{
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    justify-content: space-evenly;
+}
+
+.accountupBirth label{
+    width: 100%;
+    margin: 0 20px 15px 0;
+    text-align: left;
+}
+
+
+.accountForm .accountupBirth-month{
+    width: 60px;
+    margin-right: 25px;
+}
+
+.accountForm .accountupBirth-year{
+    width: 125px;
+}
+
+.accountForm .accountupBirth-day{
+    margin-right: 35px;
+    width: 60px;
+}
+
+.accountup-button{
+    width: 116px;
+    height: 34px;
+    object-fit: contain;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px 0 #847a80, inset 4px 4px 4px 0 #3f65ea;
+    background-color: #224bdd;
+    color: #ffffff;
+}
+
+.accountup-delete{
+    border: none;
+    background-color: #ffffff;
+    font-family: 'Muli';
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.3px;
+    color: #224bdd;
+}

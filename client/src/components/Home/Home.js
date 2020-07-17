@@ -2,43 +2,86 @@ import React, { Component } from 'react';
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
 import FoodList from '../FoodList/FoodList'
+import Search from '../Search/Search'
+
 import './Home.css'
 class Home extends Component {
     constructor(){
         super()
         this.state = {
-
+            restaurantsTerr: [],
+            restaurantsSafe: [],
+            restaurantsClose: []
         }
     }
 
     componentDidMount(){
-        fetch('http://localhost:1024/foodList')
-        .then(res => res.json())
-        .then(res => this.setState({
-            ...this.state,
-            restaurants: res
-        }))
+        this.putRestaur()
     }
 
+    async putRestaur(){
+        let res = await fetch('http://localhost:1024/foodListTerraza')
+        let dataTerr = await res.json()
 
-    getRestaurants(){
-        let array = this.state.restaurants
+        let res2 = await fetch('http://localhost:1024/foodListSeguro')
+        let dataSeg = await res2.json()
+        
+        // let res3 = await fetch('http://localhost:1024/foodListCercaDeMi')
+        // let dataCerca = await res3.json()
+
         this.setState({
             ...this.state,
-            restaurants: undefined
+            restaurantsClose: dataSeg,
+            restaurantsSafe: dataSeg,
+            restaurantsTerr: dataTerr
+        })
+    }
+
+    getRestaurantsTerr(){
+        let array = this.state.restaurantsTerr
+        console.log(array)
+        this.setState({
+            ...this.state,
+            restaurantsTerr: undefined
         })
         return array
+    }
+
+    getRestaurantsSafe(){
+        let array = this.state.restaurantsSafe
+        this.setState({
+            ...this.state,
+            restaurantsSafe: undefined
+        })
+        return array
+    }
+
+    getRestaurantsClos(){
+        let array = this.state.restaurantsSafe
+        console.log(array)
+        this.setState({
+            ...this.state,
+            restaurantsClose: undefined
+        })
+        return array
+    }
+
+    submitingSearch(e){
+        e.preventDefault()
+        this.props.history.push('/map')
     }
 
     render(){
         return(
             <div className='home'>
                 <Header />
-                <h2>Encuentra restaurantes donde sentirte seguro</h2>
-                <input type='search' id='search' name='search_made' placeholder='Busca restaurante, tipos de comida...' />
-                <FoodList getResta={this.state.restaurants !== undefined}  addResta={this.getRestaurants.bind(this)} title={'Los locales mas seguros'}/>
-                <FoodList getResta={this.state.restaurants !== undefined}  addResta={this.getRestaurants.bind(this)} title={'Terrazas'}/>
-                <FoodList getResta={this.state.restaurants !== undefined}  addResta={this.getRestaurants.bind(this)} title={'Cerca de ti'}/>
+                <h2 className='home-title'>Encuentra restaurantes donde sentirte seguro</h2>
+                <form className='home-searchForm' onSubmit={this.submitingSearch.bind(this)}>
+                    <Search history={this.props.history}/>
+                </form>
+                <FoodList getResta={this.state.restaurantsSafe !== undefined}  addResta={this.getRestaurantsSafe.bind(this)} title={'Los mas seguros segun los usuarios'} history={this.props.history}/>
+                <FoodList getResta={this.state.restaurantsTerr !== undefined}  addResta={this.getRestaurantsTerr.bind(this)} title={'Terrazas'} history={this.props.history}/>
+                <FoodList getResta={this.state.restaurantsClose !== undefined}  addResta={this.getRestaurantsClos.bind(this)} title={'Cerca de ti'} history={this.props.history}/>
                 <article className='home-info'>
                     <h2 className='home-info-titles'>Toda la información para ayudarte a cuidar a los tuyos</h2>
                     <section className='home-info-imagenes'>

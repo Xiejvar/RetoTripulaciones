@@ -1,14 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Muli:ital,wght@0,400;0,500;1,700&display=swap');
 .food-section{
     display: flex;
     flex-flow: column wrap;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     height: 400px;
     width: 70vw;
     margin: 15px;
 }
 
+.food-section p {
+    margin: 6px 0;
+    
+}
+
 .food-section-img{
     width: 90%;
     height: 200px;
+    border-radius: 15px;
+}
+
+.food-section-tipo{
+    color: #000000;
+    font-family: 'Muli';
+    font-size: 12px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.4px;
+    width: 100%;
+    text-align: left;
+    text-indent: 15px;
+}
+
+.food-section-name{
+    font-family: 'Muli';
+    font-size: 16px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.18px;
+    color: #333333;
+    width: fit-content;
+    text-align: left;
+    text-indent: 15px;
+}
+
+.food-section-address{
+    font-family: 'Muli';
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.2px;
+    color: #333333;
+    width: 100%;
+    text-align: left;
+    text-indent: 15px;
+}
+
+.escuditos-valoracion{
+    width: 20px;
+    height: 20px;
+}
+
+.figur-escuditos{
+    display: flex;
+    width: 90%;
+    margin: 0;
+}
+
+.terraza-section{
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.terraza-food{
+    color: #00aa25;
+    font-family: 'Muli';
+    font-size: 12px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.4px;
 }

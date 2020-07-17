@@ -7,11 +7,19 @@ import CheckEmail from './components/CheckEmail/CheckEmail';
 import Home from './components/Home/Home';
 import IniciadoSesion from './components/IniciadoSesion/IniciadoSesion';
 import Account from './components/Account/Account';
+import Restaurant from './components/Restaurant/Restaurant'
+import InformacionPersonal from './components/InformacionPersonal/InformacionPersonal'
+import Mapa from './components/Mapa/Mapa'
+
 import {Switch,Route} from 'react-router-dom';
 
 import  { VerificationProvider } from './contexts/verificationToken'
 import LocalRating from './components/Local-Rating/LocalRating'
 import ShieldRating from './components/shields/shieldRating'
+import RecuperaPass from './components/RecuperaPass/RecuperaPass';
+import CorreoRecuperado from './components/CorreoRecuperado/CorreoRecuperado';
+// import LocalRating from './components/Local-Rating/LocalRating'
+// import StarRating from './components/shields/shield'
 
 class App extends React.Component{
   constructor(props){
@@ -47,18 +55,23 @@ class App extends React.Component{
   render(){
       return (
         <div className="App">
-          < LocalRating/>
-          {/* <VerificationProvider value={{tok:this.state.verification, handleVerification: this.handleVerification.bind(this)}}>
+          
+           <VerificationProvider value={{tok:this.state.verification, handleVerification: this.handleVerification.bind(this)}}>
             <Switch>
-              <Route exact path='/' component={Home}  />
-              <Route  path="/cuentaInicioSesion" component={IniciadoSesion} />
+              <Route exact path='/' render={ props => <Home {...props} />}  />
+              <Route  path="/cuentaInicioSesion" render={ props => <IniciadoSesion {...props} />} />
               <Route  path="/iniciarSesion" render={ props => <Login {...props} />}/>
               <Route  path="/registrarSesion" render={ props => <SignUp {...props} />} />
               <Route  path="/checkEmail" render={ props => <CheckEmail {...props} />} />
-              <Route path='/registrado' component={EmailEnviado}  />
-              <Route path='/cuenta' render={ props => <Account {...props} />}  />
+              <Route  path="/restaurant/:index" render={ props => <Restaurant {...props} />} />
+              <Route  path='/registrado' component={EmailEnviado}  />
+              <Route  path='/recuperaPass' render={ props => <RecuperaPass {...props} />}  />
+              <Route  path='/recuperaEmailSent' render={ props => <CorreoRecuperado {...props} />}  />
+              <Route  path='/map' render={ props => <Mapa {...props} />}  />
+              <Route  path='/personalInfo' render={ props => <InformacionPersonal {...props} />}  />
+              <Route  path='/cuenta' render={ props => <Account {...props} />}  />
             </Switch>
-          </VerificationProvider> */}
+          </VerificationProvider>
         </div>
       )
   }

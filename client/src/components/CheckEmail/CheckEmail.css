@@ -1,0 +1,44 @@
+.verificada{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.verificada-title{
+    color: #11215f;
+    font-family: 'Muli';
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+.verificada-news{
+    color: #333333;
+    font-family: 'Muli';
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.5px;
+    width: 60%;
+}
+
+.verificada-home{
+    height: 34px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px 0 #847a80, inset 4px 4px 4px 0 #3f65ea;
+    background-color: #224bdd;
+    color: #ffffff;
+    font-size: 16px;
+    width: 65%;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

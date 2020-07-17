@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-
+import './CheckEmail.css'
 import VerificationContext from '../../contexts/verificationToken'
 
 class CheckEmail extends Component{
@@ -23,15 +23,23 @@ class CheckEmail extends Component{
                    secret: res.sec
                 }
                 this.context.handleVerification(user)
-                this.props.history.push('/')
             }else {
-                this.props.push('/cuentaInicioSesion')
+                // this.props.history.push('/cuentaInicioSesion')
             }
         })
     }
+
+    goToHome(){
+        this.props.history.push('/')
+    }
     render(){
         return(
-            <h1>Usuario no ha sido confirmado</h1>
+            <section className='verificada'>
+                <h2 className='verificada-title'>¡Verificada!</h2>
+                <p className='verificada-news'>¡Enhorabuena! Has verificado tu cuenta con exito</p>
+                <img src='/images/emailSent.svg' alt='Email enviado' className='emailEnviado-img'/>
+                <p onClick={this.goToHome.bind(this)} className='verificada-home'>Ir a la pantalla Principal</p>
+            </section>
         )
     }
 }

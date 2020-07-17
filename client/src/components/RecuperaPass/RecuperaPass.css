@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Muli:ital,wght@0,400;0,500;1,700&display=swap');
+.recuperaPass{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.recuperaPass h3{
+    font-family: 'Muli';
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #11215f;
+}
+
+.recuperaPass p {
+    color: #333333;
+    font-family: 'Muli';
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.2px;
+    width: 70%;
+    text-align: left;
+}
+
+.recuperaPass input {
+    border-radius: 10px;
+    border: solid 1px #c4c4c4;
+    background-color: #ffffff;
+    width: 70%;
+}
+
+.recuperaPass button{
+    margin: 25px 0 0;
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px 0 #847a80, inset 4px 4px 4px 0 #3f65ea;
+    background-color: #3f65ea;
+    width: 75%;
+    height: 35px;
+    border: none;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.recuperaPass .crossImage{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 20%;
+    right: 10%;
+}

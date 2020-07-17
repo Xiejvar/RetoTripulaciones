@@ -6,14 +6,14 @@ const RandExp = require('randexp')
 const nodemailer = require('nodemailer')
 const bodyParser = require("body-parser")
 const cors = require('cors')
-const datos = require('./personal.json')
+const datos = require('./restaurantes.json')
 const jwt = require('jwt-simple')
 //global scopes
 const app = express();
 const port = 1024;
 app.use(cors())
 const url = 'mongodb://localhost:27017/'
-// const url2 = 'mongodb://localhost:27017/comidasReto'
+const url2 = 'mongodb://localhost:27017/comidasReto'
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //functions
@@ -89,14 +89,14 @@ let checkUser = async ({user, pass}) => {
     }
 }
 
-let registerUser = async ({name,lastName,age,email,password},token) => {
+let registerUser = async ({name,lastName,birth,email,password},token) => {
     let client, result;
     let ret = false;
     try{
         client = await MongoClient.connect(url,{ useUnifiedTopology: true })
         let dbo = client.db('usuariosReto')
         let users = dbo.collection('users')
-        result = await users.insertOne({ "user": name,"lastName":lastName, "pass": password,"age": age, "email": email, "tok": token })
+        result = await users.insertOne({ "user": name,"lastName":lastName, "pass": password,"birth": birth, "email": email, "tok": token })
         if(result.insertedCount > 0){
             ret = true
         } 
@@ -106,6 +106,21 @@ let registerUser = async ({name,lastName,age,email,password},token) => {
     } finally{
         client.close()
         return ret
+    }
+}
+
+let reEnviar = async (email, tok) => {
+    let client, result;
+    try{
+        client = await MongoClient.connect(url,{ useUnifiedTopology: true })
+        let dbo = client.db('usuariosReto')
+        let users = dbo.collection('users')
+        result = await users.updateOne({"email":email},{$set:{"tok":tok}})
+        return true
+    } catch(err){
+        throw err
+    } finally{
+        client.close()
     }
 }
 
@@ -168,13 +183,47 @@ let destruirTok = async (key) => {
     }
 }
 
-let searchRestaurants = async () => {
+let searchUniqueRestaurant = async (index) => {
     let client, result;
     try{
         client = await MongoClient.connect(url,{ useUnifiedTopology: true })
         let dbo = client.db('comidasReto')
         let resto = dbo.collection('restaurantes')
-        result = await resto.find({}).toArray()
+        result = await resto.findOne({"id_local": index})
+        if(result !== null){
+            return result
+        }else{
+            return false
+        }
+    }catch(err){
+        throw err
+    } finally{
+        client.close()
+    }
+}
+
+let searchRestaurantsTerraza = async () => {
+    let client, result;
+    try{
+        client = await MongoClient.connect(url,{ useUnifiedTopology: true })
+        let dbo = client.db('comidasReto')
+        let resto = dbo.collection('restaurantes')
+        result = await resto.find({'terraza':1, 'riesgo_covid': "bajo"}).toArray()
+        return result
+    }catch(err){
+        throw err
+    } finally{
+        client.close()
+    }
+}
+
+let searchRestaurantsSeguro = async () => {
+    let client, result;
+    try{
+        client = await MongoClient.connect(url,{ useUnifiedTopology: true })
+        let dbo = client.db('comidasReto')
+        let resto = dbo.collection('restaurantes')
+        result = await resto.find({'riesgo_covid':"bajo", 'valoracion_global': { $gte: 4 }}).toArray()
         return result
     }catch(err){
         throw err
@@ -225,7 +274,6 @@ let anotarLog = async ({user,pass},{tok,secret}) => {
 }
 
 let searchToken = async ({token, secret}) => {
-    console.log(token,secret)
     let client,result,ret;
     try{
         client = await MongoClient.connect(url,{ useUnifiedTopology: true })
@@ -263,7 +311,6 @@ let logOutUser = async ({token, secret}) => {
              let us = dbo.collection('users')
               result = await us.updateOne({auth: token,secret: secret}, {$unset:{auth: '',secret: ''}})
               console.log('Esta deslogeado ')
-              console.log(result)
               
               return true
         }catch(err){
@@ -275,24 +322,30 @@ let logOutUser = async ({token, secret}) => {
         return false
     }
 }
-// let insertRestaurant = async ({id_local,nombre_local,calle,desc_epigrafe,desc_barrio_local,terraza, Estado_higuienico_sanitario},index) => {
+
+let dataRestaurantes = datos.datos.map(e => {
+    e.valoracion_global = parseFloat(e.valoracion_global)
+    return e
+})
+
+
+// ------ INSERTAMOS TODOS LOS DATOS DEL JSON CON ESTA FUNCION -----
+// let insertRestaurant = async () => {
 //     let client, result;
 //     try{
 //         client = await MongoClient.connect(url2, { useUnifiedTopology: true })
 //         let dbo = client.db('comidasReto')
 //         let resto = dbo.collection('restaurantes')
-//         result = await resto.insertOne({index:index,id_local: id_local, nombre: nombre_local, direccion: calle, tipo_local: desc_epigrafe, barrio: desc_barrio_local, terraza: terraza, higuiene: Estado_higuienico_sanitario })
-//         // console.log(result.ops[0])
+//         result = await resto.insertMany(dataRestaurantes)
+//         console.log('Base de datos ha sido actualizada')
 //     }catch(err){
 //         throw err
 //     }
 // }
 
+// insertRestaurant()
 
-// let mapRestaurants = async () => {
-//     datos.datos.map( (ele,i) => i < 100 ? insertRestaurant(ele,i) : i)
-// }
-// mapRestaurants()
+
 
 
 
@@ -321,7 +374,6 @@ app.post('/login', (req,res) => {
 app.post('/findUser',(req,res) => {
     searchToken(req.body.token)
     .then(search => {
-        console.log(search)
         if(search.valid)
             res.send({name:search.name,surname:search.surname,valid: true})
         else
@@ -339,11 +391,22 @@ app.post('/logoutUser',(req,res) => {
     })
 })
 
+app.post('/resend', (req,res) => {
+    const email = req.body.email
+    let token = generarConfirmTok()
+    reEnviar(email,token).then(ans => {
+        if(ans){
+            sendMail(email,token)
+            res.send({emailSent: true})
+        }
+    })
+})
+
 app.post('/signUp', (req,res) => {
     const user = {
         name: req.body.name,
         lastName: req.body.surname,
-        age: req.body.age,
+        birth: req.body.birth,
         email: req.body.email,
         password: req.body.password
     }
@@ -376,7 +439,6 @@ app.get('/checkEmail', (req,res) => {
             destruirTok(emailKey)
             let auth = crearAuth(data.user)
             anotarLog(data.user,auth).then(datos => {
-                console.log(datos)
                 if(datos.valid){
                     res.send({tok:datos.token,sec: datos.sec, valid: datos.valid})
                 }else{
@@ -389,8 +451,33 @@ app.get('/checkEmail', (req,res) => {
     })
 })
 
-app.get('/foodList', (req,res) => {
-    searchRestaurants()
+app.get('/cercaDeMi/:lat/:lon', (req,res) => {
+    let lat = req.params.lat
+    let lon = req.params.lon
+    res.send({lat,lon})
+})
+
+app.get('/restaurant/:index', (req,res) => {
+    let id = Number(req.params.index)
+    searchUniqueRestaurant(id).then(
+        data => {
+            if(!data){
+                res.send({valid:false})
+            }else{
+                res.send({valid: true, restaurant: data})
+            }
+        }
+    )
+})
+
+app.get('/foodListTerraza', (req,res) => {
+    searchRestaurantsTerraza()
+    .then(result => res.send(result))
+    
+})
+
+app.get('/foodListSeguro', (req,res) => {
+    searchRestaurantsSeguro()
     .then(result => res.send(result))
     
 })

@@ -1,0 +1,263 @@
+
+.restaurant-view{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    scroll-behavior: smooth;
+    align-items: center;
+    background-color: #fbfbfb;
+}
+
+.restaurant-figure{
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+
+}
+
+
+.restaurant-figure img{
+    width: 90%;
+    height: 250px;
+    border-radius: 10px;
+}
+
+.restaurant-navbar{
+    display: flex;
+    width: 100vw;
+    height: 46px;
+    background-color: #11215f;
+    margin: 0;
+    overflow: scroll;
+    margin-top: 15px;
+    scroll-behavior: smooth;
+}
+
+.restaurant-navbar ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 500%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: 'Muli';
+    font-size: 16px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #bec3ff;
+    scroll-behavior: smooth;
+
+}
+
+.restaurant-navbar ul li {
+    width: 45vw;
+    scroll-behavior: smooth;
+}
+
+.restaurant-navbar ul li a {
+    text-decoration: none;
+    color: #bec3ff;
+}
+.restaurant-navbar ul li:first-child{
+    width: 30vw;
+    scroll-behavior: smooth;
+}
+
+.restaurant-informacion{
+    display: flex;
+    flex-flow: column wrap;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    height: 190px;
+    width: 90%;
+    border-bottom: 1px solid #dcd2d8;
+}
+
+.resta-terrTyp{
+    display: flex;
+    width: 100%;
+}
+
+.restaurant-terraza{
+    color: #00aa25;
+    padding-left: 5px;
+    font-size:12px;
+    font-family: 'Muli';
+    font-weight: 600;
+}
+
+.restaurant-title{
+    font-family: 'Muli';
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.18px;
+    color: #000035;
+    margin-bottom: 2px;
+    width: 100%;
+    text-align: left;
+}
+.restaurant-informacion p {
+    margin: 5px 0;
+}
+
+.restaurant-type{
+    font-family: 'Muli';
+    font-size: 12px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.4px;
+    color: #000000;
+}
+
+.restaurant-name{
+    font-family: 'Muli';
+    font-size: 18px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.18px;
+    color: #333333;
+
+}
+
+.restaurant-inforating{
+    display: flex;
+    justify-content: space-between;
+    width: 75%;
+}
+
+.restaurant-address{
+    color: #333333;
+    font-family: 'Muli';
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.2px;
+}
+
+.restaurant-seguridad{
+    display: flex;
+    flex-flow: row wrap;
+    height: 225px;
+    width: 90%;
+    border-bottom: 1px solid #dcd2d8;
+}
+
+.restaurant-span{
+    color: #333333;
+    font-family: 'Muli';
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.4px;
+    width: 100%;
+    text-align: left;
+}
+
+.restaurant-seguridadnav{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-evenly;
+    padding: 0;
+    margin-right: 15px;
+    list-style: none;
+}
+
+.restaurant-seguridadnav li{
+    text-align: left;
+}
+
+.seguridadnavDos{
+    width: 15vw;
+    align-self: flex-end;
+    margin-left: 15px;
+}
+
+.seguridadnavDos li {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: #333333;
+    font-family: 'Muli';
+    font-size: 18px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.2px;
+}
+
+.restaurant-sanciones{
+    width: 90%;
+    display: flex;
+    flex-flow: column wrap;
+    border-bottom: 1px solid #dcd2d8;
+}
+
+.restaurant-sancionesTables{
+    height: 75px;
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.restaurant-sancionesTables th {
+    background-color: #224bdd;
+    color: #fbfbfb;
+    font-family: 'Muli';
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.3px;
+    margin: 0;
+}
+
+.restaurant-sancionesTables td{
+    color: #333333;
+    font-family: 'Muli';
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.2px;
+}
+
+.restaurant-contagios{
+    width: 90%;
+    display: flex;
+    flex-flow: column wrap;
+    border-bottom: 1px solid #dcd2d8;
+    align-items: center;
+}
+
+.res-barrio{
+    color: #224bdd;
+}
+
+.restaurant-opiniones{
+    width: 90%;
+    display: flex;
+    flex-flow: column wrap;
+    border-bottom: 1px solid #dcd2d8;
+    align-items: center;
+}

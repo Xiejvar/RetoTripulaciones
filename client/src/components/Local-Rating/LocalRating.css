@@ -1,0 +1,113 @@
+.btns{
+    display: flex;
+    
+    justify-content: center;
+}
+
+.cbox{
+    display: flex;
+    align-items: center;
+}
+
+.cross{
+    color: grey;
+    display: flex;
+    align-self: flex-end;
+    position: relative;
+    top: -60px;
+}
+
+.father{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.btnblue{
+    width: 274px;
+
+    height: 39px;
+  
+    border-radius: 10px;
+  
+    box-shadow: 2px 2px 4px 0 var(--neutral-medium-dark), inset 4px 4px 4px 0 #3f65ea;
+  
+    background-color:  #3f65ea;
+
+    color: white;
+
+}
+
+.btnblues{
+    width: 116px;
+
+    height: 34px;
+  
+    object-fit: contain;
+  
+    border-radius: 10px;
+  
+    box-shadow: 2px 2px 4px 0 var(--neutral-medium-dark), inset 4px 4px 4px 0 #3f65ea;
+  
+    background-color: #3f65ea;
+
+    color: white;
+}
+
+.btnwhite{
+    width: 116px;
+
+    height: 34px;
+  
+    object-fit: contain;
+  
+    border-radius: 10px;
+  
+    box-shadow: 2px 2px 4px 0 var(--neutral-medium-dark), inset 4px 4px 4px 0 #3f65ea;
+  
+    background-color: var(--secondary-light-original);
+
+    color:#3f65ea; 
+}
+
+.god{
+    height: 100vh;
+    width: 100vw;
+    background-color: #3f65ea;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.demigod{
+    height: 95%;
+    width: 95%; 
+    background-color: white;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.thisobs{
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.bluel{
+    color:#3f65ea ;
+    margin-bottom: 0px;
+}
+
+.quater{
+    width: 90%;
+}
+
+.elp{
+    margin-top: 0px;
+}

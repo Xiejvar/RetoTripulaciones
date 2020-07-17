@@ -11,7 +11,7 @@ import {Switch,Route} from 'react-router-dom';
 
 import  { VerificationProvider } from './contexts/verificationToken'
 import LocalRating from './components/Local-Rating/LocalRating'
-import StarRating from './components/shields/shield'
+import ShieldRating from './components/shields/shieldRating'
 
 class App extends React.Component{
   constructor(props){
@@ -47,7 +47,8 @@ class App extends React.Component{
   render(){
       return (
         <div className="App">
-          <VerificationProvider value={{tok:this.state.verification, handleVerification: this.handleVerification.bind(this)}}>
+          < LocalRating/>
+          {/* <VerificationProvider value={{tok:this.state.verification, handleVerification: this.handleVerification.bind(this)}}>
             <Switch>
               <Route exact path='/' component={Home}  />
               <Route  path="/cuentaInicioSesion" component={IniciadoSesion} />
@@ -57,7 +58,7 @@ class App extends React.Component{
               <Route path='/registrado' component={EmailEnviado}  />
               <Route path='/cuenta' render={ props => <Account {...props} />}  />
             </Switch>
-          </VerificationProvider>
+          </VerificationProvider> */}
         </div>
       )
   }

@@ -1,0 +1,26 @@
+.secdot{
+    
+    width: 300px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dot{
+    width: 8px;
+    height: 8px;
+    background-color: grey;
+    border-radius: 50%;
+    margin: 0 5px;
+}
+
+.selected{
+    background-color: #3f65ea;
+}
+
+.god2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

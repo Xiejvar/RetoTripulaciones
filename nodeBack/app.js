@@ -7,7 +7,8 @@ const nodemailer = require('nodemailer')
 const bodyParser = require("body-parser")
 const cors = require('cors')
 const datos = require('./restaurantes.json')
-const jwt = require('jwt-simple')
+const jwt = require('jwt-simple');
+const { HashRouter } = require("react-router-dom");
 //global scopes
 const app = express();
 const port = 1024;
@@ -302,6 +303,56 @@ let searchToken = async ({token, secret}) => {
     }
 }
 
+let getNearRestaurants = async (lat,lon) => {
+    let client,result,ret;
+    try{
+        client = await MongoClient.connect(url,{ useUnifiedTopology: true })
+        let dbo = client.db('comidasReto')
+        let restaurant = dbo.collection('restaurantes')
+        result = await restaurant.find().toArray()
+        if(result !== null){
+        //  let near = result.map( e => haversineDistance([lat,lon],[e.lat,e.long]))
+        console.log(near)
+        } else{
+            ret = {
+                valid: false
+            }
+        }
+
+    }catch(err){
+        throw err
+    } finally{
+        client.close()
+        return ret
+    }
+}
+
+const haversineDistance = ([lat1, lon1], [lat2, lon2], isMiles = false) => {
+    const toRadian = angle => (Math.PI / 180) * angle;
+    const distance = (a, b) => (Math.PI / 180) * (a - b);
+    const RADIUS_OF_EARTH_IN_KM = 6371;
+
+    const dLat = distance(lat2, lat1);
+    const dLon = distance(lon2, lon1);
+
+    lat1 = toRadian(lat1);
+    lat2 = toRadian(lat2);
+
+    // Haversine Formula
+    const a =
+      Math.pow(Math.sin(dLat / 2), 2) +
+      Math.pow(Math.sin(dLon / 2), 2) * Math.cos(lat1) * Math.cos(lat2);
+    const c = 2 * Math.asin(Math.sqrt(a));
+
+    let finalDistance = RADIUS_OF_EARTH_IN_KM * c;
+
+    if (isMiles) {
+      finalDistance /= 1.60934;
+    }
+
+    return finalDistance;
+};
+
 let logOutUser = async ({token, secret}) => {
     let client,result;
     if(token !== undefined && secret !== undefined){
@@ -454,6 +505,7 @@ app.get('/checkEmail', (req,res) => {
 app.get('/cercaDeMi/:lat/:lon', (req,res) => {
     let lat = req.params.lat
     let lon = req.params.lon
+    getNearRestaurants(lat,lon)
     res.send({lat,lon})
 })
 

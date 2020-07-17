@@ -39,7 +39,6 @@ class Home extends Component {
 
     getRestaurantsTerr(){
         let array = this.state.restaurantsTerr
-        console.log(array)
         this.setState({
             ...this.state,
             restaurantsTerr: undefined
@@ -58,7 +57,6 @@ class Home extends Component {
 
     getRestaurantsClos(){
         let array = this.state.restaurantsSafe
-        console.log(array)
         this.setState({
             ...this.state,
             restaurantsClose: undefined

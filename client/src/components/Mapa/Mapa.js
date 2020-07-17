@@ -24,13 +24,14 @@ class Mapa extends Component{
     getPosition(){
         let lat,lon;
         if('geolocation' in navigator){
-            navigator.geolocation.watchPosition((position) => {
+           navigator.geolocation.watchPosition((position) => {
                 lat = position.coords.latitude
                 lon = position.coords.longitude
                 this.setState({
                     ...this.state,
                     location: [lat,lon]
                 })
+
                 fetch(`http://localhost:1024/cercaDeMI/${lat}/${lon}`)
                 .then(res => res.json())
                 .then(data => console.log(data))
@@ -54,7 +55,6 @@ class Mapa extends Component{
 
     submitingSearch(e){
         e.preventDefault()
-        
     }
 
     getValue(val){

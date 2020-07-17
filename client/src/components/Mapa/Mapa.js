@@ -18,19 +18,25 @@ class Mapa extends Component{
     }
 
     componentDidMount(){
+        this.getPosition()
+    }
+
+    getPosition(){
         let lat,lon;
         if('geolocation' in navigator){
             navigator.geolocation.watchPosition((position) => {
                 lat = position.coords.latitude
                 lon = position.coords.longitude
-                console.log(lat,lon)
-              });
+                this.setState({
+                    ...this.state,
+                    location: [lat,lon]
+                })
+                fetch(`http://localhost:1024/cercaDeMI/${lat}/${lon}`)
+                .then(res => res.json())
+                .then(data => console.log(data))
+            });
         }
-        fetch(`http://localhost:1024/cercaDeMI/${lat}/${lon}`)
-        .then(res => res.json())
-        .then(data => console.log(data))
     }
-
     changeClass(){
         if(!this.state.up)
             this.setState({
@@ -65,7 +71,7 @@ class Mapa extends Component{
                 <form className='home-searchForm' onSubmit={this.submitingSearch.bind(this)}>
                     <Search value={this.getValue.bind(this)}/>
                 </form>
-                <Map center={[40.416775, -3.703790]} zoom={14} className='map-buscador' zoomControl={false}>
+                <Map center={this.state.location} zoom={14} className='map-buscador' zoomControl={false}>
                     <TileLayer
                         url="https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png"
                         attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'

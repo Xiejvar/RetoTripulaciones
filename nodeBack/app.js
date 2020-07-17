@@ -452,7 +452,9 @@ app.get('/checkEmail', (req,res) => {
 })
 
 app.get('/cercaDeMi/:lat/:lon', (req,res) => {
-    console.log(req.params.lat)
+    let lat = req.params.lat
+    let lon = req.params.lon
+    res.send({lat,lon})
 })
 
 app.get('/restaurant/:index', (req,res) => {
@@ -470,9 +472,7 @@ app.get('/restaurant/:index', (req,res) => {
 
 app.get('/foodListTerraza', (req,res) => {
     searchRestaurantsTerraza()
-    .then(result =>{ 
-        console.log(result)
-        res.send(result)})
+    .then(result => res.send(result))
     
 })
 

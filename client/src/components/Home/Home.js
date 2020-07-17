@@ -26,6 +26,9 @@ class Home extends Component {
         let res2 = await fetch('http://localhost:1024/foodListSeguro')
         let dataSeg = await res2.json()
         
+        // let res3 = await fetch('http://localhost:1024/foodListCercaDeMi')
+        // let dataCerca = await res3.json()
+
         this.setState({
             ...this.state,
             restaurantsClose: dataSeg,

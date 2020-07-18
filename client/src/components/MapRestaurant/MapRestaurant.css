@@ -1,7 +1,7 @@
 .restaurantMapSliderArticle{
     width: 90%;
     display: flex;
-    height: 100px;
+    height: 130px;
     justify-content: center;
     align-items: center;
 }
@@ -24,4 +24,37 @@
     text-align: left;
     width: 100%;
     text-indent: 10px;
+}
+
+.restaurantMapSliderArticle .shields-rest{
+    width: 10%;
+    height: 10%;
+}
+
+.shieldsitosart{
+    width: 90%;
+    display: flex;
+}
+
+.type_food{
+    font-family: 'Muli';
+    font-size: 10px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 1.5px;
+    color: #000000;
+    width: 90%;
+}
+
+.name_food{
+    font-family: 'Muli';
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.3px;
+    color: #333333;
 }

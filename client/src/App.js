@@ -55,7 +55,6 @@ class App extends React.Component{
   render(){
       return (
         <div className="App">
-          
            <VerificationProvider value={{tok:this.state.verification, handleVerification: this.handleVerification.bind(this)}}>
             <Switch>
               <Route exact path='/' render={ props => <Home {...props} />}  />

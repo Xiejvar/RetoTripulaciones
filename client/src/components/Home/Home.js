@@ -26,17 +26,33 @@ class Home extends Component {
         let res2 = await fetch('http://localhost:1024/foodListSeguro')
         let dataSeg = await res2.json()
         
-        // let res3 = await fetch('http://localhost:1024/foodListCercaDeMi')
-        // let dataCerca = await res3.json()
+        this.getPosition()
 
         this.setState({
             ...this.state,
-            restaurantsClose: dataSeg,
             restaurantsSafe: dataSeg,
             restaurantsTerr: dataTerr
         })
     }
 
+   async getPosition(){
+        let lat,lon;
+        if('geolocation' in navigator){
+            navigator.geolocation.watchPosition((position) => {
+                lat = position.coords.latitude
+                lon = position.coords.longitude
+                fetch(`http://localhost:1024/cercaDeMI/${lat}/${lon}`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    this.setState({
+                        ...this.state,
+                        restaurantsClose: data.nearRestaurants
+                    })
+                })
+            })
+        }
+   }
     getRestaurantsTerr(){
         let array = this.state.restaurantsTerr
         this.setState({
@@ -56,7 +72,7 @@ class Home extends Component {
     }
 
     getRestaurantsClos(){
-        let array = this.state.restaurantsSafe
+        let array = this.state.restaurantsClose
         this.setState({
             ...this.state,
             restaurantsClose: undefined

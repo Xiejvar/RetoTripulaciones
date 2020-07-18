@@ -15,6 +15,7 @@ class FoodList extends Component{
     }
 
     setRestaurants(arr){
+        console.log(arr)
         this.setState({
             ...this.state,
             restaurants: arr

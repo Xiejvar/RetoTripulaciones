@@ -13,7 +13,7 @@ class Mapa extends Component{
             class: 'restaurants-slider',
             up: false,
             location: [40.416775, -3.703790],
-            searchResta: [{ "index" : 17, "id_local" : 280011539, "nombre" : "LA CARMEN", "direccion" : "PLAZA CARMEN 5", "tipo_local" : "RESTAURANTE", "barrio" : "SOL                 ", "terraza" : 1, "higuiene" : "Pendiente" },{ "index" : 17, "id_local" : 280011539, "nombre" : "LA CARMEN", "direccion" : "PLAZA CARMEN 5", "tipo_local" : "RESTAURANTE", "barrio" : "SOL                 ", "terraza" : 1, "higuiene" : "Pendiente" },{ "index" : 17, "id_local" : 280011539, "nombre" : "LA CARMEN", "direccion" : "PLAZA CARMEN 5", "tipo_local" : "RESTAURANTE", "barrio" : "SOL                 ", "terraza" : 1, "higuiene" : "Pendiente" },{ "index" : 17, "id_local" : 280011539, "nombre" : "LA CARMEN", "direccion" : "PLAZA CARMEN 5", "tipo_local" : "RESTAURANTE", "barrio" : "SOL", "terraza" : 1, "higuiene" : "Pendiente" },{ "index" : 17, "id_local" : 280011539, "nombre" : "LA CARMEN", "direccion" : "PLAZA CARMEN 5", "tipo_local" : "RESTAURANTE", "barrio" : "SOL                 ", "terraza" : 1, "higuiene" : "Pendiente" },{ "index" : 17, "id_local" : 280011539, "nombre" : "LA CARMEN", "direccion" : "PLAZA CARMEN 5", "tipo_local" : "RESTAURANTE", "barrio" : "SOL                 ", "terraza" : 1, "higuiene" : "Pendiente" },{ "index" : 17, "id_local" : 280011539, "nombre" : "LA CARMEN", "direccion" : "PLAZA CARMEN 5", "tipo_local" : "RESTAURANTE", "barrio" : "SOL                 ", "terraza" : 1, "higuiene" : "Pendiente" },{ "index" : 17, "id_local" : 280011539, "nombre" : "LA CARMEN", "direccion" : "PLAZA CARMEN 5", "tipo_local" : "RESTAURANTE", "barrio" : "SOL", "terraza" : 1, "higuiene" : "Pendiente" }]
+            searchResta: []
         }
     }
 
@@ -34,7 +34,12 @@ class Mapa extends Component{
 
                 fetch(`http://localhost:1024/cercaDeMI/${lat}/${lon}`)
                 .then(res => res.json())
-                .then(data => console.log(data))
+                .then(data => {
+                    this.setState({
+                        ...this.state,
+                        searchResta: data.nearRestaurants
+                    })
+                })
             });
         }
     }

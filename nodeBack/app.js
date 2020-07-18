@@ -8,7 +8,6 @@ const bodyParser = require("body-parser")
 const cors = require('cors')
 const datos = require('./restaurantes.json')
 const jwt = require('jwt-simple');
-const { HashRouter } = require("react-router-dom");
 //global scopes
 const app = express();
 const port = 1024;
@@ -311,8 +310,18 @@ let getNearRestaurants = async (lat,lon) => {
         let restaurant = dbo.collection('restaurantes')
         result = await restaurant.find().toArray()
         if(result !== null){
-        //  let near = result.map( e => haversineDistance([lat,lon],[e.lat,e.long]))
-        console.log(near)
+         let near = result.filter( e => {
+             let dist = parseFloat(haversineDistance([lat,lon],[e.long,e.lat]).toFixed(3))
+             if(0 < dist && dist < 1.5){
+                return e
+             }
+            })
+        let nearer = near.sort((a,b) => (a-b))
+        let hundred = nearer.filter((e,i) => { if(i < 100) return e } )
+        ret = {
+            valid: true,
+            restaurants: hundred
+        }
         } else{
             ret = {
                 valid: false
@@ -505,8 +514,12 @@ app.get('/checkEmail', (req,res) => {
 app.get('/cercaDeMi/:lat/:lon', (req,res) => {
     let lat = req.params.lat
     let lon = req.params.lon
-    getNearRestaurants(lat,lon)
-    res.send({lat,lon})
+    getNearRestaurants(lat,lon).then( data => {
+        if(data.valid){
+            res.send({nearRestaurants:data.restaurants})
+        }
+    })
+    
 })
 
 app.get('/restaurant/:index', (req,res) => {

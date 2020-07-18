@@ -2,6 +2,8 @@
     display: flex;
     flex-flow: column wrap;
     height: 500px;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 .foodList-h3{

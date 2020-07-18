@@ -52,10 +52,10 @@
 }
 
 .signForm input {
-    width: 278px;
-  height: 33px;
-  border-radius: 10px;
-  border: solid 1px #c4c4c4;
+    width: 70%;
+    height: 33px;
+    border-radius: 10px;
+    border: solid 1px #c4c4c4;
 }
 
 .crear-cuenta{
@@ -107,4 +107,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.signForm .inputErr{
+    border: 2px solid red;
+}
+
+.error-message{
+    color: #ff0b28;
+    font-family: 'Muli';
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.2px;
+    width: 70%;
+    text-align: left;
 }

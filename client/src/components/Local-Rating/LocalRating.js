@@ -75,7 +75,7 @@ class LocalRatings extends React.Component{
          <div className='god'>
             <div className='demigod'>
                 <article className='cross'>
-                    <img src='./images/cross.svg'></img>
+                    <img src='./images/cross.svg' onClick={this.props.history.goBack}></img>
                 </article>
                 <h3 className='quater'>{this.state.items[this.state.value].firstP}</h3>
                 <article className='thisobs quater'>

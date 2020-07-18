@@ -22,13 +22,17 @@
     height: fit-content;
     margin: 0;
     text-align: left;
-    width: 100%;
-    text-indent: 10px;
+    width: 90%;
 }
 
 .restaurantMapSliderArticle .shields-rest{
     width: 10%;
     height: 10%;
+}
+
+.restaurantMapSliderArticle img {
+    border-radius: 10px;
+    height: 90px;
 }
 
 .shieldsitosart{
@@ -57,4 +61,16 @@
     line-height: normal;
     letter-spacing: 0.3px;
     color: #333333;
+    width: 90%;
+}
+
+.restaurant_address{
+    color: #333333;
+    font-family: 'Muli';
+    font-size: 12px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.4px;
 }

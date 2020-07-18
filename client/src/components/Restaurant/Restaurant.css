@@ -150,6 +150,22 @@
     letter-spacing: 0.2px;
 }
 
+.añadirRating{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #224bdd;
+    font-family: 'Muli';
+    font-size: 14px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.2px;
+}
+
 .restaurant-seguridad{
     display: flex;
     flex-flow: row wrap;
@@ -260,4 +276,10 @@
     flex-flow: column wrap;
     border-bottom: 1px solid #dcd2d8;
     align-items: center;
+}
+
+.restaurant-figure .button_vuelta{
+    width: 25px;
+    height: 25px;
+    align-self: flex-end;
 }

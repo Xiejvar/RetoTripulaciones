@@ -34,7 +34,7 @@ class Food extends React.Component{
                     {this.getTerraza()}
                 </div>
                 <figure className='figur-escuditos'>
-                    {this.state.arr.map(e => <img src='/images/escuditoCeleste.svg' alt='valoraciones' className='escuditos-valoracion' />)}
+                    {this.state.arr.map((e,i) => <img src='/images/escuditoCeleste.svg' alt='valoraciones' className='escuditos-valoracion' key={i}/>)}
                 </figure>
                 <p className='food-section-address'>{this.props.restaurants.calle}</p>
             </section>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Restaurant.css';
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
+import { Link } from 'react-router-dom'
 
 class Restaurant extends Component{
     constructor(props){
@@ -24,16 +25,18 @@ class Restaurant extends Component{
        .then(res => res.json())
        .then(res => {
            if(res.valid){
+
                let terr,fecha;
                if(res.restaurant.terraza === 1){
                     terr = 'Terraza'
                }
+
                if(res.restaurant.fecha_de_la_inspeccion === undefined){
                    fecha = '10/05/2020'
                }else{
                    fecha = res.restaurant.fecha_de_la_inspeccion
                }
-               console.log(fecha)
+
                this.setState({
                    ...this.state,
                    name: res.restaurant.nombre_local,
@@ -51,6 +54,7 @@ class Restaurant extends Component{
                    riesgo: res.restaurant.riesgo_covid,
                    arr: [...Array(parseInt(res.restaurant.valoracion_global))]
                })
+               
            }else {
                this.props.history.push('/')
            }
@@ -62,7 +66,8 @@ class Restaurant extends Component{
             <section className='restaurant-view'>
                 <Header />
                 <figure className='restaurant-figure'>
-                    <img src={this.state.img} alt='' />
+                    <img src='/images/Exit.svg' alt='Botton-vuelta' onClick={this.props.history.goBack} className='button_vuelta'/>
+                    <img src={this.state.img} alt='restaurante' />
                 </figure>
                 <nav className='restaurant-navbar'>
                     <ul>
@@ -83,7 +88,7 @@ class Restaurant extends Component{
                     <div className='restaurant-inforating'>
                         {this.state.arr.map(e => <img src='/images/escuditoCeleste.svg' alt='valoraciones' />)}
                         <p>{this.state.global}</p>
-                        <p>Añadir valoración</p>
+                        <Link to='/valorar' className='añadirRating'>Añadir valoración</Link>
                     </div>
                     <p className='restaurant-address'>{this.state.address}</p>
                 </article>

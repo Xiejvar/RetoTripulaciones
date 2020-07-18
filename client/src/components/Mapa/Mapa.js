@@ -31,6 +31,7 @@ class Mapa extends Component{
                     ...this.state,
                     location: [lat,lon]
                 })
+                console.log(this.state.location)
 
                 fetch(`http://localhost:1024/cercaDeMI/${lat}/${lon}`)
                 .then(res => res.json())
@@ -88,7 +89,7 @@ class Mapa extends Component{
                 </Map>
                 <section className={this.state.class}>
                     <button onClick={this.changeClass.bind(this)}></button>
-                    {this.state.searchResta.map(ele => <MapRestaurant item={ele} />)}
+                    {this.state.searchResta.map(ele => <MapRestaurant item={ele} history={this.props.history}/>)}
                 </section>
             </section>
             

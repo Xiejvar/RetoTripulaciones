@@ -10,9 +10,9 @@ class Doter extends Component {
     render() {
       return (
         <section className='god2'>
-        <section className='secdot'>
-         {this.state.arraydoter.map((e,i)=> this.props.value === i ? <div className='dot selected'></div> : <div className='dot'></div>)}
-        </section>
+          <section className='secdot'>
+          {this.state.arraydoter.map((e,i)=> this.props.value === i ? <div className='dot selected'></div> : <div className='dot'></div>)}
+          </section>
         </section>
       );
     }

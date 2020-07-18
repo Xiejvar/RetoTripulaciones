@@ -17,6 +17,7 @@ class Home extends Component {
 
     componentDidMount(){
         this.putRestaur()
+        this.getPosition()
     }
 
     async putRestaur(){
@@ -25,8 +26,6 @@ class Home extends Component {
 
         let res2 = await fetch('http://localhost:1024/foodListSeguro')
         let dataSeg = await res2.json()
-        
-        this.getPosition()
 
         this.setState({
             ...this.state,
@@ -44,7 +43,6 @@ class Home extends Component {
                 fetch(`http://localhost:1024/cercaDeMI/${lat}/${lon}`)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
                     this.setState({
                         ...this.state,
                         restaurantsClose: data.nearRestaurants
@@ -53,6 +51,7 @@ class Home extends Component {
             })
         }
    }
+
     getRestaurantsTerr(){
         let array = this.state.restaurantsTerr
         this.setState({
@@ -99,11 +98,11 @@ class Home extends Component {
                 <article className='home-info'>
                     <h2 className='home-info-titles'>Toda la información para ayudarte a cuidar a los tuyos</h2>
                     <section className='home-info-imagenes'>
-                        <img src='images/escuditos.svg' alt='logo-seguridad' />
-                        <img src='images/escuditos.svg' alt='logo-seguridad' />
-                        <img src='images/escuditos.svg' alt='logo-seguridad' />
-                        <img src='images/escuditos.svg' alt='logo-seguridad' />
-                        <img src='images/escuditos.svg' alt='logo-seguridad' />
+                        <img src='images/escuditosHome.svg' alt='logo-seguridad' />
+                        <img src='images/escuditosHome.svg' alt='logo-seguridad' />
+                        <img src='images/escuditosHome.svg' alt='logo-seguridad' />
+                        <img src='images/escuditosHome.svg' alt='logo-seguridad' />
+                        <img src='images/escuditosHome.svg' alt='logo-seguridad' />
                         <h5 className='home-info-titles-h5'>Los usuarios valoran si los restaurantes toman las medidas de higiene necesarias</h5>
                     </section>
                     <section className='home-info-imagenes'>

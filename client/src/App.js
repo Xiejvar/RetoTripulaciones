@@ -69,6 +69,7 @@ class App extends React.Component{
               <Route  path='/map' render={ props => <Mapa {...props} />}  />
               <Route  path='/personalInfo' render={ props => <InformacionPersonal {...props} />}  />
               <Route  path='/cuenta' render={ props => <Account {...props} />}  />
+              <Route path='/valorar' render={props => <LocalRating {...props} />} /> 
             </Switch>
           </VerificationProvider>
         </div>

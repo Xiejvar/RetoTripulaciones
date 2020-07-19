@@ -27,7 +27,7 @@ class MapRestaurant extends Component{
                     <p className='type_food'>{this.props.item.desc_epigrafe}</p>
                     <p className='name_food'>{this.props.item.nombre_local}</p>
                     <article className='shieldsitosart'>
-                        {this.state.shields.map(e => <img src='/images/escuditoCeleste.svg' alt='valoraciones' className='shields-rest'/>)}
+                        {this.state.shields.map((e,i)=> <img src='/images/escuditoCeleste.svg' alt='valoraciones' className='shields-rest' key={i}/>)}
                     </article>
                     <p className='restaurant_address'>{this.props.item.calle}</p>
                 </section>

@@ -70,7 +70,7 @@ let checkUser = async ({user, pass}) => {
         client = await MongoClient.connect(url,{ useUnifiedTopology: true })
         let dbo = client.db('usuariosReto')
         let users = dbo.collection('users')
-        result = await users.findOne({"user" : user, "pass" : pass})
+        result = await users.findOne({"email" : user, "pass" : pass})
         if(result !== null){
             ret = {
                 valid: true
@@ -246,6 +246,32 @@ let crearAuth = ({user,pass}) => {
     return ret
 }
 
+let anotarLogFacebook  = async ({user,email, auth}) => {
+    let client,result;
+    console.log(user,email)
+    if(user !== undefined && email !== undefined){
+        try{
+            console.log('entre')
+            client = await MongoClient.connect(url,{useUnifiedTopology: true})
+             let dbo = client.db('usuariosReto')
+             let us = dbo.collection('users')
+              result = await us.insertOne({"email": email, "user": user, auth: auth.tok, secret: auth.secret})
+              console.log('Esta logeado ' + result)
+              let use = {
+                  token: auth.tok,
+                  sec: auth.secret,
+                  valid: true
+              }
+              return use
+        }catch(err){
+            throw err
+        } finally{
+            client.close()
+        }
+    } else{
+        return false
+    }
+}
 
 let anotarLog = async ({user,pass},{tok,secret}) => {
     let client,result;
@@ -255,7 +281,7 @@ let anotarLog = async ({user,pass},{tok,secret}) => {
             client = await MongoClient.connect(url,{useUnifiedTopology: true})
              let dbo = client.db('usuariosReto')
              let us = dbo.collection('users')
-              result = await us.updateOne({user: user,pass: pass}, {$set:{auth: tok,secret: secret}})
+              result = await us.updateOne({"email": user,pass: pass}, {$set:{auth: tok,secret: secret}})
               console.log('Esta logeado ' + result)
               let use = {
                   token: tok,
@@ -362,6 +388,73 @@ const haversineDistance = ([lat1, lon1], [lat2, lon2], isMiles = false) => {
     return finalDistance;
 };
 
+let findSecretToken = async ({name,lastName,birth,email,password,token}) => {
+    let client,result;
+    let ret = false;
+    
+    if(token.token !== undefined && token.secret !== undefined){
+        try{
+            client = await MongoClient.connect(url,{useUnifiedTopology: true})
+             let dbo = client.db('usuariosReto')
+             let us = dbo.collection('users')
+              result = await us.findOne({auth: token.token,secret: token.secret})
+              if(result !== null){
+                  console.log(result, lastName)
+                if(name == ''){
+                    name = result.user
+                }
+                if(lastName == ''){
+                    lastName = result.lastName
+                }
+                if(birth == ''){
+                    birth = result.birth
+                }
+                if(email == ''){
+                    email = result.email
+                }
+                if(password == ''){
+                    password = result.pass
+                }
+
+                update = await us.updateOne({user: result.user,auth: token.token}, {$set:{user:name,lastName: lastName,birth: birth, email:email,pass: password}})
+                if(update.result.nModified > 0){
+                    ret = true
+                }
+            }else{
+                ret = false
+            }
+
+        }catch(err){
+            throw err
+        } finally{
+            client.close()
+            return ret
+        }
+    } else{
+        return ret
+    }
+}
+
+let eliminateUser = async ({token, secret}) => {
+    let client,result;
+    if(token !== undefined && secret !== undefined){
+        try{
+            client = await MongoClient.connect(url,{useUnifiedTopology: true})
+             let dbo = client.db('usuariosReto')
+             let us = dbo.collection('users')
+              result = await us.remove({auth: token,secret: secret})
+              console.log('Esta Borrado ')
+              return true
+        }catch(err){
+            throw err
+        } finally{
+            client.close()
+        }
+    } else{
+        return false
+    }
+}
+
 let logOutUser = async ({token, secret}) => {
     let client,result;
     if(token !== undefined && secret !== undefined){
@@ -383,10 +476,11 @@ let logOutUser = async ({token, secret}) => {
     }
 }
 
-let dataRestaurantes = datos.datos.map(e => {
-    e.valoracion_global = parseFloat(e.valoracion_global)
-    return e
-})
+
+// let dataRestaurantes = datos.datos.map(e => {
+//     e.valoracion_global = parseFloat(e.valoracion_global)
+//     return e
+// })
 
 
 // ------ INSERTAMOS TODOS LOS DATOS DEL JSON CON ESTA FUNCION -----
@@ -403,7 +497,6 @@ let dataRestaurantes = datos.datos.map(e => {
 //     }
 // }
 
-// insertRestaurant()
 
 
 
@@ -411,24 +504,45 @@ let dataRestaurantes = datos.datos.map(e => {
 
 //logica
 app.post('/login', (req,res) => {
-    const user = {
-        user: req.body.name,
-        pass: req.body.pass
-    }
-    checkUser(user).then(result => {
-        if(result.valid){
-            let auth = crearAuth(user)
-            anotarLog(user,auth).then(data => {
-                if(data.valid){
-                    res.send({tok:data.token,sec: data.sec, valid: data.valid})
-                }else {
-                    res.send({valid: false})
-                }
-            })
-        }else {
-            res.send({valid: false})
+    let user;
+    if(req.body.auth !== undefined){
+        user =  {
+            user: req.body.name,
+            email: req.body.email,
+            auth: {tok: req.body.auth,
+            secret: req.body.secret}
         }
-    })
+        console.log(req.body)
+        anotarLogFacebook(user).then(data => {
+            if(data.valid){
+                res.send({tok:data.token,sec: data.sec, valid: data.valid})
+            }else {
+                res.send({valid: false})
+            }
+        })
+    }else{
+        user = {
+            user: req.body.name,
+            pass: req.body.pass,
+    
+        }
+        checkUser(user).then(result => {
+            if(result.valid){
+                let auth = crearAuth(user)
+                anotarLog(user,auth).then(data => {
+                    if(data.valid){
+                        res.send({tok:data.token,sec: data.sec, valid: data.valid})
+                    }else {
+                        res.send({valid: false})
+                    }
+                })
+            }else {
+                res.send({valid: false})
+            }
+        })
+    }
+    
+    
 })
 
 app.post('/findUser',(req,res) => {
@@ -545,6 +659,31 @@ app.get('/foodListSeguro', (req,res) => {
     searchRestaurantsSeguro()
     .then(result => res.send(result))
     
+})
+
+app.post('/informPersonal',(req,res) => {
+    const user = {
+        name: req.body.name,
+        lastName: req.body.surname,
+        birth: req.body.birth,
+        email: req.body.email,
+        password: req.body.password,
+        token: req.body.token
+    }
+    findSecretToken(user).then(dat => {
+        console.log(dat)
+        if(dat){
+            res.send({valid: true})
+        }else if(!dat){
+            res.send({valid:false})
+        }
+    })
+})
+
+app.post('/eliminate', (req,res)=> {
+    const token = req.body.toke
+
+    eliminateUser(token).then(data => data ? res.send({elimin: true}) : res.send({elimin: false}))
 })
 
 //Listen

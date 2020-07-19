@@ -4,14 +4,15 @@ import LoginGoogle from '../Google/GoogleLogin'
 import { Link } from 'react-router-dom'
 import './Login.css';
 import VerificationContext from '../../contexts/verificationToken'
-
+import ModalLogin from '../Modal/Modal'
 class Login extends Component {
     static contextType = VerificationContext
     constructor(){
         super()
         this.state = {
             user: '',
-            pass: ''
+            pass: '',
+            show: false
         }
     }
 
@@ -51,13 +52,26 @@ class Login extends Component {
                 }
                 this.context.handleVerification(user)
             this.props.history.push('/')
+           }else{
+            this.setState({
+                ...this.state,
+                show: true
+            })
            }
        })
+    }
+
+    setShow(){
+        this.setState({
+            ...this.state,
+            show: false
+        })
     }
 
     render(){
         return(
             <section className="section-login">
+                <ModalLogin show={this.state.show} handleClose={this.setShow.bind(this)}/>
                 <img src='/images/Exit.svg' alt='exit' className='crossImage' onClick={this.props.history.goBack}/>
                 <div className="section-login-title">
                     <h2>Inicia Sesión</h2>
@@ -76,8 +90,8 @@ class Login extends Component {
                 </form>
                 <span className='span-medio'>O </span>
                 <section className="section-loginRedes">
-                    <LoginFacebook /> 
-                    <LoginGoogle />
+                    <LoginFacebook history={this.props.history}/> 
+                    <LoginGoogle history={this.props.history}/>
                 </section>
             </section>
         )

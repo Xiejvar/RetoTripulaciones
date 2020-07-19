@@ -5,7 +5,7 @@
     justify-content: flex-start;
     align-items: center;
     width: 70%;
-    height: 40%;
+    height: 50%;
 }
 
 .section-login .crossImage{
@@ -91,6 +91,7 @@ input{
     border-radius: 10px;
     border: solid 1px #c4c4c4;
     background-color: #ffffff;
+    font-size: 14px;
 }
 
 .login-form a {

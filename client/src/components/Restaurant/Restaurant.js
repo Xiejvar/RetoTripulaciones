@@ -86,7 +86,7 @@ class Restaurant extends Component{
                     </div>
                     <p className='restaurant-name'>{this.state.name}</p>
                     <div className='restaurant-inforating'>
-                        {this.state.arr.map(e => <img src='/images/escuditoCeleste.svg' alt='valoraciones' />)}
+                        {this.state.arr.map(e => <img src='/images/escuditoCeleste.svg' alt='valoraciones' key={e}/>)}
                         <p>{this.state.global}</p>
                         <Link to='/valorar' className='añadirRating'>Añadir valoración</Link>
                     </div>

@@ -34,10 +34,16 @@ class AccountLoged extends Component{
         }).then(res => res.json())
         .then(data => {
             if(data.valid){
-                this.setState({
-                    ...this.state,
-                    name: data.name + ' ' + data.surname
-                })
+                if(data.surname !== undefined)
+                    this.setState({
+                        ...this.state,
+                        name: data.name + ' ' + data.surname
+                    })
+                else
+                    this.setState({
+                        ...this.state,
+                        name: data.name 
+                    })
             } else {
                 sessionStorage.removeItem('token')
                 sessionStorage.removeItem('secret')

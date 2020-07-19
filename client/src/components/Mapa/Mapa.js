@@ -24,7 +24,7 @@ class Mapa extends Component{
     getPosition(){
         let lat,lon;
         if('geolocation' in navigator){
-           navigator.geolocation.watchPosition((position) => {
+           navigator.geolocation.getCurrentPosition((position) => {
                 lat = position.coords.latitude
                 lon = position.coords.longitude
                 this.setState({
@@ -89,7 +89,7 @@ class Mapa extends Component{
                 </Map>
                 <section className={this.state.class}>
                     <button onClick={this.changeClass.bind(this)}></button>
-                    {this.state.searchResta.map(ele => <MapRestaurant item={ele} history={this.props.history}/>)}
+                    {this.state.searchResta.map((ele,i) => <MapRestaurant item={ele} history={this.props.history} key={i}/>)}
                 </section>
             </section>
             

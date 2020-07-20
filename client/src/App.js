@@ -13,7 +13,8 @@ import Mapa from './components/Mapa/Mapa'
 
 import {Switch,Route} from 'react-router-dom';
 
-import  { VerificationProvider } from './contexts/verificationToken'
+import  { VerificationProvider } from './contexts/verificationToken';
+import  { RestaurantProvider } from './contexts/findRestaurants'
 import LocalRating from './components/Local-Rating/LocalRating'
 import ShieldRating from './components/shields/shieldRating'
 import RecuperaPass from './components/RecuperaPass/RecuperaPass';
@@ -28,7 +29,8 @@ class App extends React.Component{
       verification: {
         token: sessionStorage.getItem('token'),
         secret: sessionStorage.getItem('secret')
-      }
+      },
+      restaurantsSearch: []
     }
   }
 
@@ -52,11 +54,18 @@ class App extends React.Component{
     }
   }
 
+  handleRestaurants(res){
+    this.setState({
+      ...this.state,
+      restaurantsSearch: res
+    })
+  }
   render(){
       return (
         <div className="App">
            <VerificationProvider value={{tok:this.state.verification, handleVerification: this.handleVerification.bind(this)}}>
             <Switch>
+            <RestaurantProvider value={{restaurantsSearch: this.state.restaurantsSearch, handleRestaurants: this.handleRestaurants.bind(this)}}>
               <Route exact path='/' render={ props => <Home {...props} />}  />
               <Route  path="/cuentaInicioSesion" render={ props => <IniciadoSesion {...props} />} />
               <Route  path="/iniciarSesion" render={ props => <Login {...props} />}/>
@@ -67,6 +76,7 @@ class App extends React.Component{
               <Route  path='/recuperaPass' render={ props => <RecuperaPass {...props} />}  />
               <Route  path='/recuperaEmailSent' render={ props => <CorreoRecuperado {...props} />}  />
               <Route  path='/map' render={ props => <Mapa {...props} />}  />
+            </RestaurantProvider>
               <Route  path='/personalInfo' render={ props => <InformacionPersonal {...props} />}  />
               <Route  path='/cuenta' render={ props => <Account {...props} />}  />
               <Route path='/valorar' render={props => <LocalRating {...props} />} /> 

@@ -477,6 +477,32 @@ let logOutUser = async ({token, secret}) => {
 }
 
 
+const paramSearcher = async(param) =>{
+    let client, result,ret
+    let name = param.toUpperCase()
+    let tipoComida = param.toLowerCase()
+    try{
+        client = await MongoClient.connect(url,{useUnifiedTopology: true})
+        let dbo = client.db('comidasReto')
+        let rest = dbo.collection('restaurantes')
+        result = await rest.find({$or: [{nombre_local: name}, {tipo_de_comida: tipoComida}]}).toArray()
+        console.log(result)
+
+        if(result.length > 0){
+            ret = result
+
+        }else{
+            ret = false
+        }
+        
+    }catch{
+        err=> console.log(err)
+    }finally {
+        client.close()
+        return ret
+    }
+}
+
 // let dataRestaurantes = datos.datos.map(e => {
 //     e.valoracion_global = parseFloat(e.valoracion_global)
 //     return e
@@ -684,6 +710,14 @@ app.post('/eliminate', (req,res)=> {
     const token = req.body.toke
 
     eliminateUser(token).then(data => data ? res.send({elimin: true}) : res.send({elimin: false}))
+})
+
+
+app.get('/searcher/:id', (req,res)=>{
+    let param = req.params.id
+    console.log(req.params.id)
+    paramSearcher(param).then(result => !result ? res.send({valid: false}) : res.send({valid: true, response: result}))
+    
 })
 
 //Listen

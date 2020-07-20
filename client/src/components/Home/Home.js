@@ -3,15 +3,18 @@ import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
 import FoodList from '../FoodList/FoodList'
 import Search from '../Search/Search'
-
 import './Home.css'
+import RestaurantContext from '../../contexts/findRestaurants'
+
 class Home extends Component {
+    static contextType = RestaurantContext
     constructor(){
         super()
         this.state = {
             restaurantsTerr: [],
             restaurantsSafe: [],
-            restaurantsClose: []
+            restaurantsClose: [],
+            restaurantsSearch: []
         }
     }
 
@@ -81,7 +84,24 @@ class Home extends Component {
 
     submitingSearch(e){
         e.preventDefault()
-        this.props.history.push('/map')
+        // this.props.history.push('/map')
+        console.log(this.state.value)
+        this.fetchValue(this.state.value)
+    }
+
+    async fetchValue(val){
+        let res = await fetch(`http://localhost:1024/searcher/${val}`)
+        let datos = await res.json()
+
+        if(datos.valid){
+            this.context.handleRestaurants(datos.response)
+            this.props.history.push('/map')
+        }
+    }
+
+    getValue(value){
+        console.log(value)
+        this.setState({...this.state, value})
     }
 
     render(){
@@ -89,8 +109,9 @@ class Home extends Component {
             <div className='home'>
                 <Header />
                 <h2 className='home-title'>Encuentra restaurantes donde sentirte seguro</h2>
+                
                 <form className='home-searchForm' onSubmit={this.submitingSearch.bind(this)}>
-                    <Search history={this.props.history}/>
+                    <Search searchValue={this.getValue.bind(this)} history={this.props.history}/>
                 </form>
                 <FoodList getResta={this.state.restaurantsSafe !== undefined}  addResta={this.getRestaurantsSafe.bind(this)} title={'Los mas seguros segun los usuarios'} history={this.props.history}/>
                 <FoodList getResta={this.state.restaurantsTerr !== undefined}  addResta={this.getRestaurantsTerr.bind(this)} title={'Terrazas'} history={this.props.history}/>

@@ -123,7 +123,6 @@ class Home extends Component {
     }
 
     getValue(value){
-        console.log(value)
         this.setState({...this.state, value})
     }
 

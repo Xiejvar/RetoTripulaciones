@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Map, Marker,Popup, TileLayer, ZoomControl } from 'react-leaflet';
-import { Icon } from 'leaflet';
+import L from 'leaflet';
 import './Mapa.css'
 import Search from '../Search/Search'
 import Header from '../Header/Header'
@@ -100,6 +100,17 @@ class Mapa extends Component{
     }
 
     render(){
+        const iconShield = new L.Icon({
+            iconUrl: require('./images/escuditoCeleste.svg'),
+            // iconRetinaUrl: require('./images/escuditoAzul.svg'),
+            iconAnchor: null,
+            popupAnchor: null,
+            shadowUrl: null,
+            shadowSize: null,
+            shadowAnchor: null,
+            iconSize: new L.Point(24, 28),
+            className: 'leaflet-div-icon'
+        })
         return(
             <section className='mapSection'>
                 <Header className='holasoyclass'/>
@@ -116,7 +127,7 @@ class Mapa extends Component{
 
                         <Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
                     </Marker>
-                    {this.state.searchResta.map(e => < Marker position= {[e.long, e.lat]}> </Marker>)}
+                    {this.state.searchResta.map((e,i)=> < Marker position= {[e.long, e.lat]} icon={iconShield}> </Marker>)}
                 </Map>
                 <section className={this.state.class}>
                     <button onClick={this.changeClass.bind(this)}></button>

@@ -3,7 +3,10 @@ import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
 import FoodList from '../FoodList/FoodList'
 import Search from '../Search/Search'
-
+import Loader from 'react-loader-spinner';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Slider from 'react-rangeslider'
+import 'react-rangeslider/lib/index.css'
 import './Home.css'
 class Home extends Component {
     constructor(){
@@ -11,7 +14,12 @@ class Home extends Component {
         this.state = {
             restaurantsTerr: [],
             restaurantsSafe: [],
-            restaurantsClose: []
+            restaurantsClose: [],
+            showTerr: false,
+            showSafe: false,
+            showClose: false,
+            loader: true,
+            foodlistLength: [...Array(3)],
         }
     }
 
@@ -30,7 +38,9 @@ class Home extends Component {
         this.setState({
             ...this.state,
             restaurantsSafe: dataSeg,
-            restaurantsTerr: dataTerr
+            restaurantsTerr: dataTerr,
+            showSafe: true,
+            showTerr: true
         })
     }
 
@@ -43,13 +53,25 @@ class Home extends Component {
                 fetch(`http://localhost:1024/cercaDeMI/${lat}/${lon}`)
                 .then(res => res.json())
                 .then(data => {
-                    this.setState({
-                        ...this.state,
-                        restaurantsClose: data.nearRestaurants
-                    })
+                    if(data.valid)
+                        this.setState({
+                            ...this.state,
+                            restaurantsClose: data.nearRestaurants,
+                            showClose: true,
+                        })
+                    else
+                        this.setState({
+                            ...this.state,
+                            restaurantsClose: [],
+                            showClose: true
+                        })
                 })
             })
         }
+   }
+
+   componentDidMount(){
+       console.log('hola')
    }
 
     getRestaurantsTerr(){
@@ -84,14 +106,47 @@ class Home extends Component {
         this.props.history.push('/map')
     }
 
+    hideLoader(){
+        this.setState({
+            ...this.state,
+            loader: false,
+        })
+    }
+
+    putRestorants(){
+        if(this.state.restaurantsTerr && this.state.restaurantsSafe && this.state.restaurantsClose && !this.state.loader){
+            this.setState({
+                ...this.state,
+                loader: true
+            })
+            return  <>
+                        <FoodList getResta={this.state.restaurantsSafe !== undefined}  addResta={this.getRestaurantsSafe.bind(this)} title={'Los mas seguros segun los usuarios'} history={this.props.history}/>
+                        <FoodList getResta={this.state.restaurantsTerr !== undefined}  addResta={this.getRestaurantsTerr.bind(this)} title={'Terrazas'} history={this.props.history}/>
+                        <FoodList getResta={this.state.restaurantsClose !== undefined}  addResta={this.getRestaurantsClos.bind(this)} title={'Cerca de ti'} history={this.props.history}/>
+                    </>
+        }
+    }
+
     render(){
         return(
             <div className='home'>
                 <Header />
                 <h2 className='home-title'>Encuentra restaurantes donde sentirte seguro</h2>
                 <form className='home-searchForm' onSubmit={this.submitingSearch.bind(this)}>
-                    <Search history={this.props.history}/>
+                    <Search history={this.props.history} />
                 </form>
+                <Loader type='Oval' color='#11215f' visible={this.state.loader}/>
+                {/* {this.state.foodlistLength.map((e,i) => {
+                        if(i === 0){
+                           return <FoodList getResta={this.state.restaurantsSafe !== undefined}  addResta={this.getRestaurantsSafe.bind(this)} title={'Los mas seguros segun los usuarios'} history={this.props.history}/>
+                        }else if(i === 1){
+                          return  <FoodList getResta={this.state.restaurantsTerr !== undefined}  addResta={this.getRestaurantsTerr.bind(this)} title={'Terrazas'} history={this.props.history}/>
+                        }else {
+                            this.hideLoader()
+                           return <FoodList getResta={this.state.restaurantsClose !== undefined}  addResta={this.getRestaurantsClos.bind(this)} title={'Cerca de ti'} history={this.props.history}/>
+                        }
+                })} */}
+                {/* {this.putRestorants()} */}
                 <FoodList getResta={this.state.restaurantsSafe !== undefined}  addResta={this.getRestaurantsSafe.bind(this)} title={'Los mas seguros segun los usuarios'} history={this.props.history}/>
                 <FoodList getResta={this.state.restaurantsTerr !== undefined}  addResta={this.getRestaurantsTerr.bind(this)} title={'Terrazas'} history={this.props.history}/>
                 <FoodList getResta={this.state.restaurantsClose !== undefined}  addResta={this.getRestaurantsClos.bind(this)} title={'Cerca de ti'} history={this.props.history}/>

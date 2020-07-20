@@ -630,7 +630,9 @@ app.get('/cercaDeMi/:lat/:lon', (req,res) => {
     let lon = req.params.lon
     getNearRestaurants(lat,lon).then( data => {
         if(data.valid){
-            res.send({nearRestaurants:data.restaurants})
+            res.send({nearRestaurants:data.restaurants,valid: true})
+        }else{
+            res.send({valid: false})
         }
     })
     

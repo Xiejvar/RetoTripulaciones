@@ -7,7 +7,7 @@ class Search extends Component {
     }
 
     searchValue(e){
-        this.props.value(e.target.value)
+        this.props.searchValue(e.target.value)
     }
 
     render(){

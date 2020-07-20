@@ -5,20 +5,34 @@ import './Mapa.css'
 import Search from '../Search/Search'
 import Header from '../Header/Header'
 import MapRestaurant from '../MapRestaurant/MapRestaurant';
+import RestaurantContext from '../../contexts/findRestaurants'
 
 class Mapa extends Component{
+    static contextType = RestaurantContext
     constructor(){
         super()
         this.state = {
             class: 'restaurants-slider',
             up: false,
-            location: [40.416775, -3.703790],
+            location: [40.423378400000004, -3.692763],
             searchResta: []
         }
     }
 
     componentDidMount(){
-        this.getPosition()
+        // this.getPosition()
+        console.log(this.context.restaurantsSearch)
+        this.setState({...this.state, searchResta: this.context.restaurantsSearch})
+        console.log(this.context.restaurantsSearch)
+
+    }
+
+    componentDidUpdate(prevP,prevS){
+        if(prevS.searchResta !== this.context.restaurantsSearch)
+            this.setState({
+                ...this.state,
+                searchResta: this.context.restaurantsSearch
+            })
     }
 
     getPosition(){
@@ -33,14 +47,14 @@ class Mapa extends Component{
                 })
                 console.log(this.state.location)
 
-                fetch(`http://localhost:1024/cercaDeMI/${lat}/${lon}`)
-                .then(res => res.json())
-                .then(data => {
-                    this.setState({
-                        ...this.state,
-                        searchResta: data.nearRestaurants
-                    })
-                })
+                // fetch(`http://localhost:1024/cercaDeMI/${lat}/${lon}`)
+                // .then(res => res.json())
+                // .then(data => {
+                //     this.setState({
+                //         ...this.state,
+                //         searchResta: data.nearRestaurants
+                //     })
+                //})
             });
         }
     }
@@ -61,12 +75,27 @@ class Mapa extends Component{
 
     submitingSearch(e){
         e.preventDefault()
+        // this.props.history.push('/map')
+        console.log(this.state.searchValue)
+        this.fetchValue(this.state.searchValue)
     }
 
+    async fetchValue(val){
+        let res = await fetch(`http://localhost:1024/searcher/${val}`)
+        let datos = await res.json()
+        console.log(datos)
+        if(datos.valid){
+            this.context.handleRestaurants(datos.response)
+        
+        }
+    }
+
+
     getValue(val){
+
         this.setState({
             ...this.state,
-            serchValue: val
+            searchValue: val
         })
     }
 
@@ -75,7 +104,7 @@ class Mapa extends Component{
             <section className='mapSection'>
                 <Header className='holasoyclass'/>
                 <form className='home-searchForm' onSubmit={this.submitingSearch.bind(this)}>
-                    <Search value={this.getValue.bind(this)}/>
+                    <Search searchValue= {this.getValue.bind(this)}/>
                 </form>
                 <Map center={this.state.location} zoom={14} className='map-buscador' zoomControl={false}>
                     <TileLayer
@@ -84,8 +113,10 @@ class Mapa extends Component{
                     />
                     <ZoomControl position='bottomright' />
                     <Marker position={this.state.location}>
+
                         <Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
                     </Marker>
+                    {this.state.searchResta.map(e => < Marker position= {[e.long, e.lat]}> </Marker>)}
                 </Map>
                 <section className={this.state.class}>
                     <button onClick={this.changeClass.bind(this)}></button>

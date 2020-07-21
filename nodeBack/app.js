@@ -484,7 +484,7 @@ const paramSearcher = async(param) =>{
         client = await MongoClient.connect(url,{useUnifiedTopology: true})
         let dbo = client.db('comidasReto')
         let rest = dbo.collection('restaurantes')
-        result = await rest.find({$or: [{nombre_local: { '$regex' : `${name}`}}, {tipo_de_comida: { '$regex' : `${tipoComida}`}}]}).limit(50).toArray()
+        result = await rest.find({$or: [{nombre_local: { '$regex' : `${name}`}}, {tipo_de_comida: { '$regex' : `${tipoComida}`}}]}).sort({valoracion_global:-1}).limit(50).toArray()
         if(result.length > 0){
             ret = result
 

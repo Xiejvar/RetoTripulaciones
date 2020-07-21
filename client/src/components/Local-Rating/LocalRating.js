@@ -55,7 +55,7 @@ class LocalRatings extends React.Component{
         } else{
              return <div className='father'>
                  <div className='val6'>
-                <textarea className='tarea' rows="10" cols="35">Comparte detalles relacionados con las medidas de prevención  llevadas a cabo en este lugar.</textarea>
+                <textarea className='tarea' rows="10" cols="35" placeholder='Comparte detalles relacionados con las medidas de prevención  llevadas a cabo en este lugar.'></textarea>
                 <section className='cbox'>
                 <input type='checkbox' id='cbox'></input>
                 <label for='cbox'>Incluir mi nombre en la publicacion</label>
@@ -85,12 +85,10 @@ class LocalRatings extends React.Component{
                     <img src={this.state.items[this.state.value].image}></img>
                     {this.buttons()}
                 </article>
-                <div>
+                <div className='demigod2'>
                 < Doter value={this.state.value}/>
                 </div>
-
                 </div>
-               
             </div>
         )
     }

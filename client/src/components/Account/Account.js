@@ -5,6 +5,7 @@ import './Account.css';
 class Account extends Component{
 
     showPage(){
+        console.log('estoy en account')
         if(sessionStorage.getItem('token') === null)
             this.props.history.push('/cuentaInicioSesion')
         else

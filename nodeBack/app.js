@@ -399,7 +399,6 @@ let findSecretToken = async ({name,lastName,birth,email,password,token}) => {
              let us = dbo.collection('users')
               result = await us.findOne({auth: token.token,secret: token.secret})
               if(result !== null){
-                  console.log(result, lastName)
                 if(name == ''){
                     name = result.user
                 }
@@ -486,8 +485,6 @@ const paramSearcher = async(param) =>{
         let dbo = client.db('comidasReto')
         let rest = dbo.collection('restaurantes')
         result = await rest.find({$or: [{nombre_local: { '$regex' : `${name}`}}, {tipo_de_comida: { '$regex' : `${tipoComida}`}}]}).limit(50).toArray()
-        console.log(result)
-
         if(result.length > 0){
             ret = result
 
@@ -497,6 +494,7 @@ const paramSearcher = async(param) =>{
         
     }catch{
         err=> console.log(err)
+        ret = false
     }finally {
         client.close()
         return ret

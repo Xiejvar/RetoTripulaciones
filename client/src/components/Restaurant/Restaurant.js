@@ -61,13 +61,22 @@ class Restaurant extends Component{
        })
     }
 
+    putImage(){
+        let num = Math.floor(Math.random() * 14) + 1
+        if(num === 13 || num === 5){
+            return `/images/rest${num}.jpeg`
+        }else {
+            return `/images/rest${num}.jpg`
+        }
+    }
+
     render(){
         return(
             <section className='restaurant-view'>
                 <Header />
                 <figure className='restaurant-figure'>
                     <img src='/images/Exit.svg' alt='Botton-vuelta' onClick={this.props.history.goBack} className='button_vuelta'/>
-                    <img src={this.state.img} alt='restaurante' />
+                    <img src={this.putImage()} alt='restaurante' />
                 </figure>
                 <nav className='restaurant-navbar'>
                     <ul>

@@ -192,7 +192,7 @@
     flex-flow: column wrap;
     justify-content: space-evenly;
     padding: 0;
-    margin-right: 15px;
+    margin-right: 5px;
     list-style: none;
 }
 
@@ -203,7 +203,8 @@
 .seguridadnavDos{
     width: 15vw;
     align-self: flex-end;
-    margin-left: 15px;
+    margin-left: 10px;
+    height: 139px;
 }
 
 .seguridadnavDos li {
@@ -218,6 +219,7 @@
     font-style: normal;
     line-height: normal;
     letter-spacing: 0.2px;
+    margin-bottom: 4px;
 }
 
 .restaurant-sanciones{

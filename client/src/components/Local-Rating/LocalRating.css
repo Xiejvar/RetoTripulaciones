@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Muli:ital,wght@0,400;0,500;1,700&display=swap');
 .btns{
     display: flex;
     
@@ -7,6 +8,25 @@
 .cbox{
     display: flex;
     align-items: center;
+    justify-content: center;
+    background-color: #fbfbfb;
+}
+
+.cbox input{
+    height: 20px;
+}
+
+.cbox label{
+    height: 20px;
+    box-shadow: -3px -3px 20px 0 rgba(220, 210, 216, 0.5), 3px 3px 20px 0 rgba(220, 210, 216, 0.5);
+    font-family: 'Muli';
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.2px;
+    background-color: #fbfbfb;
 }
 
 .cross{
@@ -14,7 +34,7 @@
     display: flex;
     align-self: flex-end;
     position: relative;
-    top: -60px;
+    top: -50px;
 }
 
 .father{
@@ -69,6 +89,7 @@
     background-color: var(--secondary-light-original);
 
     color:#3f65ea; 
+    margin-bottom: 10px;
 }
 
 .god{
@@ -102,12 +123,40 @@
 .bluel{
     color:#3f65ea ;
     margin-bottom: 0px;
+    font-family: 'Muli';
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
 }
 
 .quater{
     width: 90%;
+    font-family: 'Muli';
+    font-size: 18px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.18px;
+    color: #000035;
+    
 }
 
 .elp{
     margin-top: 0px;
+}
+
+.demigod2{
+    margin-top: 15px;
+}
+
+.tarea{
+    box-shadow: -3px -3px 20px 0 rgba(220, 210, 216, 0.5), 3px 3px 20px 0 rgba(220, 210, 216, 0.5);
+    background-color: #fbfbfb;
+    border: none;
+    width: 90%;
+    height: 150px;
 }

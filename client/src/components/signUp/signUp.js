@@ -2,6 +2,7 @@ import React,{ Component } from 'react';
 import './signUp.css';
 import { Link } from 'react-router-dom'
 import { validateName, validateSurName, validateBirth, validateEmail, validatePassword } from '../Validation/Validation'
+import ModalSignup from '../ModalSignup/ModalSignup'
 class SignUp extends Component{
     constructor(){
         super()
@@ -20,7 +21,8 @@ class SignUp extends Component{
             validationAge: false,
             validationEmail: false,
             validationPassword: false,
-            validateAgainPassword: false
+            validateAgainPassword: false,
+            show: false
         }
     }
 
@@ -150,6 +152,11 @@ class SignUp extends Component{
                     console.log('fallo el envio, intenta registrarte de nuevo')
                 }
             })
+        }else {
+            this.setState({
+                ...this.state,
+                show: true
+            })
         }
     }
 
@@ -180,6 +187,12 @@ class SignUp extends Component{
         }
     }
 
+    setShow(){
+        this.setState({
+            ...this.state,
+            show: false
+        })
+    }
     
 
     render(){
@@ -189,6 +202,7 @@ class SignUp extends Component{
                     <h3 className='crear-cuenta'>Crea tu cuenta</h3>
                     <img src='/images/Exit.svg' alt='logo salir' onClick={this.props.history.goBack} />
                 </section>
+                <ModalSignup show={this.state.show} handleClose={this.setShow.bind(this)}/>
                 <form className='signForm' onSubmit={(e) => this.prevSubmit.bind(this)(e)}>
                     <label>Tu nombre:<span className='error-m'>*</span></label>
                     <input type='text' id='name' name='user_name' onChange={(e) => this.regUserName.bind(this)(e)} className={!this.state.validationName && this.state.name.length > 0 ? 'inputErr' : ''}></input>

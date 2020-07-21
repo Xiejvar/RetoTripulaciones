@@ -29,16 +29,23 @@ class Home extends Component {
 
     componentDidMount(){
         this.putRestaur()
-        this.getPosition()
+    }
+
+    componentDidUpdate(){
+        if(this.state.showTerr && this.state.showSafe && this.state.showClose && this.state.loader){
+            this.setState({
+                loader: false
+            })
+        }
     }
 
     async putRestaur(){
         let res = await fetch('http://localhost:1024/foodListTerraza')
         let dataTerr = await res.json()
-
+        console.log(dataTerr)
         let res2 = await fetch('http://localhost:1024/foodListSeguro')
         let dataSeg = await res2.json()
-
+        console.log(dataSeg)
         this.setState({
             ...this.state,
             restaurantsSafe: dataSeg,
@@ -46,6 +53,7 @@ class Home extends Component {
             showSafe: true,
             showTerr: true
         })
+        this.getPosition()
     }
 
    async getPosition(){
@@ -54,9 +62,11 @@ class Home extends Component {
             navigator.geolocation.watchPosition((position) => {
                 lat = position.coords.latitude
                 lon = position.coords.longitude
+                console.log(lat,lon,'hola')
                 fetch(`http://localhost:1024/cercaDeMI/${lat}/${lon}`)
                 .then(res => res.json())
                 .then(data => {
+                    console.log(data)
                     if(data.valid)
                         this.setState({
                             ...this.state,
@@ -71,11 +81,13 @@ class Home extends Component {
                         })
                 })
             })
+        }else{
+            this.setState({
+                ...this.state,
+                restaurantsClose: [],
+                showClose: true
+            })
         }
-   }
-
-   componentDidMount(){
-       console.log('hola')
    }
 
     getRestaurantsTerr(){
@@ -107,8 +119,6 @@ class Home extends Component {
 
     submitingSearch(e){
         e.preventDefault()
-        // this.props.history.push('/map')
-        console.log(this.state.value)
         this.fetchValue(this.state.value)
     }
 
@@ -126,26 +136,6 @@ class Home extends Component {
         this.setState({...this.state, value})
     }
 
-    // hideLoader(){
-    //     this.setState({
-    //         ...this.state,
-    //         loader: false,
-    //     })
-    // }
-
-    // putRestorants(){
-    //     if(this.state.restaurantsTerr && this.state.restaurantsSafe && this.state.restaurantsClose && !this.state.loader){
-    //         this.setState({
-    //             ...this.state,
-    //             loader: true
-    //         })
-    //         return  <>
-    //                     <FoodList getResta={this.state.restaurantsSafe !== undefined}  addResta={this.getRestaurantsSafe.bind(this)} title={'Los mas seguros segun los usuarios'} history={this.props.history}/>
-    //                     <FoodList getResta={this.state.restaurantsTerr !== undefined}  addResta={this.getRestaurantsTerr.bind(this)} title={'Terrazas'} history={this.props.history}/>
-    //                     <FoodList getResta={this.state.restaurantsClose !== undefined}  addResta={this.getRestaurantsClos.bind(this)} title={'Cerca de ti'} history={this.props.history}/>
-    //                 </>
-    //     }
-    // }
 
     render(){
         return(
@@ -156,21 +146,10 @@ class Home extends Component {
                 <form className='home-searchForm' onSubmit={this.submitingSearch.bind(this)}>
                     <Search searchValue={this.getValue.bind(this)} history={this.props.history}/>
                 </form>
-                {/* <Loader type='Oval' color='#11215f' visible={this.state.loader}/> */}
-                {/* {this.state.foodlistLength.map((e,i) => {
-                        if(i === 0){
-                           return <FoodList getResta={this.state.restaurantsSafe !== undefined}  addResta={this.getRestaurantsSafe.bind(this)} title={'Los mas seguros segun los usuarios'} history={this.props.history}/>
-                        }else if(i === 1){
-                          return  <FoodList getResta={this.state.restaurantsTerr !== undefined}  addResta={this.getRestaurantsTerr.bind(this)} title={'Terrazas'} history={this.props.history}/>
-                        }else {
-                            this.hideLoader()
-                           return <FoodList getResta={this.state.restaurantsClose !== undefined}  addResta={this.getRestaurantsClos.bind(this)} title={'Cerca de ti'} history={this.props.history}/>
-                        }
-                })} */}
-                {/* {this.putRestorants()} */}
-                <FoodList getResta={this.state.restaurantsSafe !== undefined}  addResta={this.getRestaurantsSafe.bind(this)} title={'Los mas seguros segun los usuarios'} history={this.props.history}/>
-                <FoodList getResta={this.state.restaurantsTerr !== undefined}  addResta={this.getRestaurantsTerr.bind(this)} title={'Terrazas'} history={this.props.history}/>
-                <FoodList getResta={this.state.restaurantsClose !== undefined}  addResta={this.getRestaurantsClos.bind(this)} title={'Cerca de ti'} history={this.props.history}/>
+                {this.state.showTerr && this.state.showSafe && this.state.showClose ? '' : <Loader color='#11215f' type='Oval'/>}
+                {this.state.loader && this.state.showSafe ? '' : <FoodList getResta={this.state.restaurantsSafe !== undefined}  addResta={this.getRestaurantsSafe.bind(this)} title={'Los mas seguros segun los usuarios'} history={this.props.history}/>}
+                {this.state.loader && this.state.showTerr ? '' : <FoodList getResta={this.state.restaurantsTerr !== undefined}  addResta={this.getRestaurantsTerr.bind(this)} title={'Terrazas'} history={this.props.history}/>}
+                {this.state.loader  ? '' : <FoodList getResta={this.state.restaurantsClose !== undefined}  addResta={this.getRestaurantsClos.bind(this)} title={'Cerca de ti'} history={this.props.history}/>}
                 <article className='home-info'>
                     <h2 className='home-info-titles'>Toda la información para ayudarte a cuidar a los tuyos</h2>
                     <section className='home-info-imagenes'>

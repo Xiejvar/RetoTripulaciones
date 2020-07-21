@@ -30,7 +30,8 @@
 .restaurants-slider button{
     width: 15%;
     border: none;
-    border-bottom: 1px solid #847a80;
+    height: 4px;
+    border-bottom: 2px solid #847a80;
     position: fixed;
     left: 45%;
 }

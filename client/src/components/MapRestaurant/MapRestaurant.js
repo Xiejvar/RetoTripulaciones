@@ -19,10 +19,20 @@ class MapRestaurant extends Component{
     goToRestaurant(){
         this.props.history.push(`/restaurant/${this.props.item.id_local}`)
     }
+
+    putImage(){
+        let num = Math.floor(Math.random() * 14) + 1
+        if(num === 13 || num === 5){
+            return `/images/rest${num}.jpeg`
+        }else {
+            return `/images/rest${num}.jpg`
+        }
+    }
+
     render(){
         return(
             <article className='restaurantMapSliderArticle' onClick={this.goToRestaurant.bind(this)}>
-                <img src='/images/restaurant.jpg' alt={this.props.item.name} />
+                <img src={this.putImage()} alt={this.props.item.name} />
                 <section className='restaurantMapInfo'>
                     <p className='type_food'>{this.props.item.desc_epigrafe}</p>
                     <p className='name_food'>{this.props.item.nombre_local}</p>

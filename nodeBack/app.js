@@ -334,7 +334,7 @@ let getNearRestaurants = async (lat,lon) => {
         client = await MongoClient.connect(url,{ useUnifiedTopology: true })
         let dbo = client.db('comidasReto')
         let restaurant = dbo.collection('restaurantes')
-        result = await restaurant.find().toArray()
+        result = await restaurant.find().limit(100).toArray()
         if(result !== null){
          let near = result.filter( e => {
              let dist = parseFloat(haversineDistance([lat,lon],[e.long,e.lat]).toFixed(3))
@@ -485,7 +485,7 @@ const paramSearcher = async(param) =>{
         client = await MongoClient.connect(url,{useUnifiedTopology: true})
         let dbo = client.db('comidasReto')
         let rest = dbo.collection('restaurantes')
-        result = await rest.find({$or: [{nombre_local: name}, {tipo_de_comida: tipoComida}]}).toArray()
+        result = await rest.find({$or: [{nombre_local: { '$regex' : `${name}`}}, {tipo_de_comida: { '$regex' : `${tipoComida}`}}]}).limit(50).toArray()
         console.log(result)
 
         if(result.length > 0){
@@ -715,9 +715,8 @@ app.post('/eliminate', (req,res)=> {
 })
 
 
-app.get('/searcher/:id', (req,res)=>{
-    let param = req.params.id
-    console.log(req.params.id)
+app.get('/searcher', (req,res)=>{
+    let param = req.query.name
     paramSearcher(param).then(result => !result ? res.send({valid: false}) : res.send({valid: true, response: result}))
     
 })

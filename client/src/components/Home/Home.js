@@ -113,7 +113,7 @@ class Home extends Component {
     }
 
     async fetchValue(val){
-        let res = await fetch(`http://localhost:1024/searcher/${val}`)
+        let res = await fetch(`http://localhost:1024/searcher?name=${val}`)
         let datos = await res.json()
 
         if(datos.valid){
@@ -126,26 +126,26 @@ class Home extends Component {
         this.setState({...this.state, value})
     }
 
-    hideLoader(){
-        this.setState({
-            ...this.state,
-            loader: false,
-        })
-    }
+    // hideLoader(){
+    //     this.setState({
+    //         ...this.state,
+    //         loader: false,
+    //     })
+    // }
 
-    putRestorants(){
-        if(this.state.restaurantsTerr && this.state.restaurantsSafe && this.state.restaurantsClose && !this.state.loader){
-            this.setState({
-                ...this.state,
-                loader: true
-            })
-            return  <>
-                        <FoodList getResta={this.state.restaurantsSafe !== undefined}  addResta={this.getRestaurantsSafe.bind(this)} title={'Los mas seguros segun los usuarios'} history={this.props.history}/>
-                        <FoodList getResta={this.state.restaurantsTerr !== undefined}  addResta={this.getRestaurantsTerr.bind(this)} title={'Terrazas'} history={this.props.history}/>
-                        <FoodList getResta={this.state.restaurantsClose !== undefined}  addResta={this.getRestaurantsClos.bind(this)} title={'Cerca de ti'} history={this.props.history}/>
-                    </>
-        }
-    }
+    // putRestorants(){
+    //     if(this.state.restaurantsTerr && this.state.restaurantsSafe && this.state.restaurantsClose && !this.state.loader){
+    //         this.setState({
+    //             ...this.state,
+    //             loader: true
+    //         })
+    //         return  <>
+    //                     <FoodList getResta={this.state.restaurantsSafe !== undefined}  addResta={this.getRestaurantsSafe.bind(this)} title={'Los mas seguros segun los usuarios'} history={this.props.history}/>
+    //                     <FoodList getResta={this.state.restaurantsTerr !== undefined}  addResta={this.getRestaurantsTerr.bind(this)} title={'Terrazas'} history={this.props.history}/>
+    //                     <FoodList getResta={this.state.restaurantsClose !== undefined}  addResta={this.getRestaurantsClos.bind(this)} title={'Cerca de ti'} history={this.props.history}/>
+    //                 </>
+    //     }
+    // }
 
     render(){
         return(
@@ -156,7 +156,7 @@ class Home extends Component {
                 <form className='home-searchForm' onSubmit={this.submitingSearch.bind(this)}>
                     <Search searchValue={this.getValue.bind(this)} history={this.props.history}/>
                 </form>
-                <Loader type='Oval' color='#11215f' visible={this.state.loader}/>
+                {/* <Loader type='Oval' color='#11215f' visible={this.state.loader}/> */}
                 {/* {this.state.foodlistLength.map((e,i) => {
                         if(i === 0){
                            return <FoodList getResta={this.state.restaurantsSafe !== undefined}  addResta={this.getRestaurantsSafe.bind(this)} title={'Los mas seguros segun los usuarios'} history={this.props.history}/>

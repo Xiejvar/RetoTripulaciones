@@ -14,16 +14,14 @@ class Mapa extends Component{
         this.state = {
             class: 'restaurants-slider',
             up: false,
-            location: [40.423378400000004, -3.692763],
+            location: [40.416775, -3.703790],
             searchResta: []
         }
     }
 
     componentDidMount(){
-        // this.getPosition()
-        console.log(this.context.restaurantsSearch)
+        this.getPosition()
         this.setState({...this.state, searchResta: this.context.restaurantsSearch})
-        console.log(this.context.restaurantsSearch)
 
     }
 
@@ -46,15 +44,15 @@ class Mapa extends Component{
                     location: [lat,lon]
                 })
                 console.log(this.state.location)
-
-                // fetch(`http://localhost:1024/cercaDeMI/${lat}/${lon}`)
-                // .then(res => res.json())
-                // .then(data => {
-                //     this.setState({
-                //         ...this.state,
-                //         searchResta: data.nearRestaurants
-                //     })
-                //})
+                if(this.state.searchResta.length === 0)
+                    fetch(`http://localhost:1024/cercaDeMI/${lat}/${lon}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        this.setState({
+                            ...this.state,
+                            searchResta: data.nearRestaurants
+                        })
+                    })
             });
         }
     }
@@ -75,18 +73,14 @@ class Mapa extends Component{
 
     submitingSearch(e){
         e.preventDefault()
-        // this.props.history.push('/map')
-        console.log(this.state.searchValue)
         this.fetchValue(this.state.searchValue)
     }
 
     async fetchValue(val){
-        let res = await fetch(`http://localhost:1024/searcher/${val}`)
+        let res = await fetch(`http://localhost:1024/searcher?name=${val}`)
         let datos = await res.json()
-        console.log(datos)
         if(datos.valid){
             this.context.handleRestaurants(datos.response)
-        
         }
     }
 
@@ -102,9 +96,9 @@ class Mapa extends Component{
     render(){
         const iconShield = new L.Icon({
             iconUrl: require('./images/escuditoCeleste.svg'),
-            // iconRetinaUrl: require('./images/escuditoAzul.svg'),
+            iconRetinaUrl: require('./images/escuditoAzul.svg'),
             iconAnchor: null,
-            popupAnchor: null,
+            popupAnchor: [0,0],
             shadowUrl: null,
             shadowSize: null,
             shadowAnchor: null,
@@ -124,10 +118,9 @@ class Mapa extends Component{
                     />
                     <ZoomControl position='bottomright' />
                     <Marker position={this.state.location}>
-
-                        <Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
+                        <Popup>Tu ubicación</Popup>
                     </Marker>
-                    {this.state.searchResta.map((e,i)=> < Marker position= {[e.long, e.lat]} icon={iconShield}> </Marker>)}
+                    {this.state.searchResta.map((e,i)=> < Marker position= {[e.long, e.lat]} icon={iconShield} key={i}><Popup key={i}>{e.nombre_local}<br/>{e.calle}</Popup></Marker>)}
                 </Map>
                 <section className={this.state.class}>
                     <button onClick={this.changeClass.bind(this)}></button>

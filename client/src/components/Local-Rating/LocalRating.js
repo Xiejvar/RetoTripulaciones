@@ -16,8 +16,8 @@ class LocalRatings extends React.Component{
         {firstP:'Valora las medidas de prevencion y seguridad:', h2: 'EVITAR CARTA y otros elementos de uso compartido', secondP: 'Servilleteros,aceite y vinagre, y ofrecer menus desechables o en codigo QR...', image:'./images/Menu.svg'},
         {firstP:'Comparte tu experiencia en el restaurante, y ayuda a otros usuarios:', h2: 'Te has sentido seguro?', secondP: '', image:''}],
         class: 'none',
-
-
+        selected: [],
+        selectedName: false
         }
     }
 
@@ -32,20 +32,72 @@ class LocalRatings extends React.Component{
 
     }
 
+    handleValSel(val){
+        let id = this.state.value
+        this.setState({
+            ...this.state,
+            selected: [...this.state.selected,{id,val}]
+        })
+    }
+
+    sendVals(){
+        console.log(this.state.selected)
+        // fetch('http://localhost:1024/ratingValues',{
+        //     method: 'POST',
+        //     headers:{
+        //         'Content-Type' : 'application/json'
+        //     },
+        //     body: JSON.stringify({
+
+        //     })
+        // })
+    }
+
+    putOpinion(e){
+        const name = this.props.match.params.name
+        let namecito;
+        if(this.state.selectedName){
+            namecito = name
+        }else{
+            namecito = 'Anonymus'
+        }
+        this.setState({
+            opinion: {
+                name: namecito
+            }
+        })
+    }
+
+    nameSelected(e){
+        if(e.target.value){
+            this.setState({
+                ...this.state,
+                selectedName: true
+            })
+        }else {
+            this.setState({
+                ...this.state,
+                selectedName: false
+            })
+        }
+    }
+
     buttons(){
         if(this.state.value < 1){
+
             return <div>
                 <div className='shields'>
-                    < ShieldRating/>
+                    <ShieldRating val={this.handleValSel.bind(this)} />
                 </div>
             <div className='btns'>
             <button className='btnblue'  onClick={this.next.bind(this)}>siguiente</button>
             </div>
             </div> 
         } else if(this.state.value > 0 && this.state.value < 5){
+
             return <div>
                 <div className='shields'> 
-                    < ShieldRating/>
+                    <ShieldRating val={this.handleValSel.bind(this)}/>
                 </div>
              <div className='btns'>
             <button className='btnwhite' onClick={this.back.bind(this)}>atras</button>
@@ -53,22 +105,22 @@ class LocalRatings extends React.Component{
             </div>
             </div>
         } else{
+
              return <div className='father'>
                  <div className='val6'>
-                <textarea className='tarea' rows="10" cols="35" placeholder='Comparte detalles relacionados con las medidas de prevención  llevadas a cabo en este lugar.'></textarea>
+                <textarea className='tarea' rows="10" cols="35" placeholder='Comparte detalles relacionados con las medidas de prevención  llevadas a cabo en este lugar.' onChange={this.putOpinion.bind(this)}></textarea>
                 <section className='cbox'>
-                <input type='checkbox' id='cbox'></input>
+                <input type='checkbox' id='cbox' onChange={this.nameSelected.bind(this)}></input>
                 <label for='cbox'>Incluir mi nombre en la publicacion</label>
                 </section>
                 </div>
                 <div className='btns'>
                 <button className='btnwhite' onClick={this.back.bind(this)}>atras</button>
-             <button className='btnblues'>enviar</button>
+             <button className='btnblues' onClick={this.sendVals.bind(this)}>enviar</button>
              </div>
              </div>  
         }
     }
-
 
     render(){
         return(
@@ -79,7 +131,6 @@ class LocalRatings extends React.Component{
                 </article>
                 <h3 className='quater'>{this.state.items[this.state.value].firstP}</h3>
                 <article className='thisobs quater'>
-                    
                     <h2 className='bluel'>{this.state.items[this.state.value].h2}</h2>
                     <p className='elp'>{this.state.items[this.state.value].secondP}</p>
                     <img src={this.state.items[this.state.value].image}></img>

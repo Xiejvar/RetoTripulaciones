@@ -4,8 +4,9 @@ import './Filters.css'
 export default class Filters extends Component{
     constructor(props){
         super(props)
+        
     }
-
+    
     render(){
         return(
             <section className='filter-box'>
@@ -19,14 +20,14 @@ export default class Filters extends Component{
                             <h3>Tipo de comida:</h3>
                             <ul>
                                 <li><label>Asiática</label><input type='checkbox' id='Asiatica' value='asiática' /></li>
-                                <li><label>Rápida</label><input type='checkbox' id='Asiatica' value='Rápida' /></li>
-                                <li><label>Mejicana</label><input type='checkbox' id='Asiatica' value='Mejicana' /></li>
-                                <li><label>De autor</label><input type='checkbox' id='Asiatica' value='De_autor' /></li>
-                                <li><label>Mediterránea</label><input type='checkbox' id='Asiatica' value='Mediterránea' /></li>
-                                <li><label>Nepalí</label><input type='checkbox' id='Asiatica' value='Nepalí' /></li>
-                                <li><label>Italiana</label><input type='checkbox' id='Asiatica' value='Italiana' /></li>
-                                <li><label>Rusa</label><input type='checkbox' id='Asiatica' value='Rusa' /></li>
-                                <li><label>Griega</label><input type='checkbox' id='Asiatica' value='Griega' /></li>
+                                <li><label>Rápida</label><input type='checkbox' id='rápida' value='rápida' /></li>
+                                <li><label>Mejicana</label><input type='checkbox' id='mejicana' value='mejicana' /></li>
+                                <li><label>De autor</label><input type='checkbox' id='de_autor' value='de_autor' /></li>
+                                <li><label>Mediterránea</label><input type='checkbox' id='mediterránea' value='mediterránea' /></li>
+                                <li><label>Nepalí</label><input type='checkbox' id='nepalí' value='nepalí' /></li>
+                                <li><label>Italiana</label><input type='checkbox' id='italiana' value='italiana' /></li>
+                                <li><label>Rusa</label><input type='checkbox' id='rusa' value='rusa' /></li>
+                                <li><label>Griega</label><input type='checkbox' id='griega' value='griega' onChange={this.getValue.bind(this)} /></li>
                             </ul>
                         </article>
                         <button className='filtros-button'>Aplicar</button>

@@ -123,6 +123,7 @@ class Home extends Component {
     }
 
     async fetchValue(val){
+        
         let res = await fetch(`http://localhost:1024/searcher?name=${val}`)
         let datos = await res.json()
 

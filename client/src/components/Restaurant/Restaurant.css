@@ -1,4 +1,4 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Muli:ital,wght@0,400;0,500;1,700&display=swap');
 .restaurant-view{
     display: flex;
     flex-flow: column wrap;
@@ -284,4 +284,43 @@
     width: 25px;
     height: 25px;
     align-self: flex-end;
+}
+
+.opiniones{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.opiniones-art{
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    border-bottom: 1px solid #fbfbfb;
+}
+
+.opinion-name{
+    font-family: 'Muli';
+    font-size: 14px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.2px;
+    color: #333333;
+}
+
+.opinion-rating{
+    font-family: 'Muli';
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.25px;
+    color: #333333;
+    text-align: left;
 }

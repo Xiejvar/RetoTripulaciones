@@ -15,7 +15,8 @@ class Restaurant extends Component{
             location: '',
             terraza: '',
             higiene: '',
-            arr: []
+            arr: [],
+            opiniones: []
         }
     }
 
@@ -52,6 +53,8 @@ class Restaurant extends Component{
                    global: res.restaurant.valoracion_global,
                    fecha_higiene: fecha,
                    riesgo: res.restaurant.riesgo_covid,
+                   image: res.restaurant.images,
+                   opiniones: res.restaurant.opiniones,
                    arr: [...Array(parseInt(res.restaurant.valoracion_global))]
                })
                
@@ -61,14 +64,6 @@ class Restaurant extends Component{
        })
     }
 
-    putImage(){
-        let num = Math.floor(Math.random() * 14) + 1
-        if(num === 13 || num === 5){
-            return `/images/rest${num}.jpeg`
-        }else {
-            return `/images/rest${num}.jpg`
-        }
-    }
 
     render(){
         return(
@@ -76,7 +71,7 @@ class Restaurant extends Component{
                 <Header />
                 <figure className='restaurant-figure'>
                     <img src='/images/Exit.svg' alt='Botton-vuelta' onClick={this.props.history.goBack} className='button_vuelta'/>
-                    <img src={this.putImage()} alt='restaurante' />
+                    <img src={this.state.image} alt='restaurante' />
                 </figure>
                 <nav className='restaurant-navbar'>
                     <ul>
@@ -156,7 +151,13 @@ class Restaurant extends Component{
                     <p className='restaurant-span'>Los usuarios valoran el compromiso del restaurante con las medidas de prevención de contagio.</p>
                     <h5>¿Te has sentido seguro?</h5>
                     {/* componente de las valoraciones de javi */}
-                    {/* OPINIONES */}
+                    <section className='opiniones'>
+                        {this.state.opiniones.map(e => 
+                            <article className='opiniones-art'>
+                                <p className='opinion-rating'>{e.opinion}</p>
+                                <p className='opinion-name'>{e.name}</p>
+                            </article>)}
+                    </section>
                 </article>
                 <Footer class={'footer-blue'}/>
             </section>

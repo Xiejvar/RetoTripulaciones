@@ -25,18 +25,10 @@ class Food extends React.Component{
             return <p className='terraza-food'>Terraza</p>
     }
 
-    putImage(){
-        let num = Math.floor(Math.random() * 14) + 1
-        if(num === 13 || num === 5){
-            return `/images/rest${num}.jpeg`
-        }else {
-            return `/images/rest${num}.jpg`
-        }
-    }
     render(){
         return(
             <section className='food-section' onClick={this.goToRestaurant.bind(this)}>
-                <img src={this.putImage()} alt={this.props.restaurants.nombre_local} className='food-section-img' />
+                <img src={this.props.restaurants.images} alt={this.props.restaurants.nombre_local} className='food-section-img' />
                 <p className='food-section-tipo'>{this.props.restaurants.tipo_de_comida}</p>
                 <div className='terraza-section'>
                     <p className='food-section-name'>{this.props.restaurants.nombre_local}</p>

@@ -1,0 +1,123 @@
+
+.filter-box{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .6);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.filtros{
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    background-color: #fbfbfb;
+    box-shadow: -3px -3px 20px 0 rgba(220, 210, 216, 0.5), 3px 3px 20px 0 rgba(220, 210, 216, 0.5);
+    border-radius: 15px;
+    z-index: 2;
+    width: 90%;
+    height: 80%;
+}
+
+.filtros-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 90%;
+}
+
+.filtros-header h4{
+    height: 30px;
+    font-family: 'Muli';
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.18px;
+    color: #000035;
+    width: 90%;
+    margin: 0;
+}
+
+
+
+.filtros-range{
+    width: 90%;
+}
+
+.type_food{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.type_food h3 {
+    color: #224bdd;
+    font-family: 'Muli';
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.18px;
+    width: 90%;
+    text-align: left;
+}
+
+.type_food ul{
+    list-style-type: none;
+    width: 90%;
+    padding-left: 0;
+}
+
+.type_food ul li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #dcd2d8;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+.type_food ul li label{
+    font-family: 'Muli';
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.3px;
+}
+
+.type_food ul li input {
+    outline: 2px solid #224bdd;
+    border: 3px solid black;
+    height: fit-content;
+    width: fit-content;
+    border-radius: 15px;
+}
+
+.filtros-button{
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px 0 #847a80, inset 4px 4px 4px 0 #3f65ea;
+    background-color: #3f65ea;
+    border: none;
+    width: 25%;
+    height: 30px;
+    font-family: 'Muli';
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.2px;
+    color: #fbfbfb;
+}

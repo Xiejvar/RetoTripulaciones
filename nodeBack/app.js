@@ -6,7 +6,7 @@ const RandExp = require('randexp')
 const nodemailer = require('nodemailer')
 const bodyParser = require("body-parser")
 const cors = require('cors')
-const datos = require('./restaurantes.json')
+const datos = require('./restaurantes2.json')
 const jwt = require('jwt-simple');
 //global scopes
 const app = express();
@@ -501,13 +501,23 @@ const paramSearcher = async(param) =>{
     }
 }
 
-// let dataRestaurantes = datos.datos.map(e => {
-//     e.valoracion_global = parseFloat(e.valoracion_global)
-//     return e
-// })
 
 
 // ------ INSERTAMOS TODOS LOS DATOS DEL JSON CON ESTA FUNCION -----
+
+// let dataRestaurantes = datos.datos.map(e => {
+//     e.valoracion_global = parseFloat(e.valoracion_global)
+//     let num = Math.floor(Math.random() * 14) + 1
+//         if(num === 13 || num === 5){
+//             e.images = `/images/rest${num}.jpeg`
+//         }else {
+//             e.images = `/images/rest${num}.jpg`
+//         }
+//     e.opiniones = [{name: 'Anonymus',opinion: e.opiniones + ' ' + e.valoracion_medidas_COVID}]
+//     console.log(e)
+//     return e
+// })
+
 // let insertRestaurant = async () => {
 //     let client, result;
 //     try{
@@ -520,6 +530,8 @@ const paramSearcher = async(param) =>{
 //         throw err
 //     }
 // }
+
+// insertRestaurant()
 
 
 

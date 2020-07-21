@@ -6,6 +6,7 @@ import Search from '../Search/Search'
 import Header from '../Header/Header'
 import MapRestaurant from '../MapRestaurant/MapRestaurant';
 import RestaurantContext from '../../contexts/findRestaurants'
+import Filters from '../Filters/Filters';
 
 class Mapa extends Component{
     static contextType = RestaurantContext

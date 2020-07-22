@@ -55,6 +55,7 @@ class Restaurant extends Component{
                    riesgo: res.restaurant.riesgo_covid,
                    image: res.restaurant.images,
                    opiniones: res.restaurant.opiniones,
+                   id_res: res.restaurant.id_local,
                    arr: [...Array(parseInt(res.restaurant.valoracion_global))]
                })
                
@@ -72,6 +73,10 @@ class Restaurant extends Component{
         }else if(this.state.riesgo === 'medio'){
             
         }
+    }
+
+    getIdLocal(){
+        return '/valorar' + '/' + this.state.id_res
     }
 
 
@@ -102,7 +107,7 @@ class Restaurant extends Component{
                     <div className='restaurant-inforating'>
                         {this.state.arr.map(e => <img src='/images/escuditoCeleste.svg' alt='valoraciones' key={e}/>)}
                         <p>{this.state.global}</p>
-                        <Link to='/valorar' className='añadirRating'>Añadir valoración</Link>
+                        <Link to={this.getIdLocal.bind(this)} className='añadirRating'>Añadir valoración</Link>
                     </div>
                     <p className='restaurant-address'>{this.state.address}</p>
                 </article>

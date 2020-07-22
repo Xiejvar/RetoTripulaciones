@@ -121,6 +121,15 @@ class Mapa extends Component{
         this.setState({...this.state, filters: value.fin, rangeValue: value.rang})
     }
 
+    getFilts(){
+        let filts = this.state.filters
+        this.setState({
+            ...this.state,
+            filters: undefined
+        })
+        return filts
+    }
+
     render(){
         const iconShield = new L.Icon({
             iconUrl: require('./images/escuditoCeleste.svg'),
@@ -137,7 +146,7 @@ class Mapa extends Component{
             <section className='mapSection'>
                 <Header className='holasoyclass'/>
                 <form className='home-searchForm' onSubmit={this.submitingSearch.bind(this)}>
-                    <Search searchValue={this.getValue.bind(this)} filtss={this.addFilters.bind(this)}/>
+                    <Search searchValue={this.getValue.bind(this)} filtss={this.addFilters.bind(this)} selectedFil={this.state.filters !== undefined} getFilters={this.getFilts.bind(this)}/>
                 </form>
                 <Map center={this.state.location} zoom={14} className='map-buscador' zoomControl={false}>
                     <TileLayer

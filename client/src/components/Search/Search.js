@@ -6,7 +6,17 @@ class Search extends Component {
     constructor(props){
         super(props)
         this.state = {
-            filter: false
+            filter: false,
+            arrFilt: undefined
+        }
+    }
+
+    componentDidUpdate(){
+        if(this.props.selectedFil){
+            this.setState({
+                ...this.state,
+                arrFilt: this.props.getFilters()
+            })
         }
     }
 
@@ -34,6 +44,15 @@ class Search extends Component {
         this.setState({...this.state, filter: false})
     }
 
+    getAllFilts(){
+        let filts = this.state.arrFilt
+        this.setState({
+            ...this.state,
+            arrFilt: undefined
+        })
+        return filts
+    }
+
     render(){
         return(
             <>
@@ -42,7 +61,7 @@ class Search extends Component {
                     <button className='button-loop' type='submit'></button>
                     <button className='button-filter' onClick={this.putFilters.bind(this)}></button>
                 </section>
-                {this.state.filter ? <Filters vals={this.valvalid.bind(this)} close={this.closePopUp.bind(this)}/> : ''}
+                {this.state.filter ? <Filters vals={this.valvalid.bind(this)} close={this.closePopUp.bind(this)} setFilts={this.state.arrFilt !== undefined}  getFilts={this.getAllFilts.bind(this)}/> : ''}
             </>
         )
     }

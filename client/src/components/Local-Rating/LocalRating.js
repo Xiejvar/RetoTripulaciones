@@ -2,6 +2,7 @@ import React from 'react'
 import './LocalRating.css'
 import Doter from '../Doter/Doter'
 import ShieldRating from '../shields/shieldRating'
+import ModalValoraciones from '../ModalValoraciones/ModalValoraciones'
 
 import VerificationContext from '../../contexts/verificationToken'
 
@@ -13,15 +14,16 @@ class LocalRatings extends React.Component{
     constructor(){
         super()
 
-        this.state = {value:0,items:[{firstP:'Valora las medidas de prevencion y seguridad:', h2: 'Limpieza exhaustiva', secondP: 'de mesas, barra, baños...', image:'./images/Cubiertos.svg'},
-        {firstP:'Valora las medidas de prevencion y seguridad:', h2: 'Distancia de seguridad', secondP: 'entre mesas, entre clientes...', image:'./images/Distancia de seguridad.svg'},
-        {firstP:'Valora las medidas de prevencion y seguridad:', h2: 'Personal profesional', secondP: 'uso de mascarillas, precaucion...', image:'./images/Camarero.svg'},
-        {firstP:'Valora las medidas de prevencion y seguridad:', h2: 'Dispensador de gel', secondP: 'gel hidroalcolico en la entrada, en el baño...', image:'./images/Gel.svg'},
-        {firstP:'Valora las medidas de prevencion y seguridad:', h2: 'EVITAR CARTA y otros elementos de uso compartido', secondP: 'Servilleteros,aceite y vinagre, y ofrecer menus desechables o en codigo QR...', image:'./images/Menu.svg'},
+        this.state = {value:0,items:[{firstP:'Valora las medidas de prevencion y seguridad:', h2: 'Limpieza exhaustiva', secondP: 'de mesas, barra, baños...', image:'/images/Cubiertos.svg'},
+        {firstP:'Valora las medidas de prevencion y seguridad:', h2: 'Distancia de seguridad', secondP: 'entre mesas, entre clientes...', image:'/images/Distancia de seguridad.svg'},
+        {firstP:'Valora las medidas de prevencion y seguridad:', h2: 'Personal profesional', secondP: 'uso de mascarillas, precaucion...', image:'/images/Camarero.svg'},
+        {firstP:'Valora las medidas de prevencion y seguridad:', h2: 'Dispensador de gel', secondP: 'gel hidroalcolico en la entrada, en el baño...', image:'/images/Gel.svg'},
+        {firstP:'Valora las medidas de prevencion y seguridad:', h2: 'EVITAR CARTA y otros elementos de uso compartido', secondP: 'Servilleteros,aceite y vinagre, y ofrecer menus desechables o en codigo QR...', image:'/images/Menu.svg'},
         {firstP:'Comparte tu experiencia en el restaurante, y ayuda a otros usuarios:', h2: 'Te has sentido seguro?', secondP: '', image:''}],
         class: 'none',
         selected: [],
-        selectedName: false
+        selectedName: false,
+        showMessageCompleted: false
         }
     }
 
@@ -111,11 +113,18 @@ class LocalRatings extends React.Component{
             },
             body: JSON.stringify({
                     opinion: this.state.opinion,
-                    ratings: this.state.selected
+                    ratings: this.state.selected,
+                    id_local: this.props.match.params.id,
+                    token: this.context.tok
             })
         }).then(res => res.json())
         .then(data => {
-            console.log(data)
+            if(data.valid){
+                this.setState({
+                    ...this.state,
+                    showMessageCompleted: true
+                })
+            }
         })
     }
 
@@ -125,7 +134,7 @@ class LocalRatings extends React.Component{
                 ...this.state,
                 opinion: {
                     ...this.state.opinion,
-                    opi: e.target.value
+                    opinion: e.target.value
                 }
             })
         else
@@ -186,7 +195,7 @@ class LocalRatings extends React.Component{
                             <textarea className='tarea' rows="10" cols="35" placeholder='Comparte detalles relacionados con las medidas de prevención  llevadas a cabo en este lugar.' onChange={this.putOpinion.bind(this)}></textarea>
                             <section className='cbox'>
                             <input type='checkbox' id='cbox' onChange={this.nameSelected.bind(this)}></input>
-                            <label for='cbox'>Incluir mi nombre en la publicacion</label>
+                            <label >Incluir mi nombre en la publicacion</label>
                             </section>
                         </div>
                         <div className='btns'>
@@ -200,9 +209,10 @@ class LocalRatings extends React.Component{
     render(){
         return(
          <div className='god'>
+             <ModalValoraciones show={this.state.showMessageCompleted} history={this.props.history}/>
             <div className='demigod'>
                 <article className='cross'>
-                    <img src='./images/cross.svg' onClick={this.props.history.goBack}></img>
+                    <img src='/images/cross.svg' onClick={this.props.history.goBack}></img>
                 </article>
                 <h3 className='quater'>{this.state.items[this.state.value].firstP}</h3>
                 <article className='thisobs quater'>

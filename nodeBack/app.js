@@ -453,6 +453,67 @@ let eliminateUser = async ({token, secret}) => {
     }
 }
 
+let putOpinions = async (ratings, opinions, id) => {
+    let client,result,ret;
+    console.log(opinions)
+    try{
+        client = await MongoClient.connect(url2,{useUnifiedTopology: true})
+        let dbo = client.db('comidasReto')
+        let us = dbo.collection('restaurantes')
+        result = await us.findOne({"id_local": Number(id)})
+        opinions.id = result.opiniones.length
+        console.log(result,id,opinions)
+        result = await us.updateOne({id_local: Number(id)}, {$push: {opiniones: opinions}})
+        console.log(result)
+        console.log('Esta Comentado')
+        ret = {
+            valid: true,
+            id: opinions.id
+        }
+    }catch(err){
+        ret = {valid: false}
+        throw err
+    } finally{
+        client.close()
+        return ret
+    }
+}
+
+let putUserValorations = async ({token, secret },id_local,id_valoracion) => {
+    let client,result;
+    try{
+        client = await MongoClient.connect(url,{useUnifiedTopology: true})
+            let dbo = client.db('usuariosReto')
+            let us = dbo.collection('users')
+            result = await us.findOne({auth: token,secret : secret})
+            if(result !== null){
+                result = await us.updateOne({auth: token, secret: secret}, {$push :{ valoraciones: {id_local,id_valoracion}}})
+                if(result.modifiedCount > 0){
+                    ret ={
+                        valid: true
+                    }
+                }else{
+                    ret ={
+                        valid: false
+                    }
+                }
+            }
+            else{
+                ret = {
+                    valid:false
+                }
+            }
+    }catch(err){
+        ret = {
+            valid:false
+        }
+        throw err
+    } finally{
+        client.close()
+        return ret
+    }
+}
+
 let logOutUser = async ({token, secret}) => {
     let client,result;
     if(token !== undefined && secret !== undefined){
@@ -774,7 +835,20 @@ app.post('/searcher', (req,res)=>{
 
 app.post('/ratingValues', (req,res) => {
     let ratings = req.body.ratings
-    console.log(ratings)
+    let opinion = req.body.opinion
+    let id = req.body.id_local
+    let token = req.body.token
+    putOpinions(ratings,opinion,id).then(data => {
+        if(data.valid)
+            putUserValorations(token,id,data.id).then( datos => {
+                if(datos.valid)
+                    res.send({valid: true})
+                else
+                 res.send({valid: false})
+            })
+        else
+            res.send({valid: false})
+    })
 })
 
 //Listen

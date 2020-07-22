@@ -16,7 +16,9 @@ class Mapa extends Component{
             class: 'restaurants-slider',
             up: false,
             location: [40.416775, -3.703790],
-            searchResta: []
+            searchResta: [],
+            searchValue: undefined,
+            filters: undefined
         }
     }
 
@@ -27,11 +29,15 @@ class Mapa extends Component{
     }
 
     componentDidUpdate(prevP,prevS){
-        if(prevS.searchResta !== this.context.restaurantsSearch)
+        if(prevS.searchResta !== this.context.restaurantsSearch){
             this.setState({
                 ...this.state,
                 searchResta: this.context.restaurantsSearch
             })
+        }
+        if(prevS.filters !== this.state.filters || prevS.searchValue !== this.state.searchValue){
+            this.fetchValue()
+        }
     }
 
     getPosition(){
@@ -74,24 +80,46 @@ class Mapa extends Component{
 
     submitingSearch(e){
         e.preventDefault()
-        this.fetchValue(this.state.searchValue)
     }
 
-    async fetchValue(val){
-        let res = await fetch(`http://localhost:1024/searcher?name=${val}`)
-        let datos = await res.json()
-        if(datos.valid){
-            this.context.handleRestaurants(datos.response)
-        }
+    async fetchValue(){
+        let val = this.state.searchValue;
+        let filter = this.state.filters;
+        if(val == undefined && filter == undefined)
+            console.log(val,filter)
+        else
+            fetch('http://localhost:1024/searcher', {
+                method: 'POST',
+                headers: {
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify({
+                        name : val,
+                        filters: filter
+                    })
+            }).then(res => res.json())
+            .then(datos => {
+                if(datos.valid){
+                    this.setState({
+                        value: undefined,
+                        filters: undefined
+                    })
+                    this.context.handleRestaurants(datos.response)
+                    this.props.history.push('/map')
+                }
+            })
     }
 
 
     getValue(val){
-
         this.setState({
             ...this.state,
             searchValue: val
         })
+    }
+
+    addFilters(value){
+        this.setState({...this.state, filters: value})
     }
 
     render(){
@@ -110,7 +138,7 @@ class Mapa extends Component{
             <section className='mapSection'>
                 <Header className='holasoyclass'/>
                 <form className='home-searchForm' onSubmit={this.submitingSearch.bind(this)}>
-                    <Search searchValue= {this.getValue.bind(this)}/>
+                    <Search searchValue={this.getValue.bind(this)} filtss={this.addFilters.bind(this)}/>
                 </form>
                 <Map center={this.state.location} zoom={14} className='map-buscador' zoomControl={false}>
                     <TileLayer

@@ -64,6 +64,16 @@ class Restaurant extends Component{
        })
     }
 
+    mathContagios(){
+        if(this.state.riesgo === 'bajo'){
+
+        }else if(this.state.riesgo === 'medio'){
+
+        }else if(this.state.riesgo === 'medio'){
+            
+        }
+    }
+
 
     render(){
         return(

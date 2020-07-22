@@ -21,7 +21,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 let generarConfirmTok = () => {
     return new RandExp(/[a-zA-Z0-9!@#$%^&*]{256}/).gen()
-    
 }
 
 let sendMail = ( email,token) => {
@@ -475,20 +474,41 @@ let logOutUser = async ({token, secret}) => {
     }
 }
 
-
-const paramSearcher = async(param) =>{
-    let client, result,ret
+const paramSearcher = async(param = '',filters) =>{
+    let type = ['asiática','rápida','mejicana','de autor','mediterránea','nepalí','italiana','rusa','griega'];
+    let client, result,ret;
+    let filt = '';
+    let nami = '';
+    let query = null;
     let name = param.toUpperCase()
     let tipoComida = param.toLowerCase()
+    if(filters !== undefined && filters.length > 0){
+        let num = filters.map(e => Number(e))
+        let finale = num.map(e => {
+            return type[e]
+        })
+        filt = {tipo_de_comida: { $in: finale}}
+    }
+    if(param.length > 0){
+        nami = {$or: [{nombre_local: { '$regex' : `${name}`}}, {tipo_de_comida: { '$regex' : `${tipoComida}`}}]}
+    }
+    if(nami !== '' && filt !== ''){
+        query = {$and: [nami,filt]}
+    }else if(nami === '' && filt !== ''){
+        query = filt
+    } else if(nami !== '' && filt == ''){
+        query = nami
+    }
     try{
         client = await MongoClient.connect(url,{useUnifiedTopology: true})
         let dbo = client.db('comidasReto')
         let rest = dbo.collection('restaurantes')
-        result = await rest.find({$or: [{nombre_local: { '$regex' : `${name}`}}, {tipo_de_comida: { '$regex' : `${tipoComida}`}}]}).sort({valoracion_global:-1}).limit(50).toArray()
+        result = await rest.find(query).sort({valoracion_global:-1}).limit(50).toArray()
         if(result.length > 0){
             ret = result
 
         }else{
+            console.log('false')
             ret = false
         }
         
@@ -725,10 +745,10 @@ app.post('/eliminate', (req,res)=> {
 })
 
 
-app.get('/searcher', (req,res)=>{
-    let param = req.query.name
-    
-    paramSearcher(param).then(result => !result ? res.send({valid: false}) : res.send({valid: true, response: result}))
+app.post('/searcher', (req,res)=>{
+    let param = req.body.name
+    let arrFilters = req.body.filters
+    paramSearcher(param,arrFilters).then(result => !result ? res.send({valid: false}) : res.send({valid: true, response: result}))
 
     
 })

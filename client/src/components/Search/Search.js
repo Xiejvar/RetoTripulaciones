@@ -28,6 +28,11 @@ class Search extends Component {
         })
     }
 
+    valvalid(val){
+        this.props.filt(val)
+        this.setState({...this.state, filter: false})
+    }
+
     render(){
         return(
             <>
@@ -36,7 +41,7 @@ class Search extends Component {
                     <button className='button-loop' type='submit'></button>
                     <button className='button-filter' onClick={this.putFilters.bind(this)}></button>
                 </section>
-                {this.state.filter ? <Filters close={this.closePopUp.bind(this)}/> : ''}
+                {this.state.filter ? <Filters vals={this.valvalid.bind(this)} close={this.closePopUp.bind(this)}/> : ''}
             </>
         )
     }

@@ -18,12 +18,13 @@ class Mapa extends Component{
             location: [40.416775, -3.703790],
             searchResta: [],
             searchValue: undefined,
-            filters: undefined
+            filters: undefined,
+            rangeValue: undefined
         }
     }
 
     componentDidMount(){
-        this.getPosition()
+        // this.getPosition()
         this.setState({...this.state, searchResta: this.context.restaurantsSearch})
 
     }
@@ -35,7 +36,7 @@ class Mapa extends Component{
                 searchResta: this.context.restaurantsSearch
             })
         }
-        if(prevS.filters !== this.state.filters || prevS.searchValue !== this.state.searchValue){
+        if(prevS.filters !== this.state.filters || prevS.searchValue !== this.state.searchValue || prevS.rangeValue !== this.state.rangeValue){
             this.fetchValue()
         }
     }
@@ -50,7 +51,6 @@ class Mapa extends Component{
                     ...this.state,
                     location: [lat,lon]
                 })
-                console.log(this.state.location)
                 if(this.state.searchResta.length === 0)
                     fetch(`http://localhost:1024/cercaDeMI/${lat}/${lon}`)
                     .then(res => res.json())
@@ -85,9 +85,11 @@ class Mapa extends Component{
     async fetchValue(){
         let val = this.state.searchValue;
         let filter = this.state.filters;
-        if(val == undefined && filter == undefined)
+        let range= this.state.rangeValue;
+        if(val == undefined && filter == undefined && range == undefined)
             console.log(val,filter)
         else
+            console.log(val)
             fetch('http://localhost:1024/searcher', {
                 method: 'POST',
                 headers: {
@@ -95,15 +97,12 @@ class Mapa extends Component{
                 },
                 body: JSON.stringify({
                         name : val,
-                        filters: filter
+                        filters: filter,
+                        rangeValue: range
                     })
             }).then(res => res.json())
             .then(datos => {
                 if(datos.valid){
-                    this.setState({
-                        value: undefined,
-                        filters: undefined
-                    })
                     this.context.handleRestaurants(datos.response)
                     this.props.history.push('/map')
                 }
@@ -119,7 +118,7 @@ class Mapa extends Component{
     }
 
     addFilters(value){
-        this.setState({...this.state, filters: value})
+        this.setState({...this.state, filters: value.fin, rangeValue: value.rang})
     }
 
     render(){

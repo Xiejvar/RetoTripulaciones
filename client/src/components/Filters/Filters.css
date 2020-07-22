@@ -17,6 +17,7 @@
     display: flex;
     flex-flow: column wrap;
     align-items: center;
+    justify-content: space-evenly;
     background-color: #fbfbfb;
     box-shadow: -3px -3px 20px 0 rgba(220, 210, 216, 0.5), 3px 3px 20px 0 rgba(220, 210, 216, 0.5);
     border-radius: 15px;
@@ -120,4 +121,36 @@
     line-height: normal;
     letter-spacing: 0.2px;
     color: #fbfbfb;
+}
+
+.range-div{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 95%;
+}
+.range-div h3{
+    font-family: 'Muli';
+    font-size: 18px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.18px;
+    color: #224bdd;
+    width: 90%;
+    text-align: left;
+}
+.escudelis-article{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.escuditos-range{
+    width: fit-content;
+    margin: 0 10px;
 }

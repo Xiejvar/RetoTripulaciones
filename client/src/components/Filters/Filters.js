@@ -14,7 +14,8 @@ export default class Filters extends Component{
             italiana: false,
             rusa: false,
             griega: false,
-            finalVal: []
+            finalVal: [],
+            rangeValue: undefined
         }
     }
 
@@ -92,7 +93,19 @@ export default class Filters extends Component{
     }
 
     sendValues(){
-        this.props.vals(this.state.finalVal)
+        let obj = {
+            fin: this.state.finalVal,
+            rang: this.state.rangeValue
+        }
+        this.props.vals(obj)
+    }
+
+    getRangeValue(e){
+        console.log(e.target.value)
+        this.setState({
+            ...this.state,
+            rangeValue: e.target.value
+        })
     }
     render(){
         return(
@@ -102,7 +115,30 @@ export default class Filters extends Component{
                             <h4>Filtros</h4>
                             <img src='/images/Exit.svg' alt='cross' onClick={() => this.props.close(false)}/>
                         </div>
-                        <input type='range' step='1' min='1' max='3' className='filtros-range'/>
+                        <div className='range-div'>
+                            <h3>Valoraciones:</h3>
+                            <input type='range' step='1' min='3' max='5' className='filtros-range' defaultValue='3' onChange={this.getRangeValue.bind(this)}/>
+                            <article className='escudelis-article'>
+                                <section className='escuditos-range'>
+                                    <img src='/images/escuditoCeleste.svg' alt='escuditos' />
+                                    <img src='/images/escuditoCeleste.svg' alt='escuditos' />
+                                    <img src='/images/escuditoCeleste.svg' alt='escuditos' />
+                                </section>
+                                <section className='escuditos-range'>
+                                    <img src='/images/escuditoCeleste.svg' alt='escuditos' />
+                                    <img src='/images/escuditoCeleste.svg' alt='escuditos' />
+                                    <img src='/images/escuditoCeleste.svg' alt='escuditos' />
+                                    <img src='/images/escuditoCeleste.svg' alt='escuditos' />
+                                </section>
+                                <section className='escuditos-range'>
+                                    <img src='/images/escuditoCeleste.svg' alt='escuditos' />
+                                    <img src='/images/escuditoCeleste.svg' alt='escuditos' />
+                                    <img src='/images/escuditoCeleste.svg' alt='escuditos' />
+                                    <img src='/images/escuditoCeleste.svg' alt='escuditos' />
+                                    <img src='/images/escuditoCeleste.svg' alt='escuditos' />
+                                </section>
+                            </article>
+                        </div>
                         <article className='type_food'>
                             <h3>Tipo de comida:</h3>
                             <ul>

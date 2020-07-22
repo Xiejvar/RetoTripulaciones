@@ -3,9 +3,13 @@ import './LocalRating.css'
 import Doter from '../Doter/Doter'
 import ShieldRating from '../shields/shieldRating'
 
+import VerificationContext from '../../contexts/verificationToken'
+
 
 
 class LocalRatings extends React.Component{
+    static contextType = VerificationContext
+
     constructor(){
         super()
 
@@ -21,62 +25,133 @@ class LocalRatings extends React.Component{
         }
     }
 
-    next(event){
-        event.preventDefault()
-            this.setState({...this.state, value: this.state.value + 1})
-
-    }
-    back(event){
-        event.preventDefault()
-            this.setState({...this.state, value: this.state.value - 1})
-
-    }
-
-    handleValSel(val){
-        let id = this.state.value
-        this.setState({
-            ...this.state,
-            selected: [...this.state.selected,{id,val}]
-        })
-    }
-
-    sendVals(){
-        console.log(this.state.selected)
-        // fetch('http://localhost:1024/ratingValues',{
-        //     method: 'POST',
-        //     headers:{
-        //         'Content-Type' : 'application/json'
-        //     },
-        //     body: JSON.stringify({
-
-        //     })
-        // })
-    }
-
-    putOpinion(e){
-        const name = this.props.match.params.name
-        let namecito;
-        if(this.state.selectedName){
-            namecito = name
-        }else{
-            namecito = 'Anonymus'
+    componentDidMount(){
+        if(this.context.tok.token === null || this.context.tok.token === undefined){
+            this.props.history.push('/cuentaInicioSesion')
+            console.log('lleguee')
         }
-        this.setState({
-            opinion: {
-                name: namecito
+        this.searchUser()
+    }
+
+    searchUser(){
+        fetch('http://localhost:1024/findUser',{
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({
+                token: this.context.tok
+         })
+        }).then(res => res.json())
+        .then(data => {
+            if(data.valid){
+                if(data.surname !== undefined)
+                    this.setState({
+                        ...this.state,
+                        name: data.name + ' ' + data.surname
+                    })
+                else
+                    this.setState({
+                        ...this.state,
+                        name: data.name 
+                    })
+            } else {
+                sessionStorage.removeItem('token')
+                sessionStorage.removeItem('secret')
+                this.props.history.push('/cuentaInicioSesion')
             }
         })
     }
 
-    nameSelected(e){
-        if(e.target.value){
+    next(event){
+        let id = this.state.value
+        let rat,newArr;
+        if(this.state.rating === undefined)
+            rat = 1
+        else
+            rat = this.state.rating
+        if(this.state.selected.length > 0){
+            newArr = this.state.selected.filter(e => e.id !== id)
+            newArr = [...newArr,{id,rat}]
+        }else {
+            newArr = [{id,rat}]
+        }
+        event.preventDefault()
+        this.setState({...this.state, value: this.state.value + 1, selected: newArr})
+
+    }
+    back(event){
+        event.preventDefault()
+        this.setState({...this.state, value: this.state.value - 1})
+
+    }
+
+    handleValSel(val){
+        this.setState({
+            ...this.state,
+            rating: val
+        })
+        
+    }
+
+    sendVals(){
+        if(!this.state.selectedName)
             this.setState({
                 ...this.state,
+                opinion: {
+                    ...this.state.opinion,
+                    name: 'Anonymus'
+                },
+                selectedName: false
+            })
+        fetch('http://localhost:1024/ratingValues',{
+            method: 'POST',
+            headers:{
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({
+                    opinion: this.state.opinion,
+                    ratings: this.state.selected
+            })
+        }).then(res => res.json())
+        .then(data => {
+            console.log(data)
+        })
+    }
+
+    putOpinion(e){
+        if(e.target.value.length > 0)
+            this.setState({
+                ...this.state,
+                opinion: {
+                    ...this.state.opinion,
+                    opi: e.target.value
+                }
+            })
+        else
+        this.setState({
+            ...this.state,
+            opinion: ''
+        })
+    }
+
+    nameSelected(e){
+        if(e.target.checked){
+            this.setState({
+                ...this.state,
+                opinion: {
+                    ...this.state.opinion,
+                    name: this.state.name
+                },
                 selectedName: true
             })
         }else {
             this.setState({
                 ...this.state,
+                opinion: {
+                    ...this.state.opinion,
+                    name: 'Anonymus'
+                },
                 selectedName: false
             })
         }
@@ -107,18 +182,18 @@ class LocalRatings extends React.Component{
         } else{
 
              return <div className='father'>
-                 <div className='val6'>
-                <textarea className='tarea' rows="10" cols="35" placeholder='Comparte detalles relacionados con las medidas de prevención  llevadas a cabo en este lugar.' onChange={this.putOpinion.bind(this)}></textarea>
-                <section className='cbox'>
-                <input type='checkbox' id='cbox' onChange={this.nameSelected.bind(this)}></input>
-                <label for='cbox'>Incluir mi nombre en la publicacion</label>
-                </section>
-                </div>
-                <div className='btns'>
-                <button className='btnwhite' onClick={this.back.bind(this)}>atras</button>
-             <button className='btnblues' onClick={this.sendVals.bind(this)}>enviar</button>
-             </div>
-             </div>  
+                        <div className='val6'>
+                            <textarea className='tarea' rows="10" cols="35" placeholder='Comparte detalles relacionados con las medidas de prevención  llevadas a cabo en este lugar.' onChange={this.putOpinion.bind(this)}></textarea>
+                            <section className='cbox'>
+                            <input type='checkbox' id='cbox' onChange={this.nameSelected.bind(this)}></input>
+                            <label for='cbox'>Incluir mi nombre en la publicacion</label>
+                            </section>
+                        </div>
+                        <div className='btns'>
+                            <button className='btnwhite' onClick={this.back.bind(this)}>atras</button>
+                            <button className='btnblues' onClick={this.sendVals.bind(this)}>enviar</button>
+                         </div>
+                    </div>
         }
     }
 

@@ -767,10 +767,14 @@ app.post('/searcher', (req,res)=>{
     let param = req.body.name
     let arrFilters = req.body.filters
     let range = Number(req.body.rangeValue)
-    console.log(param,arrFilters,range)
     paramSearcher(param,arrFilters,range).then(result => !result ? res.send({valid: false}) : res.send({valid: true, response: result}))
 
     
+})
+
+app.post('/ratingValues', (req,res) => {
+    let ratings = req.body.ratings
+    console.log(ratings)
 })
 
 //Listen

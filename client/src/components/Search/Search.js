@@ -14,7 +14,8 @@ class Search extends Component {
         this.props.searchValue(e.target.value)
     }
 
-    putFilters(){
+    putFilters(e){
+        e.preventDefault()
         this.setState({
             ...this.state,
             filter: true
@@ -29,7 +30,7 @@ class Search extends Component {
     }
 
     valvalid(val){
-        this.props.filt(val)
+        this.props.filtss(val)
         this.setState({...this.state, filter: false})
     }
 

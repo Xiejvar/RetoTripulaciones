@@ -119,12 +119,13 @@ class Home extends Component {
 
     submitingSearch(e){
         e.preventDefault()
-        this.fetchValue(this.state.value)
+        this.fetchValue(this.state.value, this.state.filter)
+        
     }
 
-    async fetchValue(val){
-        
-        let res = await fetch(`http://localhost:1024/searcher?name=${val}`)
+    async fetchValue(val,filter){
+        console.log(filter)
+        let res = await fetch(`http://localhost:1024/searcher?name=${val}${filter}`)
         let datos = await res.json()
 
         if(datos.valid){
@@ -137,6 +138,10 @@ class Home extends Component {
         this.setState({...this.state, value})
     }
 
+    addFilters(value){
+        console.log(value)
+        this.setState({...this.state, filters: value})
+    }
 
     render(){
         return(
@@ -145,7 +150,7 @@ class Home extends Component {
                 <h2 className='home-title'>Encuentra restaurantes donde sentirte seguro</h2>
                 
                 <form className='home-searchForm' onSubmit={this.submitingSearch.bind(this)}>
-                    <Search searchValue={this.getValue.bind(this)} history={this.props.history}/>
+                    <Search filt={this.addFilters.bind(this)} searchValue={this.getValue.bind(this)} history={this.props.history}/>
                 </form>
                 {this.state.showTerr && this.state.showSafe && this.state.showClose ? '' : <Loader color='#11215f' type='Oval'/>}
                 {this.state.loader && this.state.showSafe ? '' : <FoodList getResta={this.state.restaurantsSafe !== undefined}  addResta={this.getRestaurantsSafe.bind(this)} title={'Los mas seguros segun los usuarios'} history={this.props.history}/>}

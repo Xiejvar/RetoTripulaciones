@@ -727,7 +727,9 @@ app.post('/eliminate', (req,res)=> {
 
 app.get('/searcher', (req,res)=>{
     let param = req.query.name
+    
     paramSearcher(param).then(result => !result ? res.send({valid: false}) : res.send({valid: true, response: result}))
+
     
 })
 

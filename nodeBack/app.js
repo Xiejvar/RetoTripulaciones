@@ -514,7 +514,6 @@ const paramSearcher = async(param = '',filters,num) =>{
     }else if(nami !== '' && filt == '' && !isNaN(num)){
         query = {$and: [nami,nm]}
     }
-    console.log(query)
     try{
         client = await MongoClient.connect(url,{useUnifiedTopology: true})
         let dbo = client.db('comidasReto')

@@ -474,11 +474,12 @@ let logOutUser = async ({token, secret}) => {
     }
 }
 
-const paramSearcher = async(param = '',filters) =>{
+const paramSearcher = async(param = '',filters,num) =>{
     let type = ['asiática','rápida','mejicana','de autor','mediterránea','nepalí','italiana','rusa','griega'];
     let client, result,ret;
     let filt = '';
     let nami = '';
+    let nm = null;
     let query = null;
     let name = param.toUpperCase()
     let tipoComida = param.toLowerCase()
@@ -489,21 +490,39 @@ const paramSearcher = async(param = '',filters) =>{
         })
         filt = {tipo_de_comida: { $in: finale}}
     }
+    if(!isNaN(num)){
+        nm = {valoracion_global:{$gte:num}}
+    }
+
     if(param.length > 0){
         nami = {$or: [{nombre_local: { '$regex' : `${name}`}}, {tipo_de_comida: { '$regex' : `${tipoComida}`}}]}
     }
-    if(nami !== '' && filt !== ''){
-        query = {$and: [nami,filt]}
-    }else if(nami === '' && filt !== ''){
+    if(nami !== '' && filt !== '' && !isNaN(num)){
+        query = {$and: [nami,filt,nm]}
+    }else if(nami === '' && filt !== '' && isNaN(num)){
         query = filt
-    } else if(nami !== '' && filt == ''){
+    } else if(nami !== '' && filt == '' && isNaN(num)){
         query = nami
+    }else if(nami == '' && filt == '' && !isNaN(num)){
+        query = nm
+    } else if(nami !== '' && filt !== '' && isNaN(num)){
+        query = {$and: [nami,filt]}
+    }else if(nami !== '' && filt == '' && !isNaN(num)){
+        query = {$and: [nami,nm]}
+    }else if(nami == '' && filt !== '' && !isNaN(num)){
+        query = {$and: [nm,filt]}
+    }else if(nami !== '' && filt == '' && !isNaN(num)){
+        query = {$and: [nami,nm]}
     }
+    console.log(query)
     try{
         client = await MongoClient.connect(url,{useUnifiedTopology: true})
         let dbo = client.db('comidasReto')
         let rest = dbo.collection('restaurantes')
-        result = await rest.find(query).sort({valoracion_global:-1}).limit(50).toArray()
+        if(query !== null)
+            result = await rest.find(query).sort({valoracion_global:-1}).limit(50).toArray()
+        else
+            ret = false
         if(result.length > 0){
             ret = result
 
@@ -748,7 +767,9 @@ app.post('/eliminate', (req,res)=> {
 app.post('/searcher', (req,res)=>{
     let param = req.body.name
     let arrFilters = req.body.filters
-    paramSearcher(param,arrFilters).then(result => !result ? res.send({valid: false}) : res.send({valid: true, response: result}))
+    let range = Number(req.body.rangeValue)
+    console.log(param,arrFilters,range)
+    paramSearcher(param,arrFilters,range).then(result => !result ? res.send({valid: false}) : res.send({valid: true, response: result}))
 
     
 })

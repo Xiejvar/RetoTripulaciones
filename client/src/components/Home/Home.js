@@ -25,7 +25,8 @@ class Home extends Component {
             foodlistLength: [...Array(3)],
             restaurantsSearch: [],
             filters: undefined,
-            value: undefined
+            value: undefined,
+            rangeValue: undefined
         }
     }
 
@@ -39,7 +40,7 @@ class Home extends Component {
                 loader: false
             })
         }
-        if(prevS.filters !== this.state.filters){
+        if(prevS.filters !== this.state.filters || prevS.rangeValue !== this.state.rangeValue){
             this.fetchValue()
         }
     }
@@ -47,10 +48,8 @@ class Home extends Component {
     async putRestaur(){
         let res = await fetch('http://localhost:1024/foodListTerraza')
         let dataTerr = await res.json()
-        console.log(dataTerr)
         let res2 = await fetch('http://localhost:1024/foodListSeguro')
         let dataSeg = await res2.json()
-        console.log(dataSeg)
         this.setState({
             ...this.state,
             restaurantsSafe: dataSeg,
@@ -67,7 +66,6 @@ class Home extends Component {
             navigator.geolocation.getCurrentPosition((position) => {
                 lat = position.coords.latitude
                 lon = position.coords.longitude
-                console.log(lat,lon,'hola')
                 fetch(`http://localhost:1024/cercaDeMI/${lat}/${lon}`)
                 .then(res => res.json())
                 .then(data => {
@@ -130,9 +128,11 @@ class Home extends Component {
     async fetchValue(){
         let val = this.state.value;
         let filter = this.state.filters;
-        if(val == undefined && filter == undefined)
+        let range= this.state.rangeValue;
+        if(val == undefined && filter == undefined && range == undefined)
             console.log(val,filter)
         else
+            console.log(val)
             fetch('http://localhost:1024/searcher', {
                 method: 'POST',
                 headers: {
@@ -140,15 +140,12 @@ class Home extends Component {
                 },
                 body: JSON.stringify({
                         name : val,
-                        filters: filter
+                        filters: filter,
+                        rangeValue: range
                     })
             }).then(res => res.json())
             .then(datos => {
                 if(datos.valid){
-                    this.setState({
-                        value: undefined,
-                        filters: undefined
-                    })
                     this.context.handleRestaurants(datos.response)
                     this.props.history.push('/map')
                 }
@@ -156,12 +153,11 @@ class Home extends Component {
     }
 
     getValue(value){
-
         this.setState({...this.state, value})
     }
 
     addFilters(value){
-        this.setState({...this.state, filters: value})
+        this.setState({...this.state, filters: value.fin, rangeValue: value.rang})
     }
 
     render(){

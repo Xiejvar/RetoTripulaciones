@@ -727,7 +727,15 @@ app.post('/eliminate', (req,res)=> {
 
 app.get('/searcher', (req,res)=>{
     let param = req.query.name
-    
+    let asian = req.query.asian
+    let rapida = req.query.rapida
+    let mejicana = req.query.mejicana
+    let de_autor = req.query.de_autor
+    let mediteranea = req.query.mediterranea
+    let nepali = req.query.nepali
+    let italiana = req.query.italiana
+    let rusa = req.query.rusa
+    let griega = req.query.griega
     paramSearcher(param).then(result => !result ? res.send({valid: false}) : res.send({valid: true, response: result}))
 
     

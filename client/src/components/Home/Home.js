@@ -119,7 +119,7 @@ class Home extends Component {
 
     submitingSearch(e){
         e.preventDefault()
-        this.fetchValue(this.state.value, this.state.filter)
+        this.fetchValue(this.state.value, this.state.filters)
         
     }
 

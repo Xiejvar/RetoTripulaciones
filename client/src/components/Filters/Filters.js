@@ -19,6 +19,11 @@ export default class Filters extends Component{
         }
     }
 
+    componentDidUpdate(){
+        if(this.props.setFilts)
+            console.log(this.props.getFilts())
+    }
+
     handleChangeAsian(e){
         if(e.target.checked){
             this.setState({...this.state, asian: true, finalVal: [...this.state.finalVal,e.target.value]})

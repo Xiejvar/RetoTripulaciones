@@ -15,9 +15,9 @@ class Home extends Component {
     constructor(){
         super()
         this.state = {
-            restaurantsTerr: [],
-            restaurantsSafe: [],
-            restaurantsClose: [],
+            restaurantsTerr: undefined,
+            restaurantsSafe: undefined,
+            restaurantsClose: undefined,
             showTerr: false,
             showSafe: false,
             showClose: false,
@@ -37,6 +37,7 @@ class Home extends Component {
     componentDidUpdate(prevP,prevS){
         if(this.state.showTerr && this.state.showSafe && this.state.showClose && this.state.loader){
             this.setState({
+                ...this.state,
                 loader: false
             })
         }
@@ -52,10 +53,10 @@ class Home extends Component {
         let dataSeg = await res2.json()
         this.setState({
             ...this.state,
-            restaurantsSafe: dataSeg,
-            restaurantsTerr: dataTerr,
             showSafe: true,
-            showTerr: true
+            showTerr: true,
+            restaurantsSafe: dataSeg,
+            restaurantsTerr: dataTerr
         })
         this.getPosition()
     }
@@ -73,8 +74,8 @@ class Home extends Component {
                     if(data.valid)
                         this.setState({
                             ...this.state,
-                            restaurantsClose: data.nearRestaurants,
                             showClose: true,
+                            restaurantsClose: data.nearRestaurants
                         })
                     else
                         this.setState({
@@ -167,12 +168,12 @@ class Home extends Component {
                 <h2 className='home-title'>Encuentra restaurantes donde sentirte seguro</h2>
                 
                 <form className='home-searchForm' onSubmit={this.submitingSearch.bind(this)}>
-                    <Search filtss={this.addFilters.bind(this)} searchValue={this.getValue.bind(this)} history={this.props.history}/>
+                    <Search filtss={this.addFilters.bind(this)} searchValue={this.getValue.bind(this)} history={this.props.history} />
                 </form>
                 {this.state.showTerr && this.state.showSafe && this.state.showClose ? '' : <Loader color='#11215f' type='Oval'/>}
                 {this.state.loader && this.state.showSafe ? '' : <FoodList getResta={this.state.restaurantsSafe !== undefined}  addResta={this.getRestaurantsSafe.bind(this)} title={'Los mas seguros segun los usuarios'} history={this.props.history}/>}
                 {this.state.loader && this.state.showTerr ? '' : <FoodList getResta={this.state.restaurantsTerr !== undefined}  addResta={this.getRestaurantsTerr.bind(this)} title={'Terrazas'} history={this.props.history}/>}
-                {this.state.loader  ? '' : <FoodList getResta={this.state.restaurantsClose !== undefined}  addResta={this.getRestaurantsClos.bind(this)} title={'Cerca de ti'} history={this.props.history}/>}
+                {this.state.loader ? '' : <FoodList getResta={this.state.restaurantsClose !== undefined}  addResta={this.getRestaurantsClos.bind(this)} title={'Cerca de ti'} history={this.props.history}/>}
                 <article className='home-info'>
                     <h2 className='home-info-titles'>Toda la información para ayudarte a cuidar a los tuyos</h2>
                     <section className='home-info-imagenes'>

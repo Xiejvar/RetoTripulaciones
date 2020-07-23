@@ -26,7 +26,7 @@ export default class Filters extends Component{
 
     handleChangeAsian(e){
         if(e.target.checked){
-            this.setState({...this.state, asian: true, finalVal: [...this.state.finalVal,e.target.value]})
+            this.setState({...this.state, finalVal: [...this.state.finalVal,e.target.value]})
         }else{
             let arr = this.state.finalVal.filter(e => e !== '0')
             this.setState({...this.state, finalVal: arr})

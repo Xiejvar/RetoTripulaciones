@@ -1,0 +1,64 @@
+.notfound{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.notfound-article{
+    width: 90%;
+    height: 90%;
+    box-shadow: -3px -3px 20px 0 rgba(220, 210, 216, 0.5), 3px 3px 20px 0 rgba(220, 210, 216, 0.5);
+    background-color: #fbfbfb;
+    border-radius: 15px;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.notfound-pcontainer{
+    height: 35%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+}
+
+.notfound-p{
+    text-align: left;
+    width: 90%;
+    font-family: 'Muli';
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.18px;
+    color: #000035;
+}
+
+
+.notfound-plink{
+    text-align: center;
+    width: 90%;
+    font-family: 'Muli';
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.18px;
+    color: #224bdd;
+}
+
+.notfound-image{
+    height: 40%;
+    width: 90%;
+}

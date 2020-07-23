@@ -8,7 +8,15 @@ class FoodList extends Component{
             restaurants: []
         }
     }
+    componentDidMount(){
+        this.checkRes()
+    }
+
     componentDidUpdate(){
+        this.checkRes()
+    }
+
+    checkRes(){
         if(this.props.getResta){
             this.setRestaurants(this.props.addResta())
         }

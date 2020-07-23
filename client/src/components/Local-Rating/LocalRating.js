@@ -23,7 +23,8 @@ class LocalRatings extends React.Component{
         class: 'none',
         selected: [],
         selectedName: false,
-        showMessageCompleted: false
+        showMessageCompleted: false,
+        name: 'Anonymus'
         }
     }
 

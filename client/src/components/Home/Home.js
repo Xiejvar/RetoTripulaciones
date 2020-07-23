@@ -9,6 +9,7 @@ import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 import './Home.css'
 import RestaurantContext from '../../contexts/findRestaurants'
+import NotFound from '../NotFound/NotFound';
 
 class Home extends Component {
     static contextType = RestaurantContext
@@ -26,7 +27,8 @@ class Home extends Component {
             restaurantsSearch: [],
             filters: undefined,
             value: undefined,
-            rangeValue: undefined
+            rangeValue: undefined,
+            searchNotFound: false
         }
     }
 
@@ -126,6 +128,13 @@ class Home extends Component {
         this.fetchValue()
     }
 
+    searchNotFoundModal(bool){
+        this.setState({
+            ...this.state,
+            searchNotFound: bool
+        })
+    }
+
     async fetchValue(){
         let val = this.state.value;
         let filter = this.state.filters;
@@ -149,6 +158,11 @@ class Home extends Component {
                 if(datos.valid){
                     this.context.handleRestaurants(datos.response)
                     this.props.history.push('/map')
+                }else{
+                    this.setState({
+                        ...this.state,
+                        searchNotFound: true
+                    })
                 }
             })
     }
@@ -166,7 +180,7 @@ class Home extends Component {
             <div className='home'>
                 <Header />
                 <h2 className='home-title'>Encuentra restaurantes donde sentirte seguro</h2>
-                
+                {this.state.searchNotFound ? <NotFound show={this.searchNotFoundModal.bind(this)}/> : ''}
                 <form className='home-searchForm' onSubmit={this.submitingSearch.bind(this)}>
                     <Search filtss={this.addFilters.bind(this)} searchValue={this.getValue.bind(this)} history={this.props.history} />
                 </form>

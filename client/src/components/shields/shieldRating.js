@@ -9,6 +9,7 @@ const StarRating = (props) => {
     const getVal = (val) => {
         setRating(val)
         props.val(val)
+        setRating(0)
     }
     return <div>
         {[...Array(5)].map((star,i)=>{

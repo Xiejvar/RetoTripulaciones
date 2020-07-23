@@ -7,6 +7,7 @@ import Header from '../Header/Header'
 import MapRestaurant from '../MapRestaurant/MapRestaurant';
 import RestaurantContext from '../../contexts/findRestaurants'
 import Filters from '../Filters/Filters';
+import NotFound from '../NotFound/NotFound';
 
 class Mapa extends Component{
     static contextType = RestaurantContext
@@ -19,7 +20,8 @@ class Mapa extends Component{
             searchResta: [],
             searchValue: undefined,
             filters: undefined,
-            rangeValue: undefined
+            rangeValue: undefined,
+            searchNotFound: false
         }
     }
 
@@ -105,6 +107,11 @@ class Mapa extends Component{
                 if(datos.valid){
                     this.context.handleRestaurants(datos.response)
                     this.props.history.push('/map')
+                }else{
+                    // this.setState({
+                    //     ...this.state,
+                    //     searchNotFound: true
+                    // })
                 }
             })
     }
@@ -130,6 +137,13 @@ class Mapa extends Component{
         return filts
     }
 
+    searchNotFoundModal(bool){
+        this.setState({
+            ...this.state,
+            searchNotFound: bool
+        })
+    }
+
     render(){
         const iconShield = new L.Icon({
             iconUrl: require('./images/escuditoCeleste.svg'),
@@ -145,6 +159,7 @@ class Mapa extends Component{
         return(
             <section className='mapSection'>
                 <Header className='holasoyclass'/>
+                {this.state.searchNotFound ? <NotFound show={this.searchNotFoundModal.bind(this)}/> : ''}
                 <form className='home-searchForm' onSubmit={this.submitingSearch.bind(this)}>
                     <Search searchValue={this.getValue.bind(this)} filtss={this.addFilters.bind(this)} selectedFil={this.state.filters !== undefined} getFilters={this.getFilts.bind(this)}/>
                 </form>
